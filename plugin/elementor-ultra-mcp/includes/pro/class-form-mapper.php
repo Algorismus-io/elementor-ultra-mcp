@@ -126,7 +126,8 @@ final class Form_Mapper {
 	/** The default `submit_actions` (form.php:896-908). */
 	const DEFAULT_SUBMIT_ACTIONS = array( 'email' );
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Fields.
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -158,12 +159,12 @@ final class Form_Mapper {
 
 			$type = isset( $field['type'] ) && is_string( $field['type'] ) ? $field['type'] : 'text';
 
-			$raw_id    = isset( $field['id'] ) && is_scalar( $field['id'] ) ? (string) $field['id'] : '';
-			$custom_id = self::unique_custom_id( $raw_id, $taken_custom );
+			$raw_id                     = isset( $field['id'] ) && is_scalar( $field['id'] ) ? (string) $field['id'] : '';
+			$custom_id                  = self::unique_custom_id( $raw_id, $taken_custom );
 			$taken_custom[ $custom_id ] = true;
 
 			// A unique repeater `_id` (deduped within this repeater) — minted by the caller.
-			$repeater_id = self::mint_unique( $id_minter, $taken_repeater );
+			$repeater_id                    = self::mint_unique( $id_minter, $taken_repeater );
 			$taken_repeater[ $repeater_id ] = true;
 
 			$row = array(
@@ -226,7 +227,8 @@ final class Form_Mapper {
 		return $rows;
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Actions.
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -318,7 +320,7 @@ final class Form_Mapper {
 		}
 
 		// `email_content` defaults to `[all-fields]` (email.php:83) when not provided.
-		$content = isset( $action['email_content'] ) && is_scalar( $action['email_content'] ) ? (string) $action['email_content'] : '';
+		$content                          = isset( $action['email_content'] ) && is_scalar( $action['email_content'] ) ? (string) $action['email_content'] : '';
 		$out[ 'email_content' . $suffix ] = '' !== $content ? $content : '[all-fields]';
 
 		// `form_metadata` SELECT2 multiple — accept a list (drop non-strings).
@@ -357,7 +359,7 @@ final class Form_Mapper {
 		if ( '' !== $url ) {
 			$out['webhooks'] = $url;
 		}
-		$adv = isset( $action['webhooks_advanced_data'] ) && is_scalar( $action['webhooks_advanced_data'] ) ? (string) $action['webhooks_advanced_data'] : 'no';
+		$adv                           = isset( $action['webhooks_advanced_data'] ) && is_scalar( $action['webhooks_advanced_data'] ) ? (string) $action['webhooks_advanced_data'] : 'no';
 		$out['webhooks_advanced_data'] = '' !== $adv ? $adv : 'no';
 		return $out;
 	}
@@ -376,7 +378,8 @@ final class Form_Mapper {
 		return $out;
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Form-level controls.
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -410,7 +413,8 @@ final class Form_Mapper {
 		return $out;
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Custom-id sanitization.
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -420,8 +424,8 @@ final class Form_Mapper {
 	 * Spaces/dashes/punctuation collapse to `_`; a leading digit is prefixed `f_` (a valid identifier); an
 	 * empty/blank id becomes `field`; collisions append `_2`, `_3`, … Pure (no WP).
 	 *
-	 * @param string                $raw   The raw id (may be empty / dirty).
-	 * @param array<string,bool>    $taken The set of already-used custom ids (`[id=>true]`).
+	 * @param string             $raw   The raw id (may be empty / dirty).
+	 * @param array<string,bool> $taken The set of already-used custom ids (`[id=>true]`).
 	 *
 	 * @return string A unique `[A-Za-z0-9_]` id.
 	 */
@@ -448,7 +452,8 @@ final class Form_Mapper {
 		return $candidate;
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Internal pure helpers.
 	 * --------------------------------------------------------------------------------------------- */
 

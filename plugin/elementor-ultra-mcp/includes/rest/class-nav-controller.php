@@ -374,10 +374,14 @@ final class Nav_Controller extends Abstract_Controller {
 		$tree  = $this->set_widget_menu( $tree, $element_id, $menu_slug, $found, $bind_error );
 
 		if ( ! $found ) {
-			return $this->not_found( sprintf( 'Element %s not found in document %d.', $element_id, $post_id ), array(
-				'post_id'    => $post_id,
-				'element_id' => $element_id,
-			), $op_id );
+			return $this->not_found(
+				sprintf( 'Element %s not found in document %d.', $element_id, $post_id ),
+				array(
+					'post_id'    => $post_id,
+					'element_id' => $element_id,
+				),
+				$op_id
+			);
 		}
 
 		if ( null !== $bind_error ) {
@@ -483,8 +487,8 @@ final class Nav_Controller extends Abstract_Controller {
 						),
 						422,
 						array(
-							'element_id'      => $element_id,
-							'widget_type'     => $widget_type,
+							'element_id'       => $element_id,
+							'widget_type'      => $widget_type,
 							'bindable_widgets' => self::BINDABLE_WIDGET_TYPES,
 						)
 					);

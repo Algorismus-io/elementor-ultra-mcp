@@ -79,8 +79,9 @@ class Atomic_Size_Compat {
 		if ( class_exists( '\Elementor\Ultra\Core\Lenient_Size_Prop_Type' ) ) {
 			return;
 		}
-		// phpcs:ignore Squiz.PHP.Eval.Discouraged -- The parent class is only available at runtime
-		// (Elementor atomic module load order), so the subclass must be declared dynamically.
+		// The parent class is only available at runtime (Elementor atomic module load
+		// order), so the subclass must be declared dynamically.
+		// phpcs:ignore Squiz.PHP.Eval.Discouraged
 		eval(
 			'namespace Elementor\\Ultra\\Core;' .
 			'class Lenient_Size_Prop_Type extends \\Elementor\\Modules\\AtomicWidgets\\PropTypes\\Size_Prop_Type {' .

@@ -362,9 +362,11 @@ final class Media_Controller extends Abstract_Controller {
 		}
 
 		$attachment_id = $is_svg
-			? $this->run_with_svg_mime( static function () use ( $file_array ) {
-				return media_handle_sideload( $file_array, 0 );
-			} )
+			? $this->run_with_svg_mime(
+				static function () use ( $file_array ) {
+					return media_handle_sideload( $file_array, 0 );
+				}
+			)
 			: media_handle_sideload( $file_array, 0 );
 
 		if ( is_wp_error( $attachment_id ) ) {

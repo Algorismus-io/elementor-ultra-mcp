@@ -57,12 +57,12 @@ final class Response {
 	 * `op_id` is emitted only when non-null; `errors` only when non-empty. `meta` is always present (may
 	 * be an empty object) so callers can rely on its existence.
 	 *
-	 * @param string                       $code    Taxonomy code (Error_Codes::*).
-	 * @param string                       $message Human, actionable message.
-	 * @param int                          $status  HTTP status (also the response status line).
-	 * @param array<string,mixed>          $meta    Code-specific structured context (§3 meta keys).
+	 * @param string                         $code    Taxonomy code (Error_Codes::*).
+	 * @param string                         $message Human, actionable message.
+	 * @param int                            $status  HTTP status (also the response status line).
+	 * @param array<string,mixed>            $meta    Code-specific structured context (§3 meta keys).
 	 * @param array<int,array<string,mixed>> $errors Per-item validation errors `{path,code,message,meta?}`.
-	 * @param string|null                  $op_id   Echoed request op_id when supplied (§0.8).
+	 * @param string|null                    $op_id   Echoed request op_id when supplied (§0.8).
 	 */
 	public static function error( string $code, string $message, int $status, array $meta = array(), array $errors = array(), ?string $op_id = null ): WP_Error {
 		// Collapse an unknown code to INTERNAL_ERROR but never leak it as the wire code (12 §2).

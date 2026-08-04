@@ -131,7 +131,7 @@ final class Batch_Controller extends Abstract_Controller {
 
 		// (§0.8) Idempotent replay: an already-applied batch op returns its prior results, no re-apply.
 		if ( is_string( $op_id ) && '' !== $op_id && $runner->batch_already_applied( $op_id ) ) {
-			$prior = $this->prior_batch_result( $op_id );
+			$prior                      = $this->prior_batch_result( $op_id );
 			$prior['idempotent_replay'] = true;
 			return $this->ok( $prior );
 		}
@@ -146,7 +146,8 @@ final class Batch_Controller extends Abstract_Controller {
 		return $this->ok( $result );
 	}
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * Request-shape validation (the ONLY 400 / malformed path — 10 §13)
 	 * ---------------------------------------------------------------------------------------------- */
 

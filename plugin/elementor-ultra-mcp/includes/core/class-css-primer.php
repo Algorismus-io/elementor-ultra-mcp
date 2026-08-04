@@ -384,15 +384,15 @@ final class Css_Primer {
 	 * Verify a node group (`local`|`global`) across the requested breakpoints: each
 	 * `<node>-<postId>-<context>-<bp>.css` must be non-empty AND contain every expected selector.
 	 *
-	 * @param string                $css_dir            Absolute CSS dir (trailing slash).
-	 * @param string                $node               `local` or `global`.
-	 * @param int                   $post_id            Post id segment.
-	 * @param string                $context            `frontend` or `preview`.
-	 * @param string[]              $breakpoints        Breakpoint keys to verify.
-	 * @param array<string,string>  $expected_selectors Map of style/class id => the bare class TOKEN whose
-	 *                                                   `.elementor .<token>` selector must appear. For local
-	 *                                                   styles the token IS the id; for global classes the
-	 *                                                   token is the LABEL-derived class (#2).
+	 * @param string               $css_dir            Absolute CSS dir (trailing slash).
+	 * @param string               $node               `local` or `global`.
+	 * @param int                  $post_id            Post id segment.
+	 * @param string               $context            `frontend` or `preview`.
+	 * @param string[]             $breakpoints        Breakpoint keys to verify.
+	 * @param array<string,string> $expected_selectors Map of style/class id => the bare class TOKEN whose
+	 *                                                  `.elementor .<token>` selector must appear. For local
+	 *                                                  styles the token IS the id; for global classes the
+	 *                                                  token is the LABEL-derived class (#2).
 	 * @return array{files:string[],bytes:int,all_selectors_present:bool,warnings:string[]}
 	 */
 	private function verify_node( string $css_dir, string $node, int $post_id, string $context, array $breakpoints, array $expected_selectors ): array {
@@ -554,7 +554,7 @@ final class Css_Primer {
 			);
 		}
 
-		$local  = array();
+		$local   = array();
 		$classes = array();
 		$this->walk_collect( $data, $local, $classes );
 

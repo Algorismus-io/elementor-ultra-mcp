@@ -255,15 +255,15 @@ final class Documents_Controller extends Abstract_Controller {
 					'type'     => 'array',
 					'required' => false,
 				),
-				'settings'  => array(
+				'settings'      => array(
 					'type'     => 'object',
 					'required' => false,
 				),
-				'base_hash' => $this->base_hash_arg(),
-				'op_id'     => $this->op_id_arg(),
-				'prime_css' => $this->bool_arg( false ),
-				'force'     => $this->bool_arg( false ),
-				'backup'    => $this->bool_arg( true ),
+				'base_hash'     => $this->base_hash_arg(),
+				'op_id'         => $this->op_id_arg(),
+				'prime_css'     => $this->bool_arg( false ),
+				'force'         => $this->bool_arg( false ),
+				'backup'        => $this->bool_arg( true ),
 				// Contract 18 §7-AI S2 — run the post-save+prime render-verification probe in-request.
 				'verify_render' => $this->bool_arg( false ),
 			)
@@ -276,23 +276,23 @@ final class Documents_Controller extends Abstract_Controller {
 			array( $this, 'replace_tree' ),
 			Permissions::can_edit_post(),
 			array(
-				'id'        => $this->id_arg(),
-				'elements'  => array(
+				'id'            => $this->id_arg(),
+				'elements'      => array(
 					'type'     => 'array',
 					'required' => true,
 				),
-				'settings'  => array(
+				'settings'      => array(
 					'type'     => 'object',
 					'required' => false,
 				),
-				'base_hash' => array(
+				'base_hash'     => array(
 					'type'     => 'string',
 					'required' => true,
 				),
-				'op_id'     => $this->op_id_arg(),
-				'prime_css' => $this->bool_arg( false ),
-				'force'     => $this->bool_arg( false ),
-				'backup'    => $this->bool_arg( true ),
+				'op_id'         => $this->op_id_arg(),
+				'prime_css'     => $this->bool_arg( false ),
+				'force'         => $this->bool_arg( false ),
+				'backup'        => $this->bool_arg( true ),
 				// Contract 18 §7-AI S2 — run the post-save+prime render-verification probe in-request.
 				'verify_render' => $this->bool_arg( false ),
 			)

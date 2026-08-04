@@ -311,10 +311,10 @@ final class Fonts_Service {
 		try {
 			// Variables_Service requires (Variables_Repository $kit, Batch_Processor $bp) — mirror the
 			// factory pattern in Elementor\Modules\Variables\Hooks::variables_service().
-			$kit  = \Elementor\Plugin::$instance->kits_manager->get_active_kit();
-			$repo = new \Elementor\Modules\Variables\Storage\Variables_Repository( $kit );
-			$bp   = new \Elementor\Modules\Variables\Services\Batch_Operations\Batch_Processor();
-			$svc  = new \Elementor\Modules\Variables\Services\Variables_Service( $repo, $bp );
+			$kit    = \Elementor\Plugin::$instance->kits_manager->get_active_kit();
+			$repo   = new \Elementor\Modules\Variables\Storage\Variables_Repository( $kit );
+			$bp     = new \Elementor\Modules\Variables\Services\Batch_Operations\Batch_Processor();
+			$svc    = new \Elementor\Modules\Variables\Services\Variables_Service( $repo, $bp );
 			$record = $svc->load();
 			$data   = isset( $record['data'] ) && is_array( $record['data'] ) ? $record['data'] : array();
 		} catch ( \Throwable $e ) {
@@ -352,7 +352,7 @@ final class Fonts_Service {
 				}
 				// Multi-word, unquoted — must quote.
 				$fixed[] = '"' . str_replace( '"', '\\"', $part ) . '"';
-				$changed  = true;
+				$changed = true;
 			}
 
 			if ( ! $changed || empty( $fixed ) ) {
@@ -814,7 +814,7 @@ final class Fonts_Service {
 				$weight = $family_weight;
 			}
 		}
-		$style     = ( str_contains( $subfamily, 'italic' ) || str_contains( $subfamily, 'oblique' ) )
+		$style = ( str_contains( $subfamily, 'italic' ) || str_contains( $subfamily, 'oblique' ) )
 			? 'italic'
 			: 'normal';
 
@@ -832,24 +832,60 @@ final class Fonts_Service {
 	 * @return int CSS weight value.
 	 */
 	private static function weight_from_subfamily( string $sub ): int {
-		if ( str_contains( $sub, 'thin' ) )          return 100;
-		if ( str_contains( $sub, 'extralight' ) )    return 200;
-		if ( str_contains( $sub, 'extra light' ) )   return 200;
-		if ( str_contains( $sub, 'ultralight' ) )    return 200;
-		if ( str_contains( $sub, 'ultra light' ) )   return 200;
-		if ( str_contains( $sub, 'light' ) )         return 300;
-		if ( str_contains( $sub, 'medium' ) )        return 500;
-		if ( str_contains( $sub, 'demibold' ) )      return 600;
-		if ( str_contains( $sub, 'demi bold' ) )     return 600;
-		if ( str_contains( $sub, 'semibold' ) )      return 600;
-		if ( str_contains( $sub, 'semi bold' ) )     return 600;
-		if ( str_contains( $sub, 'extrabold' ) )     return 800;
-		if ( str_contains( $sub, 'extra bold' ) )    return 800;
-		if ( str_contains( $sub, 'ultrabold' ) )     return 800;
-		if ( str_contains( $sub, 'ultra bold' ) )    return 800;
-		if ( str_contains( $sub, 'heavy' ) )         return 800;
-		if ( str_contains( $sub, 'black' ) )         return 900;
-		if ( str_contains( $sub, 'bold' ) )          return 700;
+		if ( str_contains( $sub, 'thin' ) ) {
+			return 100;
+		}
+		if ( str_contains( $sub, 'extralight' ) ) {
+			return 200;
+		}
+		if ( str_contains( $sub, 'extra light' ) ) {
+			return 200;
+		}
+		if ( str_contains( $sub, 'ultralight' ) ) {
+			return 200;
+		}
+		if ( str_contains( $sub, 'ultra light' ) ) {
+			return 200;
+		}
+		if ( str_contains( $sub, 'light' ) ) {
+			return 300;
+		}
+		if ( str_contains( $sub, 'medium' ) ) {
+			return 500;
+		}
+		if ( str_contains( $sub, 'demibold' ) ) {
+			return 600;
+		}
+		if ( str_contains( $sub, 'demi bold' ) ) {
+			return 600;
+		}
+		if ( str_contains( $sub, 'semibold' ) ) {
+			return 600;
+		}
+		if ( str_contains( $sub, 'semi bold' ) ) {
+			return 600;
+		}
+		if ( str_contains( $sub, 'extrabold' ) ) {
+			return 800;
+		}
+		if ( str_contains( $sub, 'extra bold' ) ) {
+			return 800;
+		}
+		if ( str_contains( $sub, 'ultrabold' ) ) {
+			return 800;
+		}
+		if ( str_contains( $sub, 'ultra bold' ) ) {
+			return 800;
+		}
+		if ( str_contains( $sub, 'heavy' ) ) {
+			return 800;
+		}
+		if ( str_contains( $sub, 'black' ) ) {
+			return 900;
+		}
+		if ( str_contains( $sub, 'bold' ) ) {
+			return 700;
+		}
 		return 400;
 	}
 

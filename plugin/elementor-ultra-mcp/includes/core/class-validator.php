@@ -220,7 +220,8 @@ final class Validator {
 		return 'v3';
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Internal: tree validation
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -240,9 +241,9 @@ final class Validator {
 		$errors = array();
 
 		// --- ID uniqueness across the whole tree (R3 / DUPLICATE_ELEMENT_ID). ---
-		$seen_ids       = array();
-		$dup_in_tree    = array();
-		$flat           = self::flatten_nodes( $elements );
+		$seen_ids    = array();
+		$dup_in_tree = array();
+		$flat        = self::flatten_nodes( $elements );
 		foreach ( $flat as $entry ) {
 			$node = $entry['node'];
 			$id   = isset( $node['id'] ) && is_string( $node['id'] ) ? $node['id'] : null;
@@ -264,7 +265,7 @@ final class Validator {
 				Error_Codes::DUPLICATE_ELEMENT_ID,
 				sprintf(
 					/* translators: %s: the colliding element id. */
-					__( 'Duplicate element id "%s" appears more than once in the tree; it collides on the .elementor-element-%s selector. Use ids/remap.', 'elementor-ultra-mcp' ),
+					__( 'Duplicate element id "%1$s" appears more than once in the tree; it collides on the .elementor-element-%2$s selector. Use ids/remap.', 'elementor-ultra-mcp' ),
 					$dup_id,
 					$dup_id
 				),
@@ -418,7 +419,7 @@ final class Validator {
 
 		if ( ! $type_registered ) {
 			$meta = array(
-				'element_id'    => $id,
+				'element_id'     => $id,
 				'requested_type' => $requested_type,
 			);
 			if ( ! $is_atomic ) {
@@ -577,7 +578,7 @@ final class Validator {
 					Error_Codes::UNKNOWN_WIDGET_TYPE,
 					__( 'Atomic node could not be instantiated (unknown or unsupported type).', 'elementor-ultra-mcp' ),
 					array(
-						'element_id'    => $id,
+						'element_id'     => $id,
 						'requested_type' => isset( $node['widgetType'] ) ? (string) $node['widgetType'] : ( isset( $node['elType'] ) ? (string) $node['elType'] : '' ),
 					)
 				),
@@ -784,7 +785,8 @@ final class Validator {
 		return $errors;
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Internal: helpers
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -858,9 +860,14 @@ final class Validator {
 		$classes  = isset( $settings['classes'] ) && is_array( $settings['classes'] ) ? $settings['classes'] : array();
 		$value    = isset( $classes['value'] ) && is_array( $classes['value'] ) ? $classes['value'] : array();
 
-		return array_values( array_filter( array_map( 'strval', $value ), static function ( $v ) {
-			return '' !== $v;
-		} ) );
+		return array_values(
+			array_filter(
+				array_map( 'strval', $value ),
+				static function ( $v ) {
+					return '' !== $v;
+				}
+			)
+		);
 	}
 
 	/**
@@ -1014,10 +1021,10 @@ final class Validator {
 	 * silently_dropped) is folded into the human message so no information is lost while the object stays
 	 * schema-valid. `path` (10 §2.3) is appended to the message too (the schema has no `path` field).
 	 *
-	 * @param string               $code    A taxonomy code (Error_Codes::*).
-	 * @param string               $message Human, actionable message.
-	 * @param array<string,mixed>  $meta    Code-specific structured context (element_id/style_id/prop + extras).
-	 * @param string               $path    Optional dotted request-body path (folded into the message).
+	 * @param string              $code    A taxonomy code (Error_Codes::*).
+	 * @param string              $message Human, actionable message.
+	 * @param array<string,mixed> $meta    Code-specific structured context (element_id/style_id/prop + extras).
+	 * @param string              $path    Optional dotted request-body path (folded into the message).
 	 *
 	 * @return array<string,mixed>
 	 */

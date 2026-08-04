@@ -135,13 +135,13 @@ final class Theme_Builder_Service {
 				'callback'            => array( $this, 'set_conditions' ),
 				'permission_callback' => Permissions::can_edit_post(),
 				'args'                => array(
-					'id'             => array(
+					'id'              => array(
 						'type'              => 'integer',
 						'required'          => true,
 						'minimum'           => 1,
 						'sanitize_callback' => 'absint',
 					),
-					'conditions'     => array(
+					'conditions'      => array(
 						'type'        => 'array',
 						'required'    => true,
 						'description' => 'ConditionTuple[]; [] CLEARS all conditions.',
@@ -151,7 +151,7 @@ final class Theme_Builder_Service {
 						'required' => false,
 						'default'  => false,
 					),
-					'op_id'          => array(
+					'op_id'           => array(
 						'type'     => 'string',
 						'required' => false,
 					),
@@ -223,8 +223,8 @@ final class Theme_Builder_Service {
 		}
 
 		// `location` is REQUIRED for sections and MUST exist in get_locations() (ticket Detailed-Req #3).
-		$location = $request->get_param( 'location' );
-		$location = is_string( $location ) ? $location : null;
+		$location  = $request->get_param( 'location' );
+		$location  = is_string( $location ) ? $location : null;
 		$meta_data = array();
 		if ( 'section' === $type ) {
 			if ( null === $location || '' === $location ) {
@@ -351,7 +351,15 @@ final class Theme_Builder_Service {
 				// the doc (caller can retry conditions via PUT). Attach op_id.
 				$data = (array) $validation->get_error_data();
 				if ( null !== $op_id ) {
-					$validation->add_data( array_merge( $data, array( 'op_id' => $op_id, 'post_id' => $post_id ) ) );
+					$validation->add_data(
+						array_merge(
+							$data,
+							array(
+								'op_id'   => $op_id,
+								'post_id' => $post_id,
+							)
+						)
+					);
 				}
 				return $validation;
 			}
@@ -404,7 +412,7 @@ final class Theme_Builder_Service {
 			return $gate;
 		}
 
-		$post_id = (int) $request['id'];
+		$post_id  = (int) $request['id'];
 		$document = self::theme_document( $post_id );
 		if ( null === $document ) {
 			return Response::error(
@@ -499,7 +507,8 @@ final class Theme_Builder_Service {
 		);
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Internal helpers.
 	 * --------------------------------------------------------------------------------------------- */
 

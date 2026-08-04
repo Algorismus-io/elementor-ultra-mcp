@@ -76,13 +76,30 @@ final class Batch_Runner {
 	 * @var array<string,array{class:string,method:string,create:bool}>
 	 */
 	const PRO_DISPATCH = array(
-		'pro/theme'     => array( 'class' => '\Elementor\Ultra\Pro\Theme_Builder_Service', 'method' => 'create', 'create' => true ),
-		'pro/popup'     => array( 'class' => '\Elementor\Ultra\Pro\Popup_Service', 'method' => 'create', 'create' => true ),
-		'pro/loop/item' => array( 'class' => '\Elementor\Ultra\Pro\Loop_Service', 'method' => 'create_item', 'create' => true ),
-		'pro/form/build' => array( 'class' => '\Elementor\Ultra\Pro\Form_Builder_Service', 'method' => 'build', 'create' => false ),
+		'pro/theme'      => array(
+			'class'  => '\Elementor\Ultra\Pro\Theme_Builder_Service',
+			'method' => 'create',
+			'create' => true,
+		),
+		'pro/popup'      => array(
+			'class'  => '\Elementor\Ultra\Pro\Popup_Service',
+			'method' => 'create',
+			'create' => true,
+		),
+		'pro/loop/item'  => array(
+			'class'  => '\Elementor\Ultra\Pro\Loop_Service',
+			'method' => 'create_item',
+			'create' => true,
+		),
+		'pro/form/build' => array(
+			'class'  => '\Elementor\Ultra\Pro\Form_Builder_Service',
+			'method' => 'build',
+			'create' => false,
+		),
 	);
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * PLAN
 	 * ---------------------------------------------------------------------------------------------- */
 
@@ -217,13 +234,17 @@ final class Batch_Runner {
 			$this->plan_error(
 				Error_Codes::VALIDATION_FAILED,
 				sprintf( 'Unsupported batch route "%s".', $route ),
-				array( 'rest_code' => 'E_BAD_REQUEST', 'route' => $route )
+				array(
+					'rest_code' => 'E_BAD_REQUEST',
+					'route'     => $route,
+				)
 			),
 		);
 		return $base;
 	}
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * APPLY
 	 * ---------------------------------------------------------------------------------------------- */
 
@@ -295,7 +316,7 @@ final class Batch_Runner {
 					'ok'    => false,
 					'error' => $this->wp_error_to_item( $outcome ),
 				);
-				$failed = true;
+				$failed    = true;
 				break; // STOP on the first failure.
 			}
 
@@ -410,7 +431,8 @@ final class Batch_Runner {
 		}
 	}
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * COMPENSATION
 	 * ---------------------------------------------------------------------------------------------- */
 
@@ -421,12 +443,12 @@ final class Batch_Runner {
 	 * any that CANNOT be undone is collected and, if non-empty, returned as a 500 `E_COMPENSATION_FAILED`
 	 * (wire INTERNAL_ERROR) with diagnostic `meta` so a human can intervene (12 §3.5).
 	 *
-	 * @param int[]                 $created_ids   Docs created in this batch (delete forever).
-	 * @param int[]                 $modified_ids  Existing docs we wrote (rollback to snapshot).
-	 * @param array<int,string>     $doc_snapshots post_id => snapshot meta_key.
-	 * @param bool                  $kit_written   Whether the kit was actually written.
+	 * @param int[]                    $created_ids   Docs created in this batch (delete forever).
+	 * @param int[]                    $modified_ids  Existing docs we wrote (rollback to snapshot).
+	 * @param array<int,string>        $doc_snapshots post_id => snapshot meta_key.
+	 * @param bool                     $kit_written   Whether the kit was actually written.
 	 * @param array<string,mixed>|null $kit_snapshot The up-front kit `{items,order}` (or null).
-	 * @param string|null           $op_id         The batch op id.
+	 * @param string|null              $op_id         The batch op id.
 	 * @return true|WP_Error true on a clean compensation; WP_Error when something could NOT be undone.
 	 */
 	private function compensate( array $created_ids, array $modified_ids, array $doc_snapshots, bool $kit_written, $kit_snapshot, ?string $op_id ) {
@@ -496,7 +518,8 @@ final class Batch_Runner {
 		);
 	}
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * Document CREATE dispatch
 	 * ---------------------------------------------------------------------------------------------- */
 
@@ -549,11 +572,11 @@ final class Batch_Runner {
 		// brand-new in THIS batch (compensation deletes it; an up-front snapshot is unnecessary).
 		$elements = isset( $body['elements'] ) && is_array( $body['elements'] ) ? $body['elements'] : null;
 		if ( null !== $elements ) {
-			$args = $this->doc_args( $body, false );
-			$args['force']   = true;
-			$args['backup']  = false;
+			$args             = $this->doc_args( $body, false );
+			$args['force']    = true;
+			$args['backup']   = false;
 			$args['elements'] = $elements;
-			$res = Document_Writer::save( $post_id, $args );
+			$res              = Document_Writer::save( $post_id, $args );
 			if ( $res instanceof WP_Error ) {
 				// Delete the orphan draft so a failed validate leaves no partial state.
 				wp_delete_post( $post_id, true );
@@ -567,7 +590,8 @@ final class Batch_Runner {
 		);
 	}
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * Pro dispatch (guarded — graceful degrade when Pro WPs absent)
 	 * ---------------------------------------------------------------------------------------------- */
 
@@ -683,7 +707,8 @@ final class Batch_Runner {
 		return 0;
 	}
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * Kit snapshot / restore (design-system compensation)
 	 * ---------------------------------------------------------------------------------------------- */
 
@@ -764,7 +789,8 @@ final class Batch_Runner {
 		}
 	}
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * Helpers — route classification + body normalization
 	 * ---------------------------------------------------------------------------------------------- */
 
@@ -927,8 +953,8 @@ final class Batch_Runner {
 			if ( ! is_array( $entry ) ) {
 				continue;
 			}
-			$route = isset( $entry['route'] ) ? (string) $entry['route'] : '';
-			$body  = isset( $entry['body'] ) && is_array( $entry['body'] ) ? $entry['body'] : array();
+			$route   = isset( $entry['route'] ) ? (string) $entry['route'] : '';
+			$body    = isset( $entry['body'] ) && is_array( $entry['body'] ) ? $entry['body'] : array();
 			$steps[] = array(
 				'route' => $route,
 				'body'  => $body,
@@ -994,7 +1020,8 @@ final class Batch_Runner {
 		return substr( $id, 0, 64 );
 	}
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * Error helpers
 	 * ---------------------------------------------------------------------------------------------- */
 
@@ -1079,7 +1106,8 @@ final class Batch_Runner {
 		);
 	}
 
-	/* -------------------------------------------------------------------------------------------------
+	/*
+	-------------------------------------------------------------------------------------------------
 	 * Idempotent replay (§0.8) — used by the controller
 	 * ---------------------------------------------------------------------------------------------- */
 

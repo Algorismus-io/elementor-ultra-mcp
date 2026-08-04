@@ -243,13 +243,21 @@ add_action(
 						}
 						$post = get_post( $id );
 						if ( $post && in_array( $post->post_status, array( 'publish', 'private', 'future' ), true ) ) {
-							wp_update_post( array( 'ID' => $id, 'post_status' => 'draft' ) );
+							wp_update_post(
+								array(
+									'ID'          => $id,
+									'post_status' => 'draft',
+								)
+							);
 						}
 					} else {
 						delete_post_meta( $id, '_emcp_quarantined' );
 						delete_post_meta( $id, '_emcp_quarantine_reason' );
 					}
-					return array( 'id' => $id, 'quarantined' => $on );
+					return array(
+						'id'          => $id,
+						'quarantined' => $on,
+					);
 				},
 			)
 		);

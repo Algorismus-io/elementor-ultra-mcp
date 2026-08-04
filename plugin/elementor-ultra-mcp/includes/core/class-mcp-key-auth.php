@@ -113,7 +113,7 @@ final class Mcp_Key_Auth {
 	private static function provided_key() {
 		$val = '';
 		if ( isset( $_SERVER['HTTP_X_MCP_API_KEY'] ) ) {
-			$val = $_SERVER['HTTP_X_MCP_API_KEY'];
+			$val = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_MCP_API_KEY'] ) );
 		} elseif ( function_exists( 'getallheaders' ) ) {
 			foreach ( (array) getallheaders() as $name => $value ) {
 				if ( 0 === strcasecmp( (string) $name, 'x-mcp-api-key' ) ) {
@@ -216,29 +216,29 @@ final class Mcp_Key_Auth {
 	 */
 	private static function service_caps() {
 		$caps = array(
-			'read'                    => true,
-			'upload_files'            => true,
-			'manage_options'          => true,
-			'manage_categories'       => true,
-			'edit_theme_options'      => true,
+			'read'                   => true,
+			'upload_files'           => true,
+			'manage_options'         => true,
+			'manage_categories'      => true,
+			'edit_theme_options'     => true,
 			// Posts.
-			'edit_posts'              => true,
-			'edit_others_posts'       => true,
-			'edit_published_posts'    => true,
-			'publish_posts'           => true,
-			'delete_posts'            => true,
-			'delete_others_posts'     => true,
-			'delete_published_posts'  => true,
-			'read_private_posts'      => true,
+			'edit_posts'             => true,
+			'edit_others_posts'      => true,
+			'edit_published_posts'   => true,
+			'publish_posts'          => true,
+			'delete_posts'           => true,
+			'delete_others_posts'    => true,
+			'delete_published_posts' => true,
+			'read_private_posts'     => true,
 			// Pages (documents are the `page` post type).
-			'edit_pages'              => true,
-			'edit_others_pages'       => true,
-			'edit_published_pages'    => true,
-			'publish_pages'           => true,
-			'delete_pages'            => true,
-			'delete_others_pages'     => true,
-			'delete_published_pages'  => true,
-			'read_private_pages'      => true,
+			'edit_pages'             => true,
+			'edit_others_pages'      => true,
+			'edit_published_pages'   => true,
+			'publish_pages'          => true,
+			'delete_pages'           => true,
+			'delete_others_pages'    => true,
+			'delete_published_pages' => true,
+			'read_private_pages'     => true,
 		);
 		// Elementor global-classes write capability (UPDATE_CLASS, add-capabilities.php:8).
 		$caps[ Activator::UPDATE_CLASS ] = true;

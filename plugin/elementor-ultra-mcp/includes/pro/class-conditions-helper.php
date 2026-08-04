@@ -259,7 +259,8 @@ final class Conditions_Helper {
 		return is_array( $locations ) ? $locations : array();
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Internal helpers.
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -317,13 +318,16 @@ final class Conditions_Helper {
 		if ( array() === $config ) {
 			return array(); // Cannot verify without the tree; do not flood the caller.
 		}
-		$known       = self::known_names( $config );
-		$unverified  = array();
+		$known      = self::known_names( $config );
+		$unverified = array();
 		foreach ( $tuples as $tuple ) {
 			if ( ! is_array( $tuple ) ) {
 				continue;
 			}
-			foreach ( array( 1 => 'name', 2 => 'sub_name' ) as $idx => $label ) {
+			foreach ( array(
+				1 => 'name',
+				2 => 'sub_name',
+			) as $idx => $label ) {
 				$value = isset( $tuple[ $idx ] ) ? (string) $tuple[ $idx ] : ( isset( $tuple[ $label ] ) ? (string) $tuple[ $label ] : '' );
 				if ( '' === $value ) {
 					continue;

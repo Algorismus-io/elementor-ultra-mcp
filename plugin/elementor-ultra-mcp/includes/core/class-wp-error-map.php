@@ -40,7 +40,7 @@ final class WP_Error_Map {
 	 * @return array<string,string>
 	 */
 	private static function slug_map(): array {
-		return [
+		return array(
 			// Elementor global-classes REST slugs (global-classes-rest-api.php).
 			'global_classes_limit_exceeded' => Error_Codes::BUDGET_EXCEEDED,   // :336.
 			'invalid_order'                 => Error_Codes::INVALID_ORDER,     // :369.
@@ -49,7 +49,7 @@ final class WP_Error_Map {
 			'rest_forbidden'                => Error_Codes::CAPABILITY_MISSING,
 			'rest_not_logged_in'            => Error_Codes::AUTH_FAILED,
 			'rest_post_invalid_id'          => Error_Codes::NOT_FOUND,
-		];
+		);
 	}
 
 	/**
@@ -57,26 +57,26 @@ final class WP_Error_Map {
 	 * (12-error-taxonomy.md §2/§4). The `WP_Error` `code` IS the taxonomy code; `data` holds
 	 * `['status' => <http>]` plus every meta key (parser errors land in `meta.parser_errors`).
 	 *
-	 * @param string               $code    A taxonomy code (Error_Codes::*).
-	 * @param string               $message Human, actionable message (parser errors appended verbatim).
-	 * @param array<string,mixed>  $meta    Code-specific structured context (12-error-taxonomy.md §3).
-	 * @param int|null             $status  Override HTTP status (defaults to the code's frozen status).
+	 * @param string              $code    A taxonomy code (Error_Codes::*).
+	 * @param string              $message Human, actionable message (parser errors appended verbatim).
+	 * @param array<string,mixed> $meta    Code-specific structured context (12-error-taxonomy.md §3).
+	 * @param int|null            $status  Override HTTP status (defaults to the code's frozen status).
 	 */
-	public static function to_wp_error( string $code, string $message, array $meta = [], ?int $status = null ): WP_Error {
+	public static function to_wp_error( string $code, string $message, array $meta = array(), ?int $status = null ): WP_Error {
 		if ( ! Error_Codes::is_valid( $code ) ) {
 			// Never leak an unknown code; collapse to INTERNAL_ERROR but keep the original in meta.
-			$meta = array_merge( $meta, [ 'original_code' => $code ] );
+			$meta = array_merge( $meta, array( 'original_code' => $code ) );
 			$code = Error_Codes::INTERNAL_ERROR;
 		}
 
 		$http = $status ?? Error_Codes::http_status( $code );
 
 		$data = array_merge(
-			[
+			array(
 				'status'    => $http,
 				'retryable' => Error_Codes::is_retryable( $code ),
 				'surface'   => Error_Codes::surface( $code ),
-			],
+			),
 			$meta
 		);
 
@@ -97,17 +97,17 @@ final class WP_Error_Map {
 		$code = is_string( $code ) && Error_Codes::is_valid( $code ) ? $code : Error_Codes::INTERNAL_ERROR;
 
 		$data = $error->get_error_data();
-		$data = is_array( $data ) ? $data : [];
+		$data = is_array( $data ) ? $data : array();
 
-		$http      = isset( $data['status'] ) ? (int) $data['status'] : Error_Codes::http_status( $code );
-		$meta_map  = Error_Codes::meta();
-		$rpc_code  = isset( $meta_map[ $code ] ) ? $meta_map[ $code ]['rpc_code'] : null;
+		$http     = isset( $data['status'] ) ? (int) $data['status'] : Error_Codes::http_status( $code );
+		$meta_map = Error_Codes::meta();
+		$rpc_code = isset( $meta_map[ $code ] ) ? $meta_map[ $code ]['rpc_code'] : null;
 
 		// Strip transport keys; everything else is structured meta.
 		$meta = $data;
 		unset( $meta['status'], $meta['retryable'], $meta['surface'] );
 
-		return [
+		return array(
 			'code'        => $code,
 			'message'     => (string) $error->get_error_message(),
 			'http_status' => $http,
@@ -115,7 +115,7 @@ final class WP_Error_Map {
 			'surface'     => Error_Codes::surface( $code ),
 			'rpc_code'    => $rpc_code,
 			'meta'        => $meta,
-		];
+		);
 	}
 
 	/**
@@ -168,9 +168,9 @@ final class WP_Error_Map {
 	 * @param string[]            $parser_errors Structured parser errors to surface in meta.
 	 * @param array<string,mixed> $meta          Extra structured context (e.g. element_id, style_id).
 	 */
-	public static function from_exception( Exception $e, string $path = '', array $parser_errors = [], array $meta = [] ): WP_Error {
+	public static function from_exception( Exception $e, string $path = '', array $parser_errors = array(), array $meta = array() ): WP_Error {
 		$code = self::classify_exception( $e, $path );
-		$meta = array_merge( $meta, [ 'parser_errors' => $parser_errors ] );
+		$meta = array_merge( $meta, array( 'parser_errors' => $parser_errors ) );
 		return self::to_wp_error( $code, (string) $e->getMessage(), $meta );
 	}
 }

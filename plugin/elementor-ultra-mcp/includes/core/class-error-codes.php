@@ -28,9 +28,9 @@ final class Error_Codes {
 	const SURFACE_IS_ERROR = 'isError';
 
 	/** JSON-RPC standard error codes used by surface:'protocol' taxonomy codes (§1). */
-	const RPC_INVALID_PARAMS    = -32602;
-	const RPC_METHOD_NOT_FOUND  = -32601;
-	const RPC_INTERNAL_ERROR    = -32603;
+	const RPC_INVALID_PARAMS   = -32602;
+	const RPC_METHOD_NOT_FOUND = -32601;
+	const RPC_INTERNAL_ERROR   = -32603;
 
 	/* §3.1 Validation / authoring */
 	const VALIDATION_FAILED       = 'VALIDATION_FAILED';
@@ -80,7 +80,7 @@ final class Error_Codes {
 	 * @return string[]
 	 */
 	public static function all(): array {
-		return [
+		return array(
 			// §3.1 Validation / authoring.
 			self::VALIDATION_FAILED,
 			self::SCHEMA_INVALID_PARAMS,
@@ -117,7 +117,7 @@ final class Error_Codes {
 			self::RATE_LIMITED,
 			self::UPSTREAM_ERROR,
 			self::INTERNAL_ERROR,
-		];
+		);
 	}
 
 	/**
@@ -128,48 +128,234 @@ final class Error_Codes {
 	 * @return array<string,array{http_status:int,retryable:bool,surface:string,rpc_code:?int,soft:bool}>
 	 */
 	public static function meta(): array {
-		return [
+		return array(
 			// §3.1 Validation / authoring.
-			self::VALIDATION_FAILED       => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::SCHEMA_INVALID_PARAMS   => [ 'http_status' => 400, 'retryable' => false, 'surface' => self::SURFACE_PROTOCOL, 'rpc_code' => self::RPC_INVALID_PARAMS, 'soft' => false ],
-			self::ATOMIC_SETTINGS_INVALID => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::ATOMIC_STYLES_INVALID   => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::UNKNOWN_WIDGET_TYPE     => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::DUPLICATE_ELEMENT_ID    => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::LOCAL_STYLE_UNLINKED    => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::IMAGE_SRC_XOR_VIOLATION => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::HTML_V3_STRIPPED        => [ 'http_status' => 200, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => true ],
-			self::SETTINGS_INVALID        => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
+			self::VALIDATION_FAILED       => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::SCHEMA_INVALID_PARAMS   => array(
+				'http_status' => 400,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_PROTOCOL,
+				'rpc_code'    => self::RPC_INVALID_PARAMS,
+				'soft'        => false,
+			),
+			self::ATOMIC_SETTINGS_INVALID => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::ATOMIC_STYLES_INVALID   => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::UNKNOWN_WIDGET_TYPE     => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::DUPLICATE_ELEMENT_ID    => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::LOCAL_STYLE_UNLINKED    => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::IMAGE_SRC_XOR_VIOLATION => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::HTML_V3_STRIPPED        => array(
+				'http_status' => 200,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => true,
+			),
+			self::SETTINGS_INVALID        => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
 
 			// §3.2 Concurrency / safety.
-			self::LOCK_HELD              => [ 'http_status' => 409, 'retryable' => true, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::AUTOSAVE_CONFLICT      => [ 'http_status' => 409, 'retryable' => true, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::CONCURRENCY_STALE_HASH => [ 'http_status' => 409, 'retryable' => true, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::IDEMPOTENT_REPLAY      => [ 'http_status' => 200, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => true ],
+			self::LOCK_HELD               => array(
+				'http_status' => 409,
+				'retryable'   => true,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::AUTOSAVE_CONFLICT       => array(
+				'http_status' => 409,
+				'retryable'   => true,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::CONCURRENCY_STALE_HASH  => array(
+				'http_status' => 409,
+				'retryable'   => true,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::IDEMPOTENT_REPLAY       => array(
+				'http_status' => 200,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => true,
+			),
 
 			// §3.3 Design system / budget.
-			self::BUDGET_EXCEEDED  => [ 'http_status' => 400, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::DUPLICATED_LABEL => [ 'http_status' => 200, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => true ],
-			self::INVALID_ORDER    => [ 'http_status' => 400, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::WATERMARK_STALE  => [ 'http_status' => 409, 'retryable' => true, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
+			self::BUDGET_EXCEEDED         => array(
+				'http_status' => 400,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::DUPLICATED_LABEL        => array(
+				'http_status' => 200,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => true,
+			),
+			self::INVALID_ORDER           => array(
+				'http_status' => 400,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::WATERMARK_STALE         => array(
+				'http_status' => 409,
+				'retryable'   => true,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
 
 			// §3.4 Capabilities / experiments / auth.
-			self::CAPABILITY_MISSING  => [ 'http_status' => 403, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::EXPERIMENT_INACTIVE => [ 'http_status' => 409, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::AUTH_FAILED         => [ 'http_status' => 401, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::PRO_REQUIRED        => [ 'http_status' => 409, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::WOO_CONTEXT_INVALID => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
+			self::CAPABILITY_MISSING      => array(
+				'http_status' => 403,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::EXPERIMENT_INACTIVE     => array(
+				'http_status' => 409,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::AUTH_FAILED             => array(
+				'http_status' => 401,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::PRO_REQUIRED            => array(
+				'http_status' => 409,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::WOO_CONTEXT_INVALID     => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
 
 			// §3.5 Resource / lifecycle.
-			self::NOT_FOUND           => [ 'http_status' => 404, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::NOT_EDITABLE        => [ 'http_status' => 403, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::CSS_PRIME_FAILED    => [ 'http_status' => 500, 'retryable' => true, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::RENDER_FAILED       => [ 'http_status' => 200, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => true ],
-			self::IMPORT_REMAP_FAILED => [ 'http_status' => 422, 'retryable' => false, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::RATE_LIMITED        => [ 'http_status' => 429, 'retryable' => true, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::UPSTREAM_ERROR      => [ 'http_status' => 502, 'retryable' => true, 'surface' => self::SURFACE_IS_ERROR, 'rpc_code' => null, 'soft' => false ],
-			self::INTERNAL_ERROR      => [ 'http_status' => 500, 'retryable' => false, 'surface' => self::SURFACE_PROTOCOL, 'rpc_code' => self::RPC_INTERNAL_ERROR, 'soft' => false ],
-		];
+			self::NOT_FOUND               => array(
+				'http_status' => 404,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::NOT_EDITABLE            => array(
+				'http_status' => 403,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::CSS_PRIME_FAILED        => array(
+				'http_status' => 500,
+				'retryable'   => true,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::RENDER_FAILED           => array(
+				'http_status' => 200,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => true,
+			),
+			self::IMPORT_REMAP_FAILED     => array(
+				'http_status' => 422,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::RATE_LIMITED            => array(
+				'http_status' => 429,
+				'retryable'   => true,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::UPSTREAM_ERROR          => array(
+				'http_status' => 502,
+				'retryable'   => true,
+				'surface'     => self::SURFACE_IS_ERROR,
+				'rpc_code'    => null,
+				'soft'        => false,
+			),
+			self::INTERNAL_ERROR          => array(
+				'http_status' => 500,
+				'retryable'   => false,
+				'surface'     => self::SURFACE_PROTOCOL,
+				'rpc_code'    => self::RPC_INTERNAL_ERROR,
+				'soft'        => false,
+			),
+		);
 	}
 
 	/**

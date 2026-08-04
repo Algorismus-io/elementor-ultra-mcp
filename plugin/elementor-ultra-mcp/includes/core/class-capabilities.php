@@ -49,14 +49,14 @@ final class Capabilities {
 	const CAP_UPDATE_CLASS = 'elementor_global_classes_update_class';
 
 	/** Canonical experiment slugs the probe reports (12-error-taxonomy.md §3.4). */
-	const EXPERIMENT_SLUGS = [
+	const EXPERIMENT_SLUGS = array(
 		'e_atomic_elements',  // atomic-widgets/module.php:135 (BETA/default-inactive).
 		'e_classes',          // global-classes/module.php:11.
 		'e_variables',        // variables/hooks.php.
 		'e_opt_in_v4_page',   // atomic-opt-in/module.php.
 		'e_pro_atomic_form',  // Pro atomic form fields.
 		'e_wp_abilities_api', // WP Abilities API secondary path.
-	];
+	);
 
 	/** Experiment state strings (10-rest-api.md §12: `active|inactive|default`). */
 	const STATE_ACTIVE   = 'active';
@@ -72,28 +72,28 @@ final class Capabilities {
 	public static function build(): array {
 		$experiments = self::experiment_states();
 
-		return [
-			'elementor_version'        => self::elementor_version(),
-			'pro_version'              => self::pro_version(),
-			'pro_active'              => self::pro_active(),
-			'atomic_available'        => self::STATE_ACTIVE === ( $experiments['e_atomic_elements'] ?? self::STATE_INACTIVE ),
-			'v4_default'              => self::v4_default( $experiments ),
-			'experiments'             => $experiments,
-			'global_classes'          => self::STATE_ACTIVE === ( $experiments['e_classes'] ?? self::STATE_INACTIVE ),
-			'variables'               => self::STATE_ACTIVE === ( $experiments['e_variables'] ?? self::STATE_INACTIVE ),
-			'classes_migrated'        => self::classes_migrated(),
-			'can_update_class'        => self::can_update_class(),
-			'unfiltered_html'         => current_user_can( 'unfiltered_html' ),
-			'custom_css_licensed'     => self::custom_css_licensed(),
-			'breakpoints'             => self::breakpoints(),
-			'registered_types'        => self::registered_types(),
-			'multisite'               => is_multisite(),
-			'is_local'                => self::is_local(),
-			'app_passwords_available' => self::app_passwords_available(),
+		return array(
+			'elementor_version'         => self::elementor_version(),
+			'pro_version'               => self::pro_version(),
+			'pro_active'                => self::pro_active(),
+			'atomic_available'          => self::STATE_ACTIVE === ( $experiments['e_atomic_elements'] ?? self::STATE_INACTIVE ),
+			'v4_default'                => self::v4_default( $experiments ),
+			'experiments'               => $experiments,
+			'global_classes'            => self::STATE_ACTIVE === ( $experiments['e_classes'] ?? self::STATE_INACTIVE ),
+			'variables'                 => self::STATE_ACTIVE === ( $experiments['e_variables'] ?? self::STATE_INACTIVE ),
+			'classes_migrated'          => self::classes_migrated(),
+			'can_update_class'          => self::can_update_class(),
+			'unfiltered_html'           => current_user_can( 'unfiltered_html' ),
+			'custom_css_licensed'       => self::custom_css_licensed(),
+			'breakpoints'               => self::breakpoints(),
+			'registered_types'          => self::registered_types(),
+			'multisite'                 => is_multisite(),
+			'is_local'                  => self::is_local(),
+			'app_passwords_available'   => self::app_passwords_available(),
 			'abilities_adapter_present' => self::STATE_ACTIVE === ( $experiments['e_wp_abilities_api'] ?? self::STATE_INACTIVE ),
-			'plugin_version'          => self::plugin_version(),
-			'health'                  => 'ok',
-		];
+			'plugin_version'            => self::plugin_version(),
+			'health'                    => 'ok',
+		);
 	}
 
 	/**
@@ -103,7 +103,7 @@ final class Capabilities {
 	 * @return array<string,string>
 	 */
 	private static function experiment_states(): array {
-		$states   = [];
+		$states   = array();
 		$features = self::experiment_features();
 
 		foreach ( self::EXPERIMENT_SLUGS as $slug ) {
@@ -117,13 +117,13 @@ final class Capabilities {
 	 * Resolve one experiment's state. Prefers the registered feature's explicit `state` (so we can
 	 * report `default`); falls back to `is_feature_active()` -> active|inactive.
 	 *
-	 * @param string                              $slug     Experiment slug.
-	 * @param array<string,array<string,mixed>>   $features Registered feature map (slug => feature).
+	 * @param string                            $slug     Experiment slug.
+	 * @param array<string,array<string,mixed>> $features Registered feature map (slug => feature).
 	 */
 	private static function experiment_state( string $slug, array $features ): string {
 		if ( isset( $features[ $slug ]['state'] ) && is_string( $features[ $slug ]['state'] ) ) {
 			$state = $features[ $slug ]['state'];
-			if ( in_array( $state, [ self::STATE_ACTIVE, self::STATE_INACTIVE, self::STATE_DEFAULT ], true ) ) {
+			if ( in_array( $state, array( self::STATE_ACTIVE, self::STATE_INACTIVE, self::STATE_DEFAULT ), true ) ) {
 				// A 'default' state means "follow the feature's default"; resolve to active/inactive
 				// via is_feature_active so callers always get a concrete gate, but keep 'default'
 				// reported when the experiments manager itself reports 'default'.
@@ -145,11 +145,11 @@ final class Capabilities {
 	private static function experiment_features(): array {
 		$experiments = self::experiments_manager();
 		if ( null === $experiments || ! method_exists( $experiments, 'get_features' ) ) {
-			return [];
+			return array();
 		}
 
 		$features = $experiments->get_features();
-		return is_array( $features ) ? $features : [];
+		return is_array( $features ) ? $features : array();
 	}
 
 	/**
@@ -221,37 +221,37 @@ final class Capabilities {
 	 */
 	private static function breakpoints(): array {
 		if ( ! class_exists( '\Elementor\Plugin' ) ) {
-			return [];
+			return array();
 		}
 
 		$plugin = \Elementor\Plugin::$instance;
 		if ( null === $plugin || ! isset( $plugin->breakpoints ) || ! method_exists( $plugin->breakpoints, 'get_active_breakpoints' ) ) {
-			return [];
+			return array();
 		}
 
-		$out    = [];
+		$out    = array();
 		$active = $plugin->breakpoints->get_active_breakpoints();
 		if ( ! is_array( $active ) ) {
-			return [];
+			return array();
 		}
 
 		foreach ( $active as $key => $breakpoint ) {
 			$direction = is_object( $breakpoint ) && method_exists( $breakpoint, 'get_direction' )
 				? (string) $breakpoint->get_direction()
 				: 'max';
-			$value = is_object( $breakpoint ) && method_exists( $breakpoint, 'get_value' )
+			$value     = is_object( $breakpoint ) && method_exists( $breakpoint, 'get_value' )
 				? (int) $breakpoint->get_value()
 				: 0;
-			$label = is_object( $breakpoint ) && method_exists( $breakpoint, 'get_label' )
+			$label     = is_object( $breakpoint ) && method_exists( $breakpoint, 'get_label' )
 				? (string) $breakpoint->get_label()
 				: (string) $key;
 
-			$out[] = [
+			$out[] = array(
 				'key'       => (string) $key,
 				'label'     => $label,
 				'direction' => $direction,
 				'value'     => $value,
-			];
+			);
 		}
 
 		return $out;
@@ -271,8 +271,8 @@ final class Capabilities {
 			return \Elementor\Ultra\Rest\Schema_Controller::registered_types();
 		}
 
-		$elements = [];
-		$widgets  = [];
+		$elements = array();
+		$widgets  = array();
 
 		if ( class_exists( '\Elementor\Plugin' ) ) {
 			$plugin = \Elementor\Plugin::$instance;
@@ -295,10 +295,10 @@ final class Capabilities {
 		sort( $elements );
 		sort( $widgets );
 
-		return [
+		return array(
 			'elements' => array_values( array_map( 'strval', $elements ) ),
 			'widgets'  => array_values( array_map( 'strval', $widgets ) ),
-		];
+		);
 	}
 
 	/** Elementor core version, or '' when Elementor is absent. */
@@ -363,7 +363,7 @@ final class Capabilities {
 	private static function is_local(): bool {
 		if ( function_exists( 'wp_get_environment_type' ) ) {
 			$env = wp_get_environment_type();
-			if ( in_array( $env, [ 'local', 'development' ], true ) ) {
+			if ( in_array( $env, array( 'local', 'development' ), true ) ) {
 				return true;
 			}
 		}

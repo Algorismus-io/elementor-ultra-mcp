@@ -172,7 +172,8 @@ final class Form_Builder_Service {
 		);
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * POST /pro/form/build
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -541,7 +542,7 @@ final class Form_Builder_Service {
 		// --- The e-form element settings (form-name, actions-after-submit, email). ---.
 		$settings = array();
 
-		$form_name = isset( $params['form_name'] ) && is_scalar( $params['form_name'] ) && '' !== (string) $params['form_name'] ? (string) $params['form_name'] : 'Form';
+		$form_name             = isset( $params['form_name'] ) && is_scalar( $params['form_name'] ) && '' !== (string) $params['form_name'] ? (string) $params['form_name'] : 'Form';
 		$settings['form-name'] = self::wrap_string( $form_name );
 
 		// `submit_actions` -> `actions-after-submit` (string-array). Default ['email'] when empty.
@@ -573,7 +574,8 @@ final class Form_Builder_Service {
 		);
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * GET /pro/form/actions
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -636,7 +638,8 @@ final class Form_Builder_Service {
 		return $out;
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Live Pro lookups (registrar / filter / control sections).
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -680,7 +683,7 @@ final class Form_Builder_Service {
 			return $base;
 		}
 		// The live form passes a label-keyed map (`{type => label}`); the KEYS are the valid types.
-		$seed     = array();
+		$seed = array();
 		foreach ( $base as $type ) {
 			$seed[ $type ] = $type;
 		}
@@ -731,15 +734,16 @@ final class Form_Builder_Service {
 			if ( '' === $section || ! isset( $section_action[ $section ] ) ) {
 				continue;
 			}
-			$action_name               = $section_action[ $section ];
-			$by_action[ $action_name ] = $by_action[ $action_name ] ?? array();
+			$action_name                 = $section_action[ $section ];
+			$by_action[ $action_name ]   = $by_action[ $action_name ] ?? array();
 			$by_action[ $action_name ][] = (string) $id;
 		}
 
 		return $by_action;
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Atomic typed-envelope helpers (SUPPLEMENT §B.1).
 	 * --------------------------------------------------------------------------------------------- */
 
@@ -772,13 +776,13 @@ final class Form_Builder_Service {
 		$value = array();
 
 		$map = array(
-			'to'         => 'email_to',
-			'subject'    => 'email_subject',
-			'from'       => 'email_from',
-			'from-name'  => 'email_from_name',
-			'reply-to'   => 'email_reply_to',
-			'cc'         => 'email_to_cc',
-			'bcc'        => 'email_to_bcc',
+			'to'        => 'email_to',
+			'subject'   => 'email_subject',
+			'from'      => 'email_from',
+			'from-name' => 'email_from_name',
+			'reply-to'  => 'email_reply_to',
+			'cc'        => 'email_to_cc',
+			'bcc'       => 'email_to_bcc',
 		);
 		foreach ( $map as $prop => $spec_key ) {
 			if ( isset( $action[ $spec_key ] ) && is_scalar( $action[ $spec_key ] ) && '' !== (string) $action[ $spec_key ] ) {
@@ -786,7 +790,7 @@ final class Form_Builder_Service {
 			}
 		}
 
-		$content        = isset( $action['email_content'] ) && is_scalar( $action['email_content'] ) ? (string) $action['email_content'] : '';
+		$content          = isset( $action['email_content'] ) && is_scalar( $action['email_content'] ) ? (string) $action['email_content'] : '';
 		$value['message'] = self::wrap_string( '' !== $content ? $content : '[all-fields]' );
 
 		return array(
@@ -867,7 +871,8 @@ final class Form_Builder_Service {
 		);
 	}
 
-	/* ------------------------------------------------------------------------------------------------
+	/*
+	------------------------------------------------------------------------------------------------
 	 * Internal WP helpers.
 	 * --------------------------------------------------------------------------------------------- */
 

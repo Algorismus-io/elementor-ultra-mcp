@@ -128,10 +128,10 @@ final class Diff_Builder {
 	 * Assemble one NodeChange (schemas/diff.schema.json#/$defs/NodeChange). `elType`/`widgetType` are
 	 * lifted onto the change for cheap client-side display; position/snapshot fields come from `$extra`.
 	 *
-	 * @param string               $id    Node id.
-	 * @param string               $op    One of added|removed|modified|moved.
-	 * @param array<string,mixed>  $node  The node (for elType/widgetType lift).
-	 * @param array<string,mixed>  $extra Op-specific fields (before/after/changed_paths/parents/indices).
+	 * @param string              $id    Node id.
+	 * @param string              $op    One of added|removed|modified|moved.
+	 * @param array<string,mixed> $node  The node (for elType/widgetType lift).
+	 * @param array<string,mixed> $extra Op-specific fields (before/after/changed_paths/parents/indices).
 	 *
 	 * @return array<string,mixed>
 	 */

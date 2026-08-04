@@ -448,11 +448,11 @@ final class Document_Writer {
 				$live_id = isset( $remapped_ids[ $eid ] ) ? $remapped_ids[ $eid ] : $eid;
 				if ( ! isset( $saved_ids[ $live_id ] ) ) {
 					$dropped_elements[] = array(
-						'id'          => $eid,
-						'elType'      => $meta['elType'],
-						'widgetType'  => $meta['widgetType'],
-						'parent_id'   => $meta['parent'],
-						'reason'      => 'not present in the saved tree (Document::save dropped it — most often an unregistered/unhydratable widgetType)',
+						'id'         => $eid,
+						'elType'     => $meta['elType'],
+						'widgetType' => $meta['widgetType'],
+						'parent_id'  => $meta['parent'],
+						'reason'     => 'not present in the saved tree (Document::save dropped it — most often an unregistered/unhydratable widgetType)',
 					);
 				}
 			}

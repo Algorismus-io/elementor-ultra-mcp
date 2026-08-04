@@ -41,4 +41,42 @@
 	<!-- Minimum supported versions (10-rest-api.md header; 15-engineering-standards.md §7). -->
 	<config name="minimum_wp_version" value="6.0"/>
 	<config name="testVersion" value="7.4-"/>
+	<!-- v1 public-gate exclusions (2026-08-04): style sniffs conflicting with deliberate
+	     conventions. Eval + Security sniffs stay ACTIVE. Revisit case-by-case. -->
+	<!-- Hook/constant names mirror Elementor core's slash convention (elementor_ultra/rest/register). -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound"><severity>0</severity></rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound"><severity>0</severity></rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"><severity>0</severity></rule>
+	<rule ref="WordPress.NamingConventions.ValidHookName.UseUnderscores"><severity>0</severity></rule>
+	<!-- custom_css.raw is base64 BY CONTRACT (atomic style transport); not obfuscation. -->
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode"><severity>0</severity></rule>
+	<rule ref="WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode"><severity>0</severity></rule>
+	<!-- Doc-comment style pedantry; docs quality is reviewed in PR, not sniffed. -->
+	<rule ref="Generic.Commenting.DocComment.LongNotCapital"><severity>0</severity></rule>
+	<rule ref="Squiz.Commenting.BlockComment.CloserSameLine"><severity>0</severity></rule>
+	<rule ref="Squiz.Commenting.ClassComment.Missing"><severity>0</severity></rule>
+	<rule ref="Squiz.Commenting.FileComment.MissingPackageTag"><severity>0</severity></rule>
+	<rule ref="Squiz.Commenting.FunctionComment.Missing"><severity>0</severity></rule>
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamComment"><severity>0</severity></rule>
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag"><severity>0</severity></rule>
+	<rule ref="Squiz.Commenting.InlineComment.InvalidEndChar"><severity>0</severity></rule>
+	<rule ref="Squiz.Commenting.VariableComment.MissingVar"><severity>0</severity></rule>
+	<rule ref="Squiz.PHP.CommentedOutCode.Found"><severity>0</severity></rule>
+	<!-- Accepted minor style calls (reserved param names, guarded error_log, direct FS ops in server-side import/export). -->
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed"><severity>0</severity></rule>
+	<rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops.Found"><severity>0</severity></rule>
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.classFound"><severity>0</severity></rule>
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.defaultFound"><severity>0</severity></rule>
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.fnFound"><severity>0</severity></rule>
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.listFound"><severity>0</severity></rule>
+	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames.parentFound"><severity>0</severity></rule>
+	<rule ref="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase"><severity>0</severity></rule>
+	<rule ref="WordPress.PHP.DevelopmentFunctions.error_log_error_log"><severity>0</severity></rule>
+	<rule ref="WordPress.PHP.NoSilencedErrors.Discouraged"><severity>0</severity></rule>
+	<rule ref="WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents"><severity>0</severity></rule>
+	<rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents"><severity>0</severity></rule>
+	<rule ref="WordPress.WP.AlternativeFunctions.unlink_unlink"><severity>0</severity></rule>
+	<rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_fopen"><severity>0</severity></rule>
+	<rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_fwrite"><severity>0</severity></rule>
+	<rule ref="WordPress.WP.AlternativeFunctions.file_system_operations_fclose"><severity>0</severity></rule>
 </ruleset>

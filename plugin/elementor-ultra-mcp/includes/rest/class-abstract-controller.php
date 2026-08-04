@@ -63,12 +63,12 @@ abstract class Abstract_Controller {
 	 * Convenience `register_rest_route` wrapper that prepends the namespace (10-rest-api.md §0.1).
 	 * The `args` schema + `permission_callback` are supplied BY THE CONTROLLER (this WP owns no schemas).
 	 *
-	 * @param string                          $route       Route path beneath the namespace, e.g. `/documents/(?P<id>\d+)`.
-	 * @param string|string[]                 $methods     HTTP method(s), e.g. `WP_REST_Server::READABLE` or `'POST'`.
-	 * @param callable                        $callback    The route handler.
-	 * @param callable                        $permission  The `permission_callback` (use {@see Permissions}).
+	 * @param string                            $route       Route path beneath the namespace, e.g. `/documents/(?P<id>\d+)`.
+	 * @param string|string[]                   $methods     HTTP method(s), e.g. `WP_REST_Server::READABLE` or `'POST'`.
+	 * @param callable                          $callback    The route handler.
+	 * @param callable                          $permission  The `permission_callback` (use {@see Permissions}).
 	 * @param array<string,array<string,mixed>> $args       Per-route `args` schema (default none).
-	 * @param bool                            $override    Passed through to `register_rest_route` `$override`.
+	 * @param bool                              $override    Passed through to `register_rest_route` `$override`.
 	 * @return bool
 	 */
 	protected function route( string $route, $methods, callable $callback, callable $permission, array $args = array(), bool $override = false ): bool {
