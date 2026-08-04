@@ -22,6 +22,7 @@
  */
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { SERVER_VERSION } from './server.js';
 
 /**
  * PHASE 2 (T1): the server accepts EITHER the additive `X-MCP-API-Key` vector (`WP_MCP_API_KEY`)
@@ -75,7 +76,7 @@ async function run(): Promise<void> {
   // and transport binding are added by WP-T01 in ./server.ts (see seam note above).
   const server = new McpServer({
     name: 'elementor-ultra-mcp',
-    version: '0.0.0',
+    version: SERVER_VERSION,
   });
 
   // Lazily resolve the server core so this file does not statically depend on a
