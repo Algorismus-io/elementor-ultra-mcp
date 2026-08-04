@@ -145,8 +145,6 @@ jobs:
   # ----------------------------------------------------------------------------------------------
   php:
     name: 'stage2: composer test:php'
-    # Advisory: live-integration on a fully-wired WP. Stage 1 is the blocking gate.
-    continue-on-error: true
     needs:
       [lint, format, build, fixtures-validate, test-unit, rest-drift, schema-sync, sdk-guard, phpcs]
     strategy:
@@ -158,6 +156,7 @@ jobs:
     with:
       name: composer test:php (${{ matrix.leg }})
       pro: ${{ matrix.leg == 'pro' }}
+      advisory: true
       # PHPUnit runs inside the wp-env `tests-cli` container (has Composer + the test DB), from the
       # bind-mounted plugin dir. `composer test:php` is the contract-named script (§10), owned by WP-F06.
       run: pnpm wp-env run tests-cli --env-cwd=wp-content/plugins/elementor-ultra-mcp composer install --no-interaction --quiet && pnpm wp-env run tests-cli --env-cwd=wp-content/plugins/elementor-ultra-mcp composer test:php
@@ -166,8 +165,6 @@ jobs:
 
   contract:
     name: 'stage2: pnpm test:contract'
-    # Advisory: live-integration on a fully-wired WP. Stage 1 is the blocking gate.
-    continue-on-error: true
     needs:
       [lint, format, build, fixtures-validate, test-unit, rest-drift, schema-sync, sdk-guard, phpcs]
     strategy:
@@ -177,6 +174,7 @@ jobs:
     uses: ./.github/workflows/_setup-wp-env.yml
     with:
       name: test:contract (${{ matrix.leg }})
+      advisory: true
       build: true
       pro: ${{ matrix.leg == 'pro' }}
       run: pnpm test:contract
@@ -191,13 +189,12 @@ jobs:
   # corpus must stay green on a free install); needs Chromium for the loop's Playwright renders.
   convert-corpus:
     name: 'stage2: pnpm test:convert-corpus'
-    # Advisory: live-integration on a fully-wired WP. Stage 1 is the blocking gate.
-    continue-on-error: true
     needs:
       [lint, format, build, fixtures-validate, test-unit, rest-drift, schema-sync, sdk-guard, phpcs]
     uses: ./.github/workflows/_setup-wp-env.yml
     with:
       name: test:convert-corpus
+      advisory: true
       build: true
       run: pnpm --filter @elementor-ultra/server exec playwright install --with-deps chromium && pnpm test:convert-corpus
     secrets:
