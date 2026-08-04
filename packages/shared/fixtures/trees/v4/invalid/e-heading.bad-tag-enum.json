@@ -1,0 +1,42 @@
+{
+  "$fixture": 1,
+  "id": "e-heading.bad-tag-enum",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Atomic heading with an out-of-enum tag value (PHP dry_run rejects: ATOMIC_SETTINGS_INVALID)",
+  "_comment": "Seed bootstrap INVALID fixture (WP-F06, 14-fixtures-harness.md §3, Detailed-Req #3). The `tag` is a correctly-TYPED string envelope ([R8]) but its value \"h7\" is outside the heading tag enum [h1..h6] (atomic-heading.php:48), so the live Props_Parser throws \"Settings validation failed.\" → caught and classified as ATOMIC_SETTINGS_INVALID (has-atomic-base.php:113; 12-error-taxonomy.md §3.1). prefilter.verdict:defer — the TS pre-filter is STRUCTURAL only and does NOT know the live enum (it defers enum/conditional validity to PHP, §4); the meta-invariant constrains only accept⇒valid and reject⇒invalid, so defer on an invalid fixture is permitted and keeps the subset test green against the real pre-filter.",
+  "expect": {
+    "valid": false,
+    "errors": ["ATOMIC_SETTINGS_INVALID"]
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tree": [
+    {
+      "id": "hd00002",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h7" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Bad tag" },
+            "children": []
+          }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

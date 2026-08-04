@@ -1,0 +1,623 @@
+{
+    "width": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "height": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "min-width": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "min-height": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "max-width": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "max-height": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "overflow": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "visible",
+            "hidden",
+            "auto"
+        ]
+    },
+    "aspect-ratio": {
+        "php_class": "String_Prop_Type",
+        "type": "string"
+    },
+    "object-fit": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "fill",
+            "cover",
+            "contain",
+            "none",
+            "scale-down"
+        ]
+    },
+    "object-position": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "string",
+            "position"
+        ],
+        "type": "string",
+        "enum": [
+            "center center",
+            "center left",
+            "center right",
+            "top center",
+            "top left",
+            "top right",
+            "bottom center",
+            "bottom left",
+            "bottom right"
+        ]
+    },
+    "position": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "static",
+            "relative",
+            "absolute",
+            "fixed",
+            "sticky"
+        ]
+    },
+    "inset-block-start": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "inset-inline-end": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "inset-block-end": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "inset-inline-start": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "z-index": {
+        "php_class": "Number_Prop_Type",
+        "type": "number"
+    },
+    "scroll-margin-top": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "font-family": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "string",
+            "font_variable"
+        ],
+        "type": "union"
+    },
+    "font-weight": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "100",
+            "200",
+            "300",
+            "400",
+            "500",
+            "600",
+            "700",
+            "800",
+            "900",
+            "normal",
+            "bold",
+            "bolder",
+            "lighter"
+        ]
+    },
+    "font-size": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "color": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "color",
+            "dynamic",
+            "color_variable"
+        ],
+        "type": "color"
+    },
+    "letter-spacing": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "word-spacing": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "column-count": {
+        "php_class": "Number_Prop_Type",
+        "type": "number"
+    },
+    "column-gap": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "line-height": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "text-align": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "start",
+            "center",
+            "end",
+            "justify"
+        ]
+    },
+    "font-style": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "normal",
+            "italic",
+            "oblique"
+        ]
+    },
+    "text-decoration": {
+        "php_class": "String_Prop_Type",
+        "type": "string"
+    },
+    "text-transform": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "none",
+            "capitalize",
+            "uppercase",
+            "lowercase"
+        ]
+    },
+    "direction": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "ltr",
+            "rtl"
+        ]
+    },
+    "stroke": {
+        "php_class": "Stroke_Prop_Type",
+        "type": "stroke"
+    },
+    "all": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "initial",
+            "inherit",
+            "unset",
+            "revert",
+            "revert-layer"
+        ]
+    },
+    "cursor": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "pointer"
+        ]
+    },
+    "padding": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "dimensions",
+            "size",
+            "size_variable"
+        ],
+        "type": "dimensions"
+    },
+    "margin": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "dimensions",
+            "size",
+            "size_variable"
+        ],
+        "type": "dimensions"
+    },
+    "border-radius": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "border-radius",
+            "size",
+            "size_variable"
+        ],
+        "type": "border-radius"
+    },
+    "border-width": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "border-width",
+            "size",
+            "size_variable"
+        ],
+        "type": "border-width"
+    },
+    "border-color": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "color",
+            "dynamic",
+            "color_variable"
+        ],
+        "type": "color"
+    },
+    "border-style": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "none",
+            "hidden",
+            "dotted",
+            "dashed",
+            "solid",
+            "double",
+            "groove",
+            "ridge",
+            "inset",
+            "outset"
+        ]
+    },
+    "outline-width": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "outline-color": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "color",
+            "dynamic",
+            "color_variable"
+        ],
+        "type": "color"
+    },
+    "outline-style": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "none",
+            "hidden",
+            "dotted",
+            "dashed",
+            "solid",
+            "double",
+            "groove",
+            "ridge",
+            "inset",
+            "outset"
+        ]
+    },
+    "outline-offset": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "background": {
+        "php_class": "Background_Prop_Type",
+        "type": "background"
+    },
+    "mix-blend-mode": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "normal",
+            "multiply",
+            "screen",
+            "overlay",
+            "darken",
+            "lighten",
+            "color-dodge",
+            "saturation",
+            "color",
+            "difference",
+            "exclusion",
+            "hue",
+            "luminosity",
+            "soft-light",
+            "hard-light",
+            "color-burn"
+        ]
+    },
+    "box-shadow": {
+        "php_class": "Box_Shadow_Prop_Type",
+        "type": "box-shadow"
+    },
+    "opacity": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "filter": {
+        "php_class": "Filter_Prop_Type",
+        "type": "filter"
+    },
+    "backdrop-filter": {
+        "php_class": "Backdrop_Filter_Prop_Type",
+        "type": "filter"
+    },
+    "transform": {
+        "php_class": "Transform_Prop_Type",
+        "type": "transform"
+    },
+    "transition": {
+        "php_class": "Transition_Prop_Type",
+        "type": "transition"
+    },
+    "display": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "block",
+            "inline",
+            "inline-block",
+            "flex",
+            "inline-flex",
+            "grid",
+            "inline-grid",
+            "flow-root",
+            "none",
+            "contents"
+        ]
+    },
+    "flex-direction": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "row",
+            "row-reverse",
+            "column",
+            "column-reverse"
+        ]
+    },
+    "gap": {
+        "php_class": "Union_Prop_Type",
+        "union_members": [
+            "layout-direction",
+            "size",
+            "size_variable"
+        ],
+        "type": "size"
+    },
+    "flex-wrap": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "wrap",
+            "nowrap",
+            "wrap-reverse"
+        ]
+    },
+    "flex": {
+        "php_class": "Flex_Prop_Type",
+        "type": "flex"
+    },
+    "grid-template-columns": {
+        "php_class": "String_Prop_Type",
+        "type": "string"
+    },
+    "grid-template-rows": {
+        "php_class": "String_Prop_Type",
+        "type": "string"
+    },
+    "grid-auto-flow": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "row",
+            "column",
+            "row dense",
+            "column dense"
+        ]
+    },
+    "grid-column": {
+        "php_class": "Span_Prop_Type",
+        "type": "span"
+    },
+    "grid-row": {
+        "php_class": "Span_Prop_Type",
+        "type": "span"
+    },
+    "justify-content": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "center",
+            "start",
+            "end",
+            "flex-start",
+            "flex-end",
+            "left",
+            "right",
+            "normal",
+            "space-between",
+            "space-around",
+            "space-evenly",
+            "stretch"
+        ]
+    },
+    "justify-items": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "normal",
+            "stretch",
+            "center",
+            "start",
+            "end",
+            "flex-start",
+            "flex-end",
+            "left",
+            "right",
+            "anchor-center"
+        ]
+    },
+    "align-content": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "center",
+            "start",
+            "end",
+            "space-between",
+            "space-around",
+            "space-evenly"
+        ]
+    },
+    "align-items": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "normal",
+            "stretch",
+            "center",
+            "start",
+            "end",
+            "flex-start",
+            "flex-end",
+            "self-start",
+            "self-end",
+            "anchor-center"
+        ]
+    },
+    "align-self": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "auto",
+            "normal",
+            "center",
+            "start",
+            "end",
+            "self-start",
+            "self-end",
+            "flex-start",
+            "flex-end",
+            "anchor-center",
+            "baseline",
+            "first baseline",
+            "last baseline",
+            "stretch"
+        ]
+    },
+    "order": {
+        "php_class": "Number_Prop_Type",
+        "type": "number"
+    },
+    "content": {
+        "php_class": "String_Prop_Type",
+        "type": "string"
+    },
+    "appearance": {
+        "php_class": "String_Prop_Type",
+        "type": "string",
+        "enum": [
+            "none",
+            "auto"
+        ]
+    },
+    "clip-path": {
+        "php_class": "String_Prop_Type",
+        "type": "string"
+    }
+}

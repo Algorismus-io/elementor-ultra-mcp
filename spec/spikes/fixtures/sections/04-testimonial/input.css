@@ -1,0 +1,94 @@
+.testimonial {
+  padding: 96px 24px;
+  background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+  font-family: "Inter", system-ui, sans-serif;
+  color: #1e1b2e;
+}
+
+.testimonial__heading {
+  font-size: 34px;
+  line-height: 1.2;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -0.02em;
+  margin: 0 0 48px;
+}
+
+.quote {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 44px 40px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(124, 58, 237, 0.12);
+}
+
+.quote__mark {
+  position: absolute;
+  top: 8px;
+  left: 28px;
+  font-size: 96px;
+  line-height: 1;
+  font-weight: 800;
+  background: linear-gradient(135deg, #a855f7, #6366f1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  pointer-events: none;
+}
+
+.quote__body {
+  position: relative;
+  font-size: 22px;
+  line-height: 1.55;
+  font-weight: 500;
+  margin: 0 0 24px;
+  quotes: none;
+}
+
+.quote__rating {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 28px;
+}
+
+.star {
+  color: #f59e0b;
+  font-size: 20px;
+}
+
+.quote__author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.quote__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.25s ease;
+}
+
+.quote__avatar:hover {
+  filter: grayscale(0%);
+}
+
+.quote__who {
+  display: flex;
+  flex-direction: column;
+}
+
+.quote__name {
+  font-size: 16px;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.quote__role {
+  font-size: 14px;
+  color: #6b7280;
+}

@@ -1,0 +1,63 @@
+{
+  "$fixture": 1,
+  "id": "global-classes.upsert-diff",
+  "kind": "design",
+  "generation": "v4",
+  "title": "Global-classes diff-PUT body — add one class, modify one, delete one, with the FULL final order array (PUT /design/classes, 10-rest-api.md §4.2)",
+  "_comment": "WP-Q01 design fixture. Carries the EXACT diff-PUT request body (10-rest-api.md §4.2 NORMATIVE shape) in `settings` (the only free-form object slot in the locked envelope, 14-fixtures-harness.md §2 — design bodies have no dedicated key, and `settings` is type:object with no further constraint). NORMATIVE invariants encoded: (1) `changes.{added,deleted,modified}` enumerate touched ids; `changes.order:true` flags a reorder. (2) `items` contains ONLY the touched ids (added + modified) — g-newcard (added) + g-existinghero (modified) — NEVER the full collection, NEVER the deleted id (g-oldpromo). (3) top-level `order` is the FULL final id list = existing − deleted + added, consistent or the handler returns INVALID_ORDER (§4.2, ...:366-372). (4) deletion is EXPLICIT via changes.deleted (omitting does NOT delete). (5) budget: count(existing) − deleted + added ≤ MAX 1000 ([R5]/SUMMARY C2, admin-only cap elementor_global_classes_update_class, S05/C4). Each item's variants use TYPED prop envelopes ([R8]). expect.valid:true is the STRUCTURAL validity of the body shape (this is NOT a tree dry_run — kind:design fixtures are not run through Validator::dry_run; the PHP loader gates by `requires` and the design-write suite asserts the diff body against the §4.2 contract).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": ["e_classes"], "pro": false, "min_elementor": "4.1.1" },
+  "settings": {
+    "context": "frontend",
+    "changes": {
+      "added": ["g-newcard"],
+      "deleted": ["g-oldpromo"],
+      "modified": ["g-existinghero"],
+      "order": true
+    },
+    "items": {
+      "g-newcard": {
+        "id": "g-newcard",
+        "type": "class",
+        "label": "card",
+        "variants": [
+          {
+            "meta": { "breakpoint": "desktop", "state": null },
+            "props": {
+              "background": {
+                "$$type": "background",
+                "value": { "color": { "$$type": "color", "value": "rgb(245, 245, 245)" } }
+              },
+              "padding": {
+                "$$type": "dimensions",
+                "value": {
+                  "block-start": { "$$type": "size", "value": { "unit": "px", "size": 24 } },
+                  "block-end": { "$$type": "size", "value": { "unit": "px", "size": 24 } },
+                  "inline-start": { "$$type": "size", "value": { "unit": "px", "size": 24 } },
+                  "inline-end": { "$$type": "size", "value": { "unit": "px", "size": 24 } }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "g-existinghero": {
+        "id": "g-existinghero",
+        "type": "class",
+        "label": "hero",
+        "variants": [
+          {
+            "meta": { "breakpoint": "desktop", "state": null },
+            "props": {
+              "color": { "$$type": "color", "value": "rgb(17, 17, 17)" },
+              "font-size": { "$$type": "size", "value": { "unit": "px", "size": 56 } }
+            }
+          }
+        ]
+      }
+    },
+    "order": ["g-existinghero", "g-newcard"],
+    "op_id": "op_classes_q01_1"
+  },
+  "prefilter": { "verdict": "defer" }
+}

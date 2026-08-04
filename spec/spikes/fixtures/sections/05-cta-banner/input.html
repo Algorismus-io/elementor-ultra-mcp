@@ -1,0 +1,27 @@
+<!--
+  WP-S03 fixture 05 — CTA banner (full-width gradient call-to-action).
+  Representative bottom-of-page conversion banner: gradient panel with
+  decorative blurred blobs (absolute), centered headline + subhead, an
+  inline email capture form (input + button), and a fine-print line.
+  Exercises gradient + blob filter(blur), absolute positioning, flex form
+  row, transition, and a <form> (which has no atomic equivalent on free →
+  fallback driver).
+-->
+<section class="cta">
+  <div class="cta__panel">
+    <span class="cta__blob cta__blob--1" aria-hidden="true"></span>
+    <span class="cta__blob cta__blob--2" aria-hidden="true"></span>
+
+    <div class="cta__content">
+      <h2 class="cta__title">Ready to ship your next page?</h2>
+      <p class="cta__sub">Start converting HTML to native blocks today. No credit card required.</p>
+
+      <form class="cta__form" action="/subscribe" method="post">
+        <input class="cta__input" type="email" name="email" placeholder="you@company.com" aria-label="Email address" required />
+        <button class="cta__btn" type="submit">Get started</button>
+      </form>
+
+      <p class="cta__fine">14-day free trial · Cancel anytime</p>
+    </div>
+  </div>
+</section>

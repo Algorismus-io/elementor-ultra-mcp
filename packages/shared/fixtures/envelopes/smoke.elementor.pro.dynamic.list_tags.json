@@ -1,0 +1,20 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.pro.dynamic.list_tags",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the Pro elementor.pro.dynamic.list_tags tool",
+  "_comment": "WP-R11 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §1.8). elementor.pro.dynamic.list_tags is READ-ONLY (readOnlyHint/idempotentHint, side:proxied-to-REST: GET elementor-ultra/v1/pro/dynamic/tags — PHP lists the registered dynamic tags with per-tag {name,title,group,categories,settings_controls,available}). It is a NON-★ Pro tool, so the lean profile registers it DISABLED at boot; the smoke driver must enable it (tools.search 'elementor.pro.dynamic') before invoking. Read-only: no disposable draft, no mutation, no teardown. Gated on `requires.pro:true` so a free-only install SKIPS rather than fails (the live route returns the free+Pro tag set; on a Pro-inactive install the route would 501 PRO_REQUIRED → mapped to an isError, never a -326xx). MINIMAL valid input per §0.6 pagination: every field is optional ({limit?,cursor?,fields?}); we set limit:5 to exercise local pagination over the materialized tag list. The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {items[],next_cursor,total} where each item carries {name,title,group,categories,settings_controls,available}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "pro": true,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.pro.dynamic.list_tags",
+  "arguments": {
+    "limit": 5
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "$comment": "WP-H12 — expected a11y findings for 02-pricing-table. CLEAN: section heading is a single <h2> followed by three <h3> card names (no skipped level, no multiple-h1), every CTA <a> carries text, no images. Converter SHOULD report ZERO a11y findings. WP-H10 corpus suite asserts report.a11y matches this empty set (14-fixtures-harness §6 step 3). Matched by rule+severity+locator, never by minted element_id.",
+  "findings": []
+}

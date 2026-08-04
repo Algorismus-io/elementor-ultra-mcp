@@ -1,0 +1,31 @@
+{
+  "$fixture": 1,
+  "id": "woo.cart-anywhere",
+  "kind": "tree",
+  "generation": "v3",
+  "title": "WooCommerce context-free widget (woocommerce-cart) inside a container — the FREE-context place-anywhere case",
+  "_comment": "WP-R06 Pro WooCommerce fixture (10-rest-api.md §8.8; SUPPLEMENT §A.5). A classic `woocommerce-cart` widget (category woocommerce-elements → context 'free') nested under a flex container. The Woo_Context_Validator classifies this widget 'free' → required_doc_types() = [] → context validation is SKIPPED → context_ok:true on ANY doc type (page, single, archive). POST /pro/woo/add-widget places it without a context error regardless of the target document type. requires.woocommerce note: WooCommerce + the Pro Woo module must be active OR this widget is unregistered (UNKNOWN_WIDGET_TYPE) → the runner SKIPS the fixture; WooCommerce is NOT installed on the live dev site.",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": [], "pro": true, "min_elementor": "4.1.1" },
+  "_requires_note": "Also requires WooCommerce (the WC plugin) AND the Elementor Pro WooCommerce module to be active; SKIP when woo-not-active. The harness has no native `woocommerce` requires flag (Contract 14 §2), so this note + pro:true gate the fixture.",
+  "tree": [
+    {
+      "id": "woocnt2",
+      "elType": "container",
+      "settings": {
+        "flex_direction": "column",
+        "content_width": "full"
+      },
+      "elements": [
+        {
+          "id": "woocrt1",
+          "elType": "widget",
+          "widgetType": "woocommerce-cart",
+          "settings": {},
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

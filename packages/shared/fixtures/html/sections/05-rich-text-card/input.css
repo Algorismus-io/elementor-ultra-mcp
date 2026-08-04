@@ -1,0 +1,106 @@
+.note {
+  padding: 72px 24px;
+  background: #f6f7fb;
+  font-family: "Inter", system-ui, sans-serif;
+  color: #1f2430;
+}
+
+.note__card {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px 40px 32px;
+  background: #ffffff;
+  border: 1px solid #e7e9ef;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(31, 36, 48, 0.06);
+}
+
+.note__title {
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+
+.note__lead {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #353b48;
+  margin: 0 0 4px;
+}
+
+.note__lead strong {
+  font-weight: 700;
+  color: #1f2430;
+}
+
+.note__lead code {
+  font-family: "SFMono-Regular", ui-monospace, monospace;
+  font-size: 0.9em;
+  background: #eef0f6;
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: #4338ca;
+}
+
+.note__lead mark {
+  background: #fef08a;
+  color: inherit;
+  padding: 0 3px;
+  border-radius: 3px;
+}
+
+.note__lead a {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+.note__inset {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0;
+  padding: 14px 16px;
+  background: #f3f4fb;
+  border-radius: 12px;
+}
+
+.note__thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+
+.note__inset-text {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #52606d;
+}
+
+.note__points {
+  list-style: disc;
+  margin: 16px 0 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #52606d;
+}
+
+.note__footer {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 24px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid #eef0f6;
+}
+
+.note__footer a {
+  color: #4f46e5;
+  text-decoration: none;
+}

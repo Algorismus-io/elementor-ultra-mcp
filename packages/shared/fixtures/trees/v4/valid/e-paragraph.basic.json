@@ -1,0 +1,52 @@
+{
+  "$fixture": 1,
+  "id": "e-paragraph.basic",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Atomic paragraph, p tag, html-v3 body with inline-allowlisted tags, single local style",
+  "_comment": "WP-Q01 VALID fixture (one-per-atomic-widget, SUPPLEMENT §B.2 e-paragraph; Detailed-Req #1). All props are strictly-typed envelopes ([R8]): `tag` is {$$type:string} 'p' (NOT bare), `paragraph` is the html-v3 envelope whose inner markup uses only inline-allowlisted tags (<strong>,<a> — html-v3-prop-type.php:91; nothing to strip). The local-style id e-pg00001-1a2b3c4 is mirrored into settings.classes.value (R4/§5.1). VERIFIED valid:true via Validator::dry_run on Elementor 4.1.1. prefilter.verdict:defer — size/html-v3 props are not trivially-proven so the pre-filter defers to PHP (§4).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "pg00001",
+      "elType": "widget",
+      "widgetType": "e-paragraph",
+      "settings": {
+        "classes": { "$$type": "classes", "value": ["e-pg00001-1a2b3c4"] },
+        "tag": { "$$type": "string", "value": "p" },
+        "paragraph": {
+          "$$type": "html-v3",
+          "value": {
+            "content": {
+              "$$type": "string",
+              "value": "Lead copy with <strong>emphasis</strong> and a <a>link</a>."
+            },
+            "children": []
+          }
+        }
+      },
+      "styles": {
+        "e-pg00001-1a2b3c4": {
+          "id": "e-pg00001-1a2b3c4",
+          "type": "class",
+          "label": "lead",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "color": { "$$type": "color", "value": "rgb(40, 40, 40)" },
+                "font-size": { "$$type": "size", "value": { "unit": "px", "size": 18 } },
+                "line-height": { "$$type": "size", "value": { "unit": "em", "size": 1.6 } }
+              }
+            }
+          ]
+        }
+      },
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

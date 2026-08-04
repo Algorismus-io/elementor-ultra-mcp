@@ -1,0 +1,22 @@
+{
+  "$fixture": 1,
+  "id": "unknown-widgettype",
+  "kind": "tree",
+  "generation": "v3",
+  "title": "V3 classic widget with an unregistered widgetType 'not_a_widget' — legacy unknowns are SILENTLY DROPPED on save (not thrown)",
+  "_comment": "WP-Q01 V3 INVALID fixture (Detailed-Req #5; 14-fixtures-harness.md §1 'NB legacy unknowns DROP, not throw'; 12-error-taxonomy.md §3.1 UNKNOWN_WIDGET_TYPE). A classic widget with an unregistered widgetType 'not_a_widget'. UNLIKE an atomic unknown (which THROWS), a LEGACY/classic unknown is SILENTLY DROPPED on the real save (has-atomic-base.php R2; Validator meta carries silently_dropped:true). Validator::dry_run still surfaces the type problem as UNKNOWN_WIDGET_TYPE with valid:false (VERIFIED live on Elementor 4.1.1) — the harness encodes the DROP semantics in this comment while the authoritative verdict is invalid. prefilter.verdict:defer — the TS pre-filter has no registered-type check and treats classic nodes as deferred (§4). requires.experiments EMPTY → runs on free-only/atomic-off.",
+  "expect": { "valid": false, "errors": ["UNKNOWN_WIDGET_TYPE"] },
+  "requires": { "experiments": [], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "v3unk01",
+      "elType": "widget",
+      "widgetType": "not_a_widget",
+      "settings": {
+        "title": "I will be dropped"
+      },
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

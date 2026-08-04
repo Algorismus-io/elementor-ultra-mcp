@@ -1,0 +1,62 @@
+{
+  "$fixture": 1,
+  "id": "v3.container.roundtrip",
+  "kind": "roundtrip",
+  "generation": "v3",
+  "title": "Round-trip identity — V3 classic container with a classic heading widget child",
+  "_comment": "WP-Q05 (14-fixtures-harness.md §7). V3 CLASSIC fallback generation: a `container` element (flat settings map, NO typed envelopes) wrapping a classic `heading` widget (widgetType must NOT start with `e-`). build → get_structure → normalize(both) → assert structural equality. Classic nodes have no `styles`/`_cssid` (those are atomic-only) so the normalizer's atomic tolerances are no-ops here; the only normalization is dropping the empty `elements` on the leaf widget. Both ids (container + child) are re-minted on save (C2) so the round-trip test compares ids structurally/positionally, never literally. Classic emits only non-default keys; responsive overrides would use SUFFIX keys (_tablet/_mobile). Run as ADMIN (content-sanitizer exempt). prefilter.verdict:defer (classic flat settings cannot be proven structurally; PHP dry_run authoritative). Proves the round-trip identity guarantee holds for the V3 fallback path as well as the V4 atomic primary.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "input_tree": [
+    {
+      "id": "rtv3con1",
+      "elType": "container",
+      "settings": {
+        "content_width": "boxed",
+        "flex_direction": "column"
+      },
+      "elements": [
+        {
+          "id": "rtv3hd1",
+          "elType": "widget",
+          "widgetType": "heading",
+          "settings": {
+            "title": "V3 round-trip heading",
+            "header_size": "h2"
+          },
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "normalized_expected": [
+    {
+      "id": "rtv3con1",
+      "elType": "container",
+      "settings": {
+        "content_width": "boxed",
+        "flex_direction": "column"
+      },
+      "elements": [
+        {
+          "id": "rtv3hd1",
+          "elType": "widget",
+          "widgetType": "heading",
+          "settings": {
+            "title": "V3 round-trip heading",
+            "header_size": "h2"
+          }
+        }
+      ]
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

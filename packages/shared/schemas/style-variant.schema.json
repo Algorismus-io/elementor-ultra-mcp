@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elementor-ultra-mcp/spec/contracts/schemas/style-variant.schema.json",
+  "title": "V4 Atomic Style Definition + Style Variant",
+  "description": "FROZEN shape for a single atomic style object (a local style on an element OR a global class in the e_global_class CPT). Verified against elementor/modules/atomic-widgets/styles/style-definition.php:36-39 (id/type/label/variants) and style-variant.php:38-42 (meta:{breakpoint,state}, props). TS type names: StyleDefinition, StyleVariant, StyleMeta (WP-F03). The props map keys are Style-Schema CSS prop names; values are atomic TypedValue envelopes. The PHP Style_Parser dry_run (WP-P03) is the AUTHORITATIVE validator of prop keys/values/enums; this schema only enforces structure.",
+
+  "$defs": {
+    "BreakpointKey": {
+      "type": ["string", "null"],
+      "description": "null = base/desktop. Active breakpoint keys are site-dependent; canonical superset from core/breakpoints/manager.php:17-23 — mobile, mobile_extra, tablet, tablet_extra, laptop, desktop, widescreen. Resolve the live set via elementor.breakpoints.get; NEVER hardcode px widths.",
+      "examples": [null, "mobile", "mobile_extra", "tablet", "tablet_extra", "laptop", "desktop", "widescreen"]
+    },
+
+    "StyleState": {
+      "type": ["string", "null"],
+      "description": "Variant state. null = normal. Allowed non-null values verified against styles/style-states.php:6-12. State lives on variant.meta, NEVER on a prop.",
+      "enum": [null, "hover", "active", "focus", "focus-visible", "checked", "e--selected"]
+    },
+
+    "StyleMeta": {
+      "type": "object",
+      "description": "Variant selector context. breakpoint + state together determine which CSS rule the variant emits.",
+      "required": ["breakpoint", "state"],
+      "properties": {
+        "breakpoint": { "$ref": "#/$defs/BreakpointKey" },
+        "state": { "$ref": "#/$defs/StyleState" }
+      },
+      "additionalProperties": false
+    },
+
+    "StyleVariant": {
+      "type": "object",
+      "description": "One responsive/state variant of a style. props is a flat map of Style-Schema CSS prop name -> atomic TypedValue. custom_css is Pro-only (raw escape hatch); null/omitted on free, where it is stripped (atomic-widget-styles.php:94-114).",
+      "required": ["meta", "props"],
+      "properties": {
+        "meta": { "$ref": "#/$defs/StyleMeta" },
+        "props": {
+          "type": "object",
+          "description": "css-prop-name -> TypedValue envelope. Keys MUST be Style_Schema-valid (probe via elementor.schema.styles). PHP dry_run authoritative.",
+          "additionalProperties": {
+            "$ref": "atomic-prop-types.schema.json#/$defs/TypedValue"
+          }
+        },
+        "custom_css": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["raw"],
+              "properties": { "raw": { "type": "string" } },
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "StyleDefinition": {
+      "type": "object",
+      "description": "A style object. As a LOCAL style it lives in an element's `styles` map keyed by its id (convention e-<elementId>-<7hex>) AND its id MUST also appear in that element's `classes` prop (else the style silently detaches). As a GLOBAL CLASS it lives in the e_global_class CPT (id g-*) and is referenced by id only. type is 'class' for both.",
+      "required": ["id", "type", "label", "variants"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Local style id convention: e-<elementId>-<7hex>. Global class id convention: g-<hex>. Matches the classes name regex.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "type": { "const": "class" },
+        "label": {
+          "type": "string",
+          "description": "Human label. For global classes: 2-50 chars, no spaces, no leading digit / -- / -digit, not reserved 'container'. Duplicate global-class labels are auto-renamed by the REST PUT (DUPLICATED_LABEL soft error)."
+        },
+        "variants": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/StyleVariant" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "$ref": "#/$defs/StyleDefinition"
+}

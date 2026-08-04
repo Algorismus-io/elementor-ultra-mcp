@@ -1,0 +1,17 @@
+{
+    "template_id": 15,
+    "template_type": "container",
+    "gc_id": "s02card",
+    "head_local": "e-s02head1-local",
+    "btn_local": "e-s02btn01-local",
+    "source_ids": [
+        "s02div01",
+        "s02head1",
+        "s02btn01"
+    ],
+    "stored_ids": [
+        "7115a769",
+        "39433d04",
+        "370f5a93"
+    ]
+}

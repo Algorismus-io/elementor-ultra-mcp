@@ -1,0 +1,1414 @@
+openapi: 3.1.0
+info:
+  title: Elementor ULTRA MCP — Companion Plugin REST API
+  description: >
+    FROZEN contract for the elementor-ultra/v1 REST surface exposed by the
+    companion WordPress plugin (plugin/elementor-ultra-mcp). Normative source of
+    truth is spec/contracts/10-rest-api.md; this file is the machine-readable
+    companion. Where they disagree, the Markdown wins. Auth is WordPress
+    Application Passwords (HTTP Basic). Every 2xx response is wrapped in
+    {success:true,data:<payload>}; every error is {code,message,data:{status,...}}.
+  version: 1.0.0
+servers:
+  - url: "{wpUrl}/wp-json/elementor-ultra/v1"
+    variables:
+      wpUrl:
+        default: https://example.test
+        description: WordPress site base URL
+security:
+  - basicAuth: []
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: base64("<wp_user>:<application_password>")
+
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      schema: { type: integer, default: 25, minimum: 1, maximum: 100 }
+    Cursor:
+      name: cursor
+      in: query
+      required: false
+      schema: { type: string, nullable: true }
+    Fields:
+      name: fields
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema: { type: array, items: { type: string } }
+    PostId:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer }
+      description: WordPress post id (0 = validate a new, not-yet-persisted tree)
+
+  schemas:
+    SuccessEnvelope:
+      type: object
+      required: [success, data]
+      properties:
+        success: { type: boolean, enum: [true] }
+        data: { type: object, additionalProperties: true }
+    ErrorEnvelope:
+      type: object
+      required: [code, message, data]
+      properties:
+        code:
+          type: string
+          description: Stable taxonomy code (WP-F05).
+        message: { type: string }
+        data:
+          type: object
+          required: [status]
+          properties:
+            status: { type: integer }
+            op_id: { type: string, nullable: true }
+            errors:
+              type: array
+              items: { $ref: '#/components/schemas/FieldError' }
+            meta: { type: object, additionalProperties: true }
+    FieldError:
+      type: object
+      required: [path, code, message]
+      properties:
+        path: { type: string, description: "Dotted JSON-pointer-like path into the request body" }
+        code: { type: string }
+        message: { type: string }
+        meta: { type: object, additionalProperties: true }
+    Pagination:
+      type: object
+      required: [items, next_cursor, total]
+      properties:
+        items: { type: array, items: { type: object, additionalProperties: true } }
+        next_cursor: { type: string, nullable: true }
+        total: { type: integer, nullable: true }
+    OpId:
+      type: string
+      pattern: '^[A-Za-z0-9_.-]{1,64}$'
+    BaseHash:
+      type: string
+      pattern: '^[a-f0-9]{32}$'
+      description: md5 of _elementor_data (optimistic-concurrency token)
+    ElementNode:
+      type: object
+      description: >
+        Authoring-contract node (V4 atomic or V3 classic). Full schema lives in
+        spec/contracts/20-authoring-json.md (WP-F03). Loosely typed here.
+      additionalProperties: true
+      required: [id, elType]
+      properties:
+        id: { type: string }
+        elType: { type: string }
+        widgetType: { type: string }
+        settings: { type: object, additionalProperties: true }
+        elements: { type: array, items: { type: object } }
+    Diff:
+      type: object
+      properties:
+        changed_ids: { type: array, items: { type: string } }
+        new_ids: { type: array, items: { type: string } }
+        removed_ids: { type: array, items: { type: string } }
+        before: { type: object, additionalProperties: true }
+        after: { type: object, additionalProperties: true }
+    ConditionTuple:
+      type: array
+      minItems: 2
+      maxItems: 4
+      items: { type: string }
+      description: "[type, name, sub_name?, sub_id?]; type in {include,exclude}"
+    GlobalClassesChanges:
+      type: object
+      required: [added, deleted, modified]
+      additionalProperties: false
+      properties:
+        added: { type: array, items: { type: string } }
+        deleted: { type: array, items: { type: string } }
+        modified: { type: array, items: { type: string } }
+        order: { type: boolean }
+
+  responses:
+    Success:
+      description: OK
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/SuccessEnvelope' }
+    BadRequest:
+      description: Malformed request / missing param (E_BAD_REQUEST, E_MISSING_PARAM)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    Unauthorized:
+      description: Missing/invalid Application Password (rest_not_logged_in)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    Forbidden:
+      description: Lacks capability (E_FORBIDDEN_CAP)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    NotFound:
+      description: Resource not found (E_NOT_FOUND)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    Conflict:
+      description: Optimistic-lock / autosave / post-lock conflict (E_BASE_HASH_MISMATCH, E_AUTOSAVE_CONFLICT, E_POST_LOCKED)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    Unprocessable:
+      description: Semantic validation failure (E_ATOMIC_VALIDATION, E_ID_COLLISION, E_BUDGET_EXCEEDED, ...)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    FeatureUnavailable:
+      description: Route present but feature gated off (E_FEATURE_UNAVAILABLE)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+
+paths:
+  /site/capabilities:
+    get:
+      summary: Probe experiments/Pro/types/breakpoints/caps/migrations/health
+      operationId: getSiteCapabilities
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /documents:
+    get:
+      summary: List Elementor documents (paginated)
+      operationId: listDocuments
+      parameters:
+        - { name: status, in: query, required: false, schema: { type: string, enum: [any, publish, draft, trash, pending, private], default: any } }
+        - { name: post_type, in: query, required: false, schema: { type: string } }
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+        - { $ref: '#/components/parameters/Fields' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+    post:
+      summary: Create a blank Elementor document
+      operationId: createDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title: { type: string, default: "New Page" }
+                post_type: { type: string, default: page }
+                template_type: { type: string }
+                status: { type: string, enum: [draft, publish, pending, private], default: draft }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /documents/{id}:
+    get:
+      summary: Get element tree + base_hash
+      operationId: getDocument
+      parameters:
+        - { $ref: '#/components/parameters/PostId' }
+        - { name: depth, in: query, required: false, schema: { type: integer } }
+        - { name: subtree_id, in: query, required: false, schema: { type: string } }
+        - { name: projection, in: query, required: false, schema: { type: string, enum: [full, summary], default: full } }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      summary: Trash (or force-delete) a document
+      operationId: deleteDocument
+      parameters:
+        - { $ref: '#/components/parameters/PostId' }
+        - { name: force, in: query, required: false, schema: { type: boolean, default: false } }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /documents/{id}/settings:
+    get:
+      summary: Get document/page settings
+      operationId: getDocumentSettings
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    put:
+      summary: Patch document/page settings (GET-merge-PUT, WP-S04)
+      operationId: updateDocumentSettings
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [settings]
+              properties:
+                settings: { type: object, additionalProperties: true }
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+
+  /documents/{id}/dry-run:
+    post:
+      summary: AUTHORITATIVE validate + diff, NO persist
+      operationId: dryRunDocument
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [elements]
+              properties:
+                elements: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                settings: { type: object, additionalProperties: true }
+                generation: { type: string, enum: [v4, v3] }
+                want_preview: { type: boolean, default: false }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /documents/{id}/save:
+    post:
+      summary: Persist elements and/or settings (validated, optionally primed)
+      operationId: saveDocument
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                elements: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                settings: { type: object, additionalProperties: true }
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                op_id: { $ref: '#/components/schemas/OpId' }
+                prime_css: { type: boolean, default: false }
+                force: { type: boolean, default: false }
+                backup: { type: boolean, default: true }
+                verify_render: { type: boolean, default: false, description: 'Contract 18 §7-AI S2 — run the post-save+prime render-verification probe; the response gains render_verified + render_probe.' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /documents/{id}/replace-tree:
+    post:
+      summary: Overwrite whole element tree (txn, base_hash required)
+      operationId: replaceTree
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [elements, base_hash]
+              properties:
+                elements: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                settings: { type: object, additionalProperties: true }
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                op_id: { $ref: '#/components/schemas/OpId' }
+                prime_css: { type: boolean, default: false }
+                force: { type: boolean, default: false }
+                backup: { type: boolean, default: true }
+                verify_render: { type: boolean, default: false, description: 'Contract 18 §7-AI S2 — run the post-save+prime render-verification probe; the response gains render_verified + render_probe.' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /documents/{id}/elements:
+    post:
+      summary: Granular element-op batch (insert/update/move/delete/classes/style/dynamic/global)
+      operationId: elementOps
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [base_hash, ops]
+              properties:
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                ops:
+                  type: array
+                  items:
+                    type: object
+                    required: [op]
+                    properties:
+                      op: { type: string, enum: [insert, update_settings, move, delete, set_classes, set_local_style, bind_dynamic, bind_global] }
+                    additionalProperties: true
+                force: { type: boolean, default: false }
+                prime_css: { type: boolean, default: false }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /documents/{id}/prime-css:
+    post:
+      summary: Prime V4 atomic CSS (WP-S01)
+      operationId: primeCss
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                approach: { type: string, enum: [loopback, programmatic, auto], default: auto }
+                breakpoints: { type: array, items: { type: string } }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /documents/{id}/backup:
+    post:
+      summary: Revision-independent snapshot
+      operationId: backupDocument
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                label: { type: string }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /documents/{id}/backups:
+    get:
+      summary: List snapshots (paginated)
+      operationId: listBackups
+      parameters:
+        - { $ref: '#/components/parameters/PostId' }
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /documents/{id}/rollback:
+    post:
+      summary: Restore a snapshot
+      operationId: rollbackDocument
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [meta_key]
+              properties:
+                meta_key: { type: string }
+                prime_css: { type: boolean, default: true }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /documents/{id}/verify-render:
+    post:
+      summary: Verify the document RENDERS (contract 18 §7-AI S2 — permalink loopback probe with mandatory in-process front-controller dispatch fallback; asserts no fatal marker; op-logged)
+      operationId: verifyRenderDocument
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /documents/{id}/duplicate:
+    post:
+      summary: Deep-copy document + meta with fresh ids
+      operationId: duplicateDocument
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title: { type: string }
+                status: { type: string, enum: [draft, publish, pending, private], default: draft }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /documents/{id}/export:
+    post:
+      summary: Emit library-format JSON (with referenced classes/variables)
+      operationId: exportDocument
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /documents/{id}/lock-status:
+    get:
+      summary: Lock + newer-autosave status
+      operationId: lockStatus
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /documents/{id}/ids:
+    get:
+      summary: Used-id set for a document
+      operationId: documentIds
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /schema/widget/{type}:
+    get:
+      summary: Per-widget schema (post-filter get_props_schema, incl _cssid)
+      operationId: schemaWidget
+      parameters:
+        - { name: type, in: path, required: true, schema: { type: string } }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /schema/styles:
+    get:
+      summary: Atomic Style_Schema + units + enums
+      operationId: schemaStyles
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+
+  /schema/registered-types:
+    get:
+      summary: Registered elTypes/widgetTypes on this site
+      operationId: schemaRegisteredTypes
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+
+  /schema/breakpoints:
+    get:
+      summary: Active breakpoints
+      operationId: schemaBreakpoints
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+
+  /design/classes:
+    get:
+      summary: List global classes (paginated) + order
+      operationId: listGlobalClasses
+      parameters:
+        - { name: context, in: query, required: false, schema: { type: string, enum: [frontend, preview], default: frontend } }
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+    put:
+      summary: Diff-PUT upsert/delete/reorder global classes
+      operationId: putGlobalClasses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [changes, items, order]
+              properties:
+                context: { type: string, enum: [frontend, preview], default: frontend }
+                changes: { $ref: '#/components/schemas/GlobalClassesChanges' }
+                items: { type: object, additionalProperties: { type: object } }
+                order: { type: array, items: { type: string } }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /design/classes/usage:
+    get:
+      summary: Where global classes are used
+      operationId: globalClassesUsage
+      parameters:
+        - { name: context, in: query, required: false, schema: { type: string, enum: [frontend, preview], default: frontend } }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /design/variables:
+    get:
+      summary: List variables + watermark
+      operationId: listVariables
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+    post:
+      summary: Create a variable
+      operationId: createVariable
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, label, value]
+              properties:
+                type: { type: string, enum: [global-color-variable, global-font-variable, global-size-variable] }
+                label: { type: string, maxLength: 50 }
+                value: { type: string, maxLength: 512 }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /design/variables/{id}:
+    put:
+      summary: Update a variable
+      operationId: updateVariable
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [label, value]
+              properties:
+                label: { type: string, maxLength: 50 }
+                value: { type: string, maxLength: 512 }
+                order: { type: integer, minimum: 0 }
+                type: { type: string }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+    delete:
+      summary: Delete (soft) a variable
+      operationId: deleteVariable
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /design/variables/{id}/restore:
+    post:
+      summary: Restore a deleted variable
+      operationId: restoreVariable
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                label: { type: string }
+                value: { type: string }
+                type: { type: string }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /design/variables/batch:
+    post:
+      summary: Atomic multi-op (watermark)
+      operationId: batchVariables
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [watermark, operations]
+              properties:
+                watermark: { type: integer, minimum: 0 }
+                operations:
+                  type: array
+                  items:
+                    type: object
+                    required: [type]
+                    properties:
+                      type: { type: string, enum: [create, update, delete, restore, reorder] }
+                    additionalProperties: true
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /design/global-colors:
+    get:
+      summary: V3 kit colors
+      operationId: getGlobalColors
+      responses: { '200': { $ref: '#/components/responses/Success' } }
+    put:
+      summary: Set V3 kit colors
+      operationId: putGlobalColors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                system_colors: { type: array, items: { type: object } }
+                custom_colors: { type: array, items: { type: object } }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /design/global-fonts:
+    get:
+      summary: V3 kit typography
+      operationId: getGlobalFonts
+      responses: { '200': { $ref: '#/components/responses/Success' } }
+    put:
+      summary: Set V3 kit typography
+      operationId: putGlobalFonts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                system_typography: { type: array, items: { type: object } }
+                custom_typography: { type: array, items: { type: object } }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /design/fonts/install:
+    post:
+      summary: Install a non-catalog font face (contract 18 §7-AI S4)
+      operationId: installFont
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [source, family]
+              properties:
+                source: { type: string, description: 'http(s) URL, data: URI, or raw base64 (woff2/woff/ttf/otf)' }
+                family: { type: string }
+                weight: { type: string }
+                style: { type: string, enum: [normal, italic, oblique] }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /design/element-defaults:
+    get:
+      summary: Per-widget kit defaults
+      operationId: getElementDefaults
+      responses: { '200': { $ref: '#/components/responses/Success' } }
+    put:
+      summary: Set per-widget kit defaults
+      operationId: putElementDefaults
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, settings]
+              properties:
+                type: { type: string }
+                settings: { type: object, additionalProperties: true }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /design/sync-v4-to-v3:
+    post:
+      summary: Flag sync_to_v3 + regen bridge
+      operationId: syncV4ToV3
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [variable_id]
+              properties:
+                variable_id: { type: string }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /design/deploy:
+    post:
+      summary: Bulk deploy classes + variables (all-or-nothing budget pre-flight)
+      operationId: deployDesign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                global_classes: { type: object, additionalProperties: true }
+                global_variables: { type: object, additionalProperties: true }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /media:
+    get:
+      summary: List/search attachments (paginated)
+      operationId: listMedia
+      parameters:
+        - { name: query, in: query, required: false, schema: { type: string } }
+        - { name: mime, in: query, required: false, schema: { type: string } }
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses: { '200': { $ref: '#/components/responses/Success' } }
+
+  /media/sideload:
+    post:
+      summary: Import external URL into library (dedupe)
+      operationId: sideloadMedia
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url]
+              properties:
+                url: { type: string, format: uri }
+                alt: { type: string }
+                title: { type: string }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /media/upload:
+    post:
+      summary: Upload raw bytes/base64
+      operationId: uploadMedia
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [data, filename]
+              properties:
+                data: { type: string, description: base64 }
+                filename: { type: string }
+                alt: { type: string }
+                op_id: { $ref: '#/components/schemas/OpId' }
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file: { type: string, format: binary }
+                alt: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /nav/menus:
+    get:
+      summary: List WP nav menus
+      operationId: listNavMenus
+      responses: { '200': { $ref: '#/components/responses/Success' } }
+    post:
+      summary: Create + populate a nav menu
+      operationId: createNavMenu
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, items]
+              properties:
+                name: { type: string }
+                items: { type: array, items: { type: object } }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /nav/bind-widget:
+    post:
+      summary: Bind Pro nav/mega-menu widget to a menu term
+      operationId: bindNavWidget
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [post_id, element_id, term_id]
+              properties:
+                post_id: { type: integer }
+                element_id: { type: string }
+                term_id: { type: integer }
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+
+  /templates:
+    get:
+      summary: Library list (paginated)
+      operationId: listTemplates
+      parameters:
+        - { name: type, in: query, required: false, schema: { type: string } }
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses: { '200': { $ref: '#/components/responses/Success' } }
+    post:
+      summary: Save a reusable block/page
+      operationId: saveTemplate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, type, content]
+              properties:
+                title: { type: string }
+                type: { type: string }
+                content: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                page_settings: { type: object, additionalProperties: true }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /templates/{id}:
+    get:
+      summary: Template content + settings
+      operationId: getTemplate
+      parameters: [ { name: id, in: path, required: true, schema: { type: integer } } ]
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /templates/{id}/insert:
+    post:
+      summary: Paste a block into a page (fresh ids)
+      operationId: insertTemplate
+      parameters: [ { name: id, in: path, required: true, schema: { type: integer } } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [post_id]
+              properties:
+                post_id: { type: integer }
+                parent_id: { type: string }
+                index: { type: integer }
+                content: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+
+  /templates/import:
+    post:
+      summary: Import .json/.zip (sideload + id remap)
+      operationId: importTemplate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file_path: { type: string }
+                content: { type: object, additionalProperties: true }
+                import_mode: { type: string, default: match_site }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /kit/export:
+    post:
+      summary: Full-site kit zip
+      operationId: kitExport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                include: { type: array, items: { type: string } }
+                kitInfo: { type: object, additionalProperties: true }
+                customization: { type: object, additionalProperties: true }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /kit/import:
+    post:
+      summary: Upload + import kit
+      operationId: kitImport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                session: { type: string }
+                file_path: { type: string }
+                include: { type: array, items: { type: string } }
+                customization: { type: object, additionalProperties: true }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /kit/revert:
+    post:
+      summary: Revert kit import session
+      operationId: kitRevert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [session]
+              properties:
+                session: { type: string }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /pro/theme:
+    post:
+      summary: Create theme-builder doc
+      operationId: createThemeDoc
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, title]
+              properties:
+                type: { type: string, enum: [header, footer, single-post, single-page, archive, search-results, error-404, section] }
+                title: { type: string }
+                status: { type: string, default: publish }
+                location: { type: string, nullable: true }
+                elements: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                page_settings: { type: object, additionalProperties: true }
+                conditions: { type: array, items: { $ref: '#/components/schemas/ConditionTuple' } }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/theme/{id}/conditions:
+    put:
+      summary: Set display conditions (replaces all)
+      operationId: setThemeConditions
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [conditions]
+              properties:
+                conditions: { type: array, items: { $ref: '#/components/schemas/ConditionTuple' } }
+                check_conflicts: { type: boolean, default: false }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/theme/conditions-config:
+    get:
+      summary: Valid condition keys/sub-conditions per location
+      operationId: getConditionsConfig
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/popup:
+    post:
+      summary: Create popup doc + display settings + conditions
+      operationId: createPopup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title: { type: string }
+                status: { type: string, default: publish }
+                elements: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                layout_settings: { type: object, additionalProperties: true }
+                display_settings:
+                  type: object
+                  properties:
+                    triggers: { type: object, additionalProperties: true }
+                    timing: { type: object, additionalProperties: true }
+                conditions: { type: array, items: { $ref: '#/components/schemas/ConditionTuple' } }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/popup/{id}/display:
+    put:
+      summary: Set/merge triggers + timing
+      operationId: setPopupDisplay
+      parameters: [ { $ref: '#/components/parameters/PostId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                triggers: { type: object, additionalProperties: true }
+                timing: { type: object, additionalProperties: true }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /pro/form/build:
+    post:
+      summary: Emit a form widget element (classic or atomic)
+      operationId: buildForm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fields, actions]
+              properties:
+                post_id: { type: integer }
+                container_id: { type: string }
+                generation: { type: string, enum: [v3, v4], default: v3 }
+                form_name: { type: string }
+                button_text: { type: string }
+                fields: { type: array, items: { type: object } }
+                actions: { type: array, items: { type: object } }
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/form/actions:
+    get:
+      summary: Registered (license-gated) form actions
+      operationId: listFormActions
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/loop/item:
+    post:
+      summary: Create loop-item template
+      operationId: createLoopItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title: { type: string }
+                elements: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/loop/bind-grid:
+    post:
+      summary: Configure a loop-grid/carousel widget
+      operationId: bindLoopGrid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [template_id]
+              properties:
+                post_id: { type: integer }
+                container_id: { type: string }
+                widget: { type: string, enum: [loop-grid, loop-carousel], default: loop-grid }
+                template_id: { type: string }
+                skin: { type: string, enum: [post, post_taxonomy, product, product_taxonomy], default: post }
+                columns: { type: string }
+                posts_per_page: { type: integer, default: 6 }
+                query: { type: object, additionalProperties: true }
+                pagination: { type: object, additionalProperties: true }
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/dynamic/bind:
+    post:
+      summary: Write __dynamic__ (V3) / atomic dynamic (V4)
+      operationId: bindDynamic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [post_id, element_id, control, tag]
+              properties:
+                post_id: { type: integer }
+                element_id: { type: string }
+                control: { type: string }
+                tag: { type: string }
+                tag_settings: { type: object, additionalProperties: true }
+                fallback_value: { type: string }
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/dynamic/tags:
+    get:
+      summary: List dynamic tags
+      operationId: listDynamicTags
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/dynamic/tags/{name}:
+    get:
+      summary: Per-tag controls/args schema
+      operationId: getDynamicTag
+      parameters: [ { name: name, in: path, required: true, schema: { type: string } } ]
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /pro/woo/add-widget:
+    post:
+      summary: Context-validated Woo widget config (ULTRA)
+      operationId: addWooWidget
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [post_id, container_id, widget]
+              properties:
+                post_id: { type: integer }
+                container_id: { type: string }
+                widget: { type: string }
+                product_id: { type: integer, nullable: true }
+                settings: { type: object, additionalProperties: true }
+                base_hash: { $ref: '#/components/schemas/BaseHash' }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '501': { $ref: '#/components/responses/FeatureUnavailable' }
+
+  /cache/regen:
+    post:
+      summary: Regenerate CSS (per-post or global)
+      operationId: cacheRegen
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post_id: { type: integer }
+                network: { type: boolean, default: false }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /cache:
+    delete:
+      summary: Flush all Elementor CSS
+      operationId: cacheFlush
+      parameters:
+        - { name: network, in: query, required: false, schema: { type: boolean, default: false } }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /ids/validate:
+    post:
+      summary: Validate id uniqueness of a candidate tree
+      operationId: validateIds
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [elements]
+              properties:
+                elements: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                against_post_id: { type: integer }
+      responses: { '200': { $ref: '#/components/responses/Success' } }
+
+  /ids/remap:
+    post:
+      summary: Remap colliding ids in a candidate tree
+      operationId: remapIds
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [elements]
+              properties:
+                elements: { type: array, items: { $ref: '#/components/schemas/ElementNode' } }
+                against_post_id: { type: integer }
+      responses: { '200': { $ref: '#/components/responses/Success' } }
+
+  /ops/log:
+    get:
+      summary: Audit trail of writes (paginated)
+      operationId: opsLog
+      parameters:
+        - { name: post_id, in: query, required: false, schema: { type: integer } }
+        - { name: user, in: query, required: false, schema: { type: string } }
+        - { $ref: '#/components/parameters/Limit' }
+        - { $ref: '#/components/parameters/Cursor' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /batch/plan:
+    post:
+      summary: Dry-plan a multi-document brief (no persist)
+      operationId: batchPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [steps]
+              properties:
+                steps:
+                  type: array
+                  items:
+                    type: object
+                    required: [route, body]
+                    properties:
+                      route: { type: string }
+                      body: { type: object, additionalProperties: true }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+
+  /batch/apply:
+    post:
+      summary: Execute a plan with compensation
+      operationId: batchApply
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [plan]
+              properties:
+                plan: { type: array, items: { type: object } }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '500':
+          description: Compensation failed (E_COMPENSATION_FAILED)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorEnvelope' }

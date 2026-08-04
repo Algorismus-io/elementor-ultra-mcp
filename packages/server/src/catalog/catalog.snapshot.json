@@ -1,0 +1,1167 @@
+{
+  "note": "WP-F04 frozen catalog snapshot (names + flags). 13-tool-catalog.md §1/§2/§3/§5.2. Committed; drift fails CI.",
+  "tool_count": 90,
+  "star_count": 18,
+  "lean_star_tools": [
+    "elementor.tools.search",
+    "elementor.site.capabilities",
+    "elementor.pages.list",
+    "elementor.page.get_structure",
+    "elementor.page.create",
+    "elementor.page.build",
+    "elementor.page.dry_run",
+    "elementor.schema.widget",
+    "elementor.schema.styles",
+    "elementor.breakpoints.get",
+    "elementor.widget.insert",
+    "elementor.widget.update_settings",
+    "elementor.design.classes.list",
+    "elementor.design.classes.upsert",
+    "elementor.design.variables.list",
+    "elementor.media.sideload_url",
+    "elementor.convert.html_to_tree",
+    "elementor.convert.html_to_page"
+  ],
+  "tools": [
+    {
+      "name": "elementor.tools.search",
+      "star": true,
+      "class": "R",
+      "side": "TS",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.site.capabilities",
+      "star": true,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getSiteCapabilities",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pages.list",
+      "star": true,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listDocuments",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.get_structure",
+      "star": true,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getDocument",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.get_settings",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getDocumentSettings",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.schema.widget",
+      "star": true,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "schemaWidget",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.schema.styles",
+      "star": true,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "schemaStyles",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.breakpoints.get",
+      "star": true,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "schemaBreakpoints",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.dynamic.list_tags",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listDynamicTags",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.dynamic.get_tag_schema",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getDynamicTag",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.create",
+      "star": true,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "createDocument",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.build",
+      "star": true,
+      "class": "M",
+      "side": "BOTH",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.replace_tree",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "saveDocument",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.page.update_settings",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "updateDocumentSettings",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.dry_run",
+      "star": true,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "dryRunDocument",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.duplicate",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "duplicateDocument",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.delete",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "deleteDocument",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.page.export_template",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "exportDocument",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.list_backups",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listBackups",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.page.rollback",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "rollbackDocument",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.page.verify_render",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "verifyRenderDocument",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.element.get",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getDocument",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.widget.insert",
+      "star": true,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "elementOps",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.widget.update_settings",
+      "star": true,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "elementOps",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.element.move",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "elementOps",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.element.delete",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "elementOps",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.element.set_classes",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "elementOps",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.element.set_local_style",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "elementOps",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.element.bind_dynamic",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "elementOps",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.element.bind_global",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "elementOps",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.classes.list",
+      "star": true,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listGlobalClasses",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.classes.upsert",
+      "star": true,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "putGlobalClasses",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.classes.delete",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "putGlobalClasses",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.design.classes.reorder",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "putGlobalClasses",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.classes.usage",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "globalClassesUsage",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.variables.list",
+      "star": true,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listVariables",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.variables.create",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "createVariable",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.variables.update",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "updateVariable",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.variables.delete",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "deleteVariable",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.design.variables.restore",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "restoreVariable",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.variables.batch",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "batchVariables",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.globalColors.list",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getGlobalColors",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.globalColors.upsert",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "putGlobalColors",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.globalColors.delete",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "putGlobalColors",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.design.globalFonts.list",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getGlobalFonts",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.globalFonts.upsert",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "putGlobalFonts",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.globalFonts.delete",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "putGlobalFonts",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.design.fonts.install",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "installFont",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.sync_v4_to_v3",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "syncV4ToV3",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.element_defaults.get",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getElementDefaults",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.element_defaults.set",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "putElementDefaults",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.deploy",
+      "star": false,
+      "class": "D",
+      "side": "BOTH",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.media.sideload_url",
+      "star": true,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "sideloadMedia",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.media.upload",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "uploadMedia",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.media.list",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listMedia",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.nav.menus.list",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listNavMenus",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.nav.menus.create",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "createNavMenu",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.nav.bind_widget",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "bindNavWidget",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.templates.list",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listTemplates",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.templates.get",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getTemplate",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.templates.save",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "saveTemplate",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.templates.import",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "importTemplate",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.templates.insert_into_page",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "insertTemplate",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.kit.export",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "kitExport",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.kit.import",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "kitImport",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.kit.revert",
+      "star": false,
+      "class": "D",
+      "side": "proxied-to-REST",
+      "route": "kitRevert",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.pro.theme.create",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "createThemeDoc",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.theme.set_conditions",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "setThemeConditions",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.theme.get_conditions_config",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "getConditionsConfig",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.popup.create",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "createPopup",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.popup.set_triggers",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "setPopupDisplay",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.popup.set_timing",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "setPopupDisplay",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.form.build",
+      "star": false,
+      "class": "M",
+      "side": "BOTH",
+      "route": "buildForm",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.form.list_actions",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listFormActions",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.loop.create_item",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "createLoopItem",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.loop.bind_grid",
+      "star": false,
+      "class": "M",
+      "side": "BOTH",
+      "route": "bindLoopGrid",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.dynamic.bind",
+      "star": false,
+      "class": "M",
+      "side": "BOTH",
+      "route": "bindDynamic",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.dynamic.list_tags",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "listDynamicTags",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.pro.woo.add_widget",
+      "star": false,
+      "class": "M",
+      "side": "BOTH",
+      "route": "addWooWidget",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.convert.html_to_tree",
+      "star": true,
+      "class": "R",
+      "side": "TS",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.convert.html_to_page",
+      "star": true,
+      "class": "M",
+      "side": "BOTH",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.convert.fidelity_check",
+      "star": false,
+      "class": "R",
+      "side": "BOTH",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.convert.figma_to_tree",
+      "star": false,
+      "class": "R",
+      "side": "TS",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.convert.figma_to_page",
+      "star": false,
+      "class": "M",
+      "side": "BOTH",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.ops.log",
+      "star": false,
+      "class": "R",
+      "side": "proxied-to-REST",
+      "route": "opsLog",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.batch.plan",
+      "star": false,
+      "class": "R",
+      "side": "BOTH",
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.batch.apply",
+      "star": false,
+      "class": "D",
+      "side": "BOTH",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": true,
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "elementor.tools.list_endpoints",
+      "star": false,
+      "class": "R",
+      "side": "TS",
+      "meta": true,
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.tools.get_schema",
+      "star": false,
+      "class": "R",
+      "side": "TS",
+      "meta": true,
+      "annotations": {
+        "readOnlyHint": true,
+        "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.tools.invoke",
+      "star": false,
+      "class": "R",
+      "side": "TS",
+      "meta": true,
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
+        "destructiveHint": false
+      }
+    }
+  ],
+  "resource_count": 10,
+  "resources": [
+    {
+      "uri": "elementor://site/capabilities",
+      "name": "Site capabilities",
+      "route": "getSiteCapabilities",
+      "template": false
+    },
+    {
+      "uri": "elementor://breakpoints",
+      "name": "Breakpoints",
+      "route": "schemaBreakpoints",
+      "template": false
+    },
+    {
+      "uri": "elementor://schema/styles",
+      "name": "Style-Schema",
+      "route": "schemaStyles",
+      "template": false
+    },
+    {
+      "uri": "elementor://schema/widget/{type}",
+      "name": "Widget schema",
+      "route": "schemaWidget",
+      "template": true
+    },
+    {
+      "uri": "elementor://page/{id}/structure",
+      "name": "Page structure",
+      "route": "getDocument",
+      "template": true
+    },
+    {
+      "uri": "elementor://kit/global-classes",
+      "name": "Global classes",
+      "route": "listGlobalClasses",
+      "template": false
+    },
+    {
+      "uri": "elementor://kit/variables",
+      "name": "Variables",
+      "route": "listVariables",
+      "template": false
+    },
+    {
+      "uri": "elementor://kit/global-colors",
+      "name": "V3 global colors",
+      "route": "getGlobalColors",
+      "template": false
+    },
+    {
+      "uri": "elementor://kit/element-defaults",
+      "name": "Element defaults",
+      "route": "getElementDefaults",
+      "template": false
+    },
+    {
+      "uri": "elementor://templates",
+      "name": "Template library",
+      "route": "listTemplates",
+      "template": false
+    }
+  ],
+  "prompt_count": 4,
+  "prompts": [
+    "build-from-brief",
+    "html-to-native",
+    "design-system-audit",
+    "theme-builder-from-spec"
+  ]
+}

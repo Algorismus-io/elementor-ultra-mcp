@@ -1,0 +1,109 @@
+{
+  "_comment": "WP-S02 atomic block fixture (V4). Exercises template-library save/import roundtrip. e-div-block (carries GLOBAL class s02card) > (e-heading with LOCAL style #1 + e-button with LOCAL style #2). Two local styles + one global class so both id-remap (local) and global-class merge/remap are exercised. Prop envelopes are {\"$$type\",\"value\"}. Reusable by the Templates vertical / WP-Q01.",
+  "global_class": {
+    "id": "s02card",
+    "type": "class",
+    "label": "s02card",
+    "variants": [
+      {
+        "meta": { "breakpoint": "desktop", "state": null },
+        "props": {
+          "background": {
+            "$$type": "background",
+            "value": { "color": { "$$type": "color", "value": "rgb(12, 34, 56)" } }
+          },
+          "padding": {
+            "$$type": "dimensions",
+            "value": {
+              "block-start": { "$$type": "size", "value": { "unit": "px", "size": 20 } },
+              "block-end": { "$$type": "size", "value": { "unit": "px", "size": 20 } },
+              "inline-start": { "$$type": "size", "value": { "unit": "px", "size": 28 } },
+              "inline-end": { "$$type": "size", "value": { "unit": "px", "size": 28 } }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "elements": [
+    {
+      "id": "s02div01",
+      "elType": "e-div-block",
+      "settings": { "classes": { "$$type": "classes", "value": ["s02card"] } },
+      "styles": {},
+      "isInner": false,
+      "elements": [
+        {
+          "id": "s02head1",
+          "elType": "widget",
+          "widgetType": "e-heading",
+          "settings": {
+            "classes": { "$$type": "classes", "value": ["e-s02head1-local"] },
+            "tag": { "$$type": "string", "value": "h2" },
+            "title": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "S02 Atomic Card" },
+                "children": []
+              }
+            }
+          },
+          "styles": {
+            "e-s02head1-local": {
+              "id": "e-s02head1-local",
+              "type": "class",
+              "label": "headlocal",
+              "variants": [
+                {
+                  "meta": { "breakpoint": "desktop", "state": null },
+                  "props": {
+                    "color": { "$$type": "color", "value": "rgb(255, 200, 0)" },
+                    "font-size": { "$$type": "size", "value": { "unit": "px", "size": 36 } }
+                  }
+                }
+              ]
+            }
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "s02btn01",
+          "elType": "widget",
+          "widgetType": "e-button",
+          "settings": {
+            "classes": { "$$type": "classes", "value": ["e-s02btn01-local"] },
+            "text": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "S02 Button" },
+                "children": []
+              }
+            }
+          },
+          "styles": {
+            "e-s02btn01-local": {
+              "id": "e-s02btn01-local",
+              "type": "class",
+              "label": "btnlocal",
+              "variants": [
+                {
+                  "meta": { "breakpoint": "desktop", "state": null },
+                  "props": {
+                    "color": { "$$type": "color", "value": "rgb(0, 0, 0)" },
+                    "background": {
+                      "$$type": "background",
+                      "value": { "color": { "$$type": "color", "value": "rgb(0, 220, 130)" } }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "elements": [],
+          "isInner": false
+        }
+      ]
+    }
+  ]
+}

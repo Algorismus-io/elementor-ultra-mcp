@@ -1,0 +1,60 @@
+{
+  "$fixture": 1,
+  "id": "e-heading.identity",
+  "kind": "roundtrip",
+  "generation": "v4",
+  "title": "Round-trip identity — build → get_structure → normalize equals the normalized input",
+  "_comment": "Seed bootstrap ROUNDTRIP fixture (WP-F06, 14-fixtures-harness.md §7). `input_tree` is built; the fetched tree is normalized with the shared normalizer (packages/server/src/authoring/contract.ts normalize()) which tolerates _cssid injection, empty sibling-key noise, and html-v3 normalization, and compares structurally (not by literal id). `normalized_expected` is what normalize() yields for the input (empty `editor_settings`/`interactions`/`elements` dropped, _cssid stripped). Run as admin so the content-sanitizer title rewrite is exempt (§7, 11-authoring-contract.md §11).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "input_tree": [
+    {
+      "id": "rt00001",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h1" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Round trip" },
+            "children": []
+          }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "normalized_expected": [
+    {
+      "id": "rt00001",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h1" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Round trip" },
+            "children": []
+          }
+        }
+      }
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

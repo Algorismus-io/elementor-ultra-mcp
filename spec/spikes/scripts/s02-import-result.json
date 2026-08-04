@@ -1,0 +1,68 @@
+{
+    "captured": {
+        "content_class_refs": [
+            "e-22804236-e214e49",
+            "e-397c599b-c5256a0"
+        ],
+        "content_style_ids": [
+            "e-22804236-e214e49",
+            "e-397c599b-c5256a0"
+        ],
+        "content_element_ids": [
+            "129090ce",
+            "22804236",
+            "397c599b"
+        ],
+        "snapshot_item_ids": []
+    },
+    "scenario_b": {
+        "kit_labels_after_delete": {
+            "s01hero": "s01hero",
+            "s02card-imp": "s02card"
+        },
+        "processed_class_refs": [
+            "e-22804236-e214e49",
+            "e-397c599b-c5256a0"
+        ],
+        "processed_style_ids": [
+            "e-22804236-e214e49",
+            "e-397c599b-c5256a0"
+        ],
+        "updated_global_classes": null,
+        "kit_labels_after_import": {
+            "s01hero": "s01hero",
+            "s02card-imp": "s02card"
+        },
+        "target_post_id": 22,
+        "target_relations": [
+            "e-22804236-e214e49",
+            "e-397c599b-c5256a0"
+        ]
+    },
+    "scenario_a": {
+        "import_id": "s02card-imp",
+        "existing_kit_id": "s02card-imp",
+        "input_class_refs": [
+            "e-22804236-e214e49",
+            "e-397c599b-c5256a0"
+        ],
+        "processed_class_refs": [
+            "e-22804236-e214e49",
+            "e-397c599b-c5256a0"
+        ],
+        "remapped_to_existing": false,
+        "updated_global_classes": {
+            "added_items": [],
+            "added_items_order": []
+        },
+        "kit_labels_after": {
+            "s01hero": "s01hero",
+            "s02card-imp": "s02card"
+        },
+        "target_post_id": 24,
+        "target_relations": [
+            "e-22804236-e214e49",
+            "e-397c599b-c5256a0"
+        ]
+    }
+}

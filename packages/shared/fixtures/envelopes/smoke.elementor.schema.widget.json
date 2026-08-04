@@ -1,0 +1,21 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.schema.widget",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.schema.widget tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #8, §1.1). schema.widget is READ-ONLY (readOnlyHint/idempotentHint; proxied-to-REST GET elementor-ultra/v1/schema/widget/{type}) — returns the POST-filter get_props_schema(). `e-atomic` widget schemas exist only when v4 atomic is active, so requires.experiments gates this on e_atomic_elements (a v4-disabled site SKIPS rather than erroring). MINIMAL valid input per §1.1: REQUIRED `type` (widgetType/elType); we probe `e-heading` (the canonical atomic widget used across the smoke trees). The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {kind, schema, dynamic_props[], version}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.schema.widget",
+  "arguments": {
+    "type": "e-heading"
+  }
+}

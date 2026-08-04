@@ -1,0 +1,35 @@
+# WP-Q08 — plugin-zip pruning control (`WP-Q08 Detailed Requirements #2`, `01-architecture.md §6.3`).
+#
+# `pack:plugin` copies the plugin into a slug-named staging dir, SKIPPING every path that matches a
+# line below, then zips it. The zip is installable as a normal plugin AND droppable as a network
+# mu-plugin (one codebase, RESEARCH §8). Format: one gitignore-style glob per line; `#` = comment.
+#
+# What STAYS (required): elementor-ultra-mcp.php (bootstrap), includes/ (all PHP), readme.txt, and
+# vendor/ (when `composer install --no-dev` ran — the Jetpack autoloader). The plugin ALSO activates
+# WITHOUT vendor/ via its guarded SPL fallback, so a vendor-less zip is still valid.
+
+# --- tests & test config (dev only) ---
+tests
+phpunit.xml.dist
+.phpunit.result.cache
+
+# --- coding-standards / lint config (dev only) ---
+phpcs.xml.dist
+.phpcs.cache
+
+# --- composer DEV inputs (the resolved vendor/ is kept; the lock/json are not needed at runtime) ---
+composer.json
+composer.lock
+
+# --- this control file itself + VCS/editor cruft ---
+.distignore
+.git
+.gitignore
+.gitattributes
+.editorconfig
+.DS_Store
+*.log
+
+# --- node / build cruft that should never be inside the plugin dir ---
+node_modules
+.turbo

@@ -1,0 +1,1507 @@
+{
+  "_cssid": {
+    "dynamic": {
+      "active": true,
+      "categories": ["text"]
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "dynamic": {
+        "key": "dynamic",
+        "kind": "plain",
+        "settings": {
+          "categories": ["text"]
+        }
+      },
+      "string": {
+        "key": "string",
+        "kind": "string"
+      }
+    }
+  },
+  "attributes": {
+    "item_prop_type": {
+      "kind": "union",
+      "prop_types": {
+        "key-value": {
+          "key": "key-value",
+          "kind": "object",
+          "shape": {
+            "key": {
+              "kind": "union",
+              "prop_types": {
+                "dynamic": {
+                  "key": "dynamic",
+                  "kind": "plain",
+                  "settings": {
+                    "categories": ["text"]
+                  }
+                },
+                "overridable": {
+                  "key": "overridable",
+                  "kind": "plain",
+                  "settings": {
+                    "origin_prop_type": {
+                      "kind": "union",
+                      "prop_types": {
+                        "dynamic": {
+                          "key": "dynamic",
+                          "kind": "plain",
+                          "settings": {
+                            "categories": ["text"]
+                          }
+                        },
+                        "string": {
+                          "key": "string",
+                          "kind": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "string": {
+                  "key": "string",
+                  "kind": "string"
+                }
+              }
+            },
+            "value": {
+              "kind": "union",
+              "prop_types": {
+                "dynamic": {
+                  "key": "dynamic",
+                  "kind": "plain",
+                  "settings": {
+                    "categories": ["text"]
+                  }
+                },
+                "overridable": {
+                  "key": "overridable",
+                  "kind": "plain",
+                  "settings": {
+                    "origin_prop_type": {
+                      "kind": "union",
+                      "prop_types": {
+                        "dynamic": {
+                          "key": "dynamic",
+                          "kind": "plain",
+                          "settings": {
+                            "categories": ["text"]
+                          }
+                        },
+                        "string": {
+                          "key": "string",
+                          "kind": "string"
+                        }
+                      }
+                    }
+                  }
+                },
+                "string": {
+                  "key": "string",
+                  "kind": "string"
+                }
+              }
+            }
+          }
+        },
+        "overridable": {
+          "key": "overridable",
+          "kind": "plain",
+          "settings": {
+            "origin_prop_type": {
+              "key": "key-value",
+              "kind": "object",
+              "shape": {
+                "key": {
+                  "kind": "union",
+                  "prop_types": {
+                    "dynamic": {
+                      "key": "dynamic",
+                      "kind": "plain",
+                      "settings": {
+                        "categories": ["text"]
+                      }
+                    },
+                    "overridable": {
+                      "key": "overridable",
+                      "kind": "plain",
+                      "settings": {
+                        "origin_prop_type": {
+                          "kind": "union",
+                          "prop_types": {
+                            "dynamic": {
+                              "key": "dynamic",
+                              "kind": "plain",
+                              "settings": {
+                                "categories": ["text"]
+                              }
+                            },
+                            "string": {
+                              "key": "string",
+                              "kind": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "string": {
+                      "key": "string",
+                      "kind": "string"
+                    }
+                  }
+                },
+                "value": {
+                  "kind": "union",
+                  "prop_types": {
+                    "dynamic": {
+                      "key": "dynamic",
+                      "kind": "plain",
+                      "settings": {
+                        "categories": ["text"]
+                      }
+                    },
+                    "overridable": {
+                      "key": "overridable",
+                      "kind": "plain",
+                      "settings": {
+                        "origin_prop_type": {
+                          "kind": "union",
+                          "prop_types": {
+                            "dynamic": {
+                              "key": "dynamic",
+                              "kind": "plain",
+                              "settings": {
+                                "categories": ["text"]
+                              }
+                            },
+                            "string": {
+                              "key": "string",
+                              "kind": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "string": {
+                      "key": "string",
+                      "kind": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "key": "attributes",
+    "kind": "array"
+  },
+  "autoplay": {
+    "default": {
+      "$$type": "boolean",
+      "value": false
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "boolean": {
+        "default": {
+          "$$type": "boolean",
+          "value": false
+        },
+        "key": "boolean",
+        "kind": "boolean"
+      },
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "boolean",
+              "value": false
+            },
+            "key": "boolean",
+            "kind": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "classes": {
+    "default": {
+      "$$type": "classes",
+      "value": []
+    },
+    "key": "classes",
+    "kind": "plain"
+  },
+  "controls": {
+    "default": {
+      "$$type": "boolean",
+      "value": true
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "boolean": {
+        "default": {
+          "$$type": "boolean",
+          "value": true
+        },
+        "key": "boolean",
+        "kind": "boolean"
+      },
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "boolean",
+              "value": true
+            },
+            "key": "boolean",
+            "kind": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "display-conditions": {
+    "item_prop_type": {
+      "item_prop_type": {
+        "key": "string",
+        "kind": "string"
+      },
+      "key": "condition-group",
+      "kind": "array"
+    },
+    "key": "display-conditions",
+    "kind": "array"
+  },
+  "download": {
+    "default": {
+      "$$type": "boolean",
+      "value": false
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "boolean": {
+        "default": {
+          "$$type": "boolean",
+          "value": false
+        },
+        "key": "boolean",
+        "kind": "boolean"
+      },
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "boolean",
+              "value": false
+            },
+            "key": "boolean",
+            "kind": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "end_time": {
+    "default": {
+      "$$type": "number",
+      "value": null
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "number": {
+        "default": {
+          "$$type": "number",
+          "value": null
+        },
+        "key": "number",
+        "kind": "number"
+      },
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "number",
+              "value": null
+            },
+            "key": "number",
+            "kind": "number"
+          }
+        }
+      }
+    }
+  },
+  "loop": {
+    "default": {
+      "$$type": "boolean",
+      "value": false
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "boolean": {
+        "default": {
+          "$$type": "boolean",
+          "value": false
+        },
+        "key": "boolean",
+        "kind": "boolean"
+      },
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "boolean",
+              "value": false
+            },
+            "key": "boolean",
+            "kind": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "mute": {
+    "default": {
+      "$$type": "boolean",
+      "value": false
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "boolean": {
+        "default": {
+          "$$type": "boolean",
+          "value": false
+        },
+        "key": "boolean",
+        "kind": "boolean"
+      },
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "boolean",
+              "value": false
+            },
+            "key": "boolean",
+            "kind": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "playsinline": {
+    "default": {
+      "$$type": "boolean",
+      "value": false
+    },
+    "key": "boolean",
+    "kind": "boolean"
+  },
+  "poster": {
+    "default": {
+      "$$type": "image",
+      "value": []
+    },
+    "dynamic": {
+      "active": true,
+      "categories": ["number"]
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "image": {
+        "default": {
+          "$$type": "image",
+          "value": []
+        },
+        "key": "image",
+        "kind": "object",
+        "shape": {
+          "size": {
+            "default": {
+              "$$type": "string",
+              "value": "medium_large"
+            },
+            "kind": "union",
+            "prop_types": {
+              "overridable": {
+                "key": "overridable",
+                "kind": "plain",
+                "settings": {
+                  "origin_prop_type": {
+                    "default": {
+                      "$$type": "string",
+                      "value": "medium_large"
+                    },
+                    "key": "string",
+                    "kind": "string",
+                    "settings": {
+                      "enum": [
+                        "thumbnail",
+                        "medium",
+                        "medium_large",
+                        "large",
+                        "1536x1536",
+                        "2048x2048",
+                        "full"
+                      ],
+                      "required": true
+                    }
+                  }
+                }
+              },
+              "string": {
+                "default": {
+                  "$$type": "string",
+                  "value": "medium_large"
+                },
+                "key": "string",
+                "kind": "string",
+                "settings": {
+                  "enum": [
+                    "thumbnail",
+                    "medium",
+                    "medium_large",
+                    "large",
+                    "1536x1536",
+                    "2048x2048",
+                    "full"
+                  ],
+                  "required": true
+                }
+              }
+            },
+            "settings": {
+              "required": true
+            }
+          },
+          "src": {
+            "default": {
+              "$$type": "image-src",
+              "value": {
+                "id": null,
+                "url": {
+                  "$$type": "url",
+                  "value": "http://localhost:8899/wp-content/plugins/elementor/assets/images/placeholder-v4.svg"
+                }
+              }
+            },
+            "kind": "union",
+            "prop_types": {
+              "dynamic": {
+                "key": "dynamic",
+                "kind": "plain",
+                "settings": {
+                  "categories": ["image"]
+                }
+              },
+              "image-src": {
+                "default": {
+                  "$$type": "image-src",
+                  "value": {
+                    "id": null,
+                    "url": {
+                      "$$type": "url",
+                      "value": "http://localhost:8899/wp-content/plugins/elementor/assets/images/placeholder-v4.svg"
+                    }
+                  }
+                },
+                "key": "image-src",
+                "kind": "object",
+                "settings": {
+                  "required": true
+                },
+                "shape": {
+                  "alt": {
+                    "kind": "union",
+                    "prop_types": {
+                      "dynamic": {
+                        "key": "dynamic",
+                        "kind": "plain",
+                        "settings": {
+                          "categories": ["text"]
+                        }
+                      },
+                      "overridable": {
+                        "key": "overridable",
+                        "kind": "plain",
+                        "settings": {
+                          "origin_prop_type": {
+                            "kind": "union",
+                            "prop_types": {
+                              "dynamic": {
+                                "key": "dynamic",
+                                "kind": "plain",
+                                "settings": {
+                                  "categories": ["text"]
+                                }
+                              },
+                              "string": {
+                                "key": "string",
+                                "kind": "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "string": {
+                        "key": "string",
+                        "kind": "string"
+                      }
+                    }
+                  },
+                  "id": {
+                    "kind": "union",
+                    "prop_types": {
+                      "dynamic": {
+                        "key": "dynamic",
+                        "kind": "plain",
+                        "settings": {
+                          "categories": ["number"]
+                        }
+                      },
+                      "image-attachment-id": {
+                        "key": "image-attachment-id",
+                        "kind": "number"
+                      },
+                      "overridable": {
+                        "key": "overridable",
+                        "kind": "plain",
+                        "settings": {
+                          "origin_prop_type": {
+                            "kind": "union",
+                            "prop_types": {
+                              "dynamic": {
+                                "key": "dynamic",
+                                "kind": "plain",
+                                "settings": {
+                                  "categories": ["number"]
+                                }
+                              },
+                              "image-attachment-id": {
+                                "key": "image-attachment-id",
+                                "kind": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "url": {
+                    "kind": "union",
+                    "prop_types": {
+                      "dynamic": {
+                        "key": "dynamic",
+                        "kind": "plain",
+                        "settings": {
+                          "categories": ["url"]
+                        }
+                      },
+                      "overridable": {
+                        "key": "overridable",
+                        "kind": "plain",
+                        "settings": {
+                          "origin_prop_type": {
+                            "kind": "union",
+                            "prop_types": {
+                              "dynamic": {
+                                "key": "dynamic",
+                                "kind": "plain",
+                                "settings": {
+                                  "categories": ["url"]
+                                }
+                              },
+                              "url": {
+                                "key": "url",
+                                "kind": "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "url": {
+                        "key": "url",
+                        "kind": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "overridable": {
+                "key": "overridable",
+                "kind": "plain",
+                "settings": {
+                  "origin_prop_type": {
+                    "default": {
+                      "$$type": "image-src",
+                      "value": {
+                        "id": null,
+                        "url": {
+                          "$$type": "url",
+                          "value": "http://localhost:8899/wp-content/plugins/elementor/assets/images/placeholder-v4.svg"
+                        }
+                      }
+                    },
+                    "kind": "union",
+                    "prop_types": {
+                      "dynamic": {
+                        "key": "dynamic",
+                        "kind": "plain",
+                        "settings": {
+                          "categories": ["image"]
+                        }
+                      },
+                      "image-src": {
+                        "default": {
+                          "$$type": "image-src",
+                          "value": {
+                            "id": null,
+                            "url": {
+                              "$$type": "url",
+                              "value": "http://localhost:8899/wp-content/plugins/elementor/assets/images/placeholder-v4.svg"
+                            }
+                          }
+                        },
+                        "key": "image-src",
+                        "kind": "object",
+                        "settings": {
+                          "required": true
+                        },
+                        "shape": {
+                          "alt": {
+                            "kind": "union",
+                            "prop_types": {
+                              "dynamic": {
+                                "key": "dynamic",
+                                "kind": "plain",
+                                "settings": {
+                                  "categories": ["text"]
+                                }
+                              },
+                              "overridable": {
+                                "key": "overridable",
+                                "kind": "plain",
+                                "settings": {
+                                  "origin_prop_type": {
+                                    "kind": "union",
+                                    "prop_types": {
+                                      "dynamic": {
+                                        "key": "dynamic",
+                                        "kind": "plain",
+                                        "settings": {
+                                          "categories": ["text"]
+                                        }
+                                      },
+                                      "string": {
+                                        "key": "string",
+                                        "kind": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "string": {
+                                "key": "string",
+                                "kind": "string"
+                              }
+                            }
+                          },
+                          "id": {
+                            "kind": "union",
+                            "prop_types": {
+                              "dynamic": {
+                                "key": "dynamic",
+                                "kind": "plain",
+                                "settings": {
+                                  "categories": ["number"]
+                                }
+                              },
+                              "image-attachment-id": {
+                                "key": "image-attachment-id",
+                                "kind": "number"
+                              },
+                              "overridable": {
+                                "key": "overridable",
+                                "kind": "plain",
+                                "settings": {
+                                  "origin_prop_type": {
+                                    "kind": "union",
+                                    "prop_types": {
+                                      "dynamic": {
+                                        "key": "dynamic",
+                                        "kind": "plain",
+                                        "settings": {
+                                          "categories": ["number"]
+                                        }
+                                      },
+                                      "image-attachment-id": {
+                                        "key": "image-attachment-id",
+                                        "kind": "number"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "url": {
+                            "kind": "union",
+                            "prop_types": {
+                              "dynamic": {
+                                "key": "dynamic",
+                                "kind": "plain",
+                                "settings": {
+                                  "categories": ["url"]
+                                }
+                              },
+                              "overridable": {
+                                "key": "overridable",
+                                "kind": "plain",
+                                "settings": {
+                                  "origin_prop_type": {
+                                    "kind": "union",
+                                    "prop_types": {
+                                      "dynamic": {
+                                        "key": "dynamic",
+                                        "kind": "plain",
+                                        "settings": {
+                                          "categories": ["url"]
+                                        }
+                                      },
+                                      "url": {
+                                        "key": "url",
+                                        "kind": "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "url": {
+                                "key": "url",
+                                "kind": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "settings": {
+                      "required": true
+                    }
+                  }
+                }
+              }
+            },
+            "settings": {
+              "required": true
+            }
+          }
+        }
+      },
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "image",
+              "value": []
+            },
+            "key": "image",
+            "kind": "object",
+            "shape": {
+              "size": {
+                "default": {
+                  "$$type": "string",
+                  "value": "medium_large"
+                },
+                "kind": "union",
+                "prop_types": {
+                  "overridable": {
+                    "key": "overridable",
+                    "kind": "plain",
+                    "settings": {
+                      "origin_prop_type": {
+                        "default": {
+                          "$$type": "string",
+                          "value": "medium_large"
+                        },
+                        "key": "string",
+                        "kind": "string",
+                        "settings": {
+                          "enum": [
+                            "thumbnail",
+                            "medium",
+                            "medium_large",
+                            "large",
+                            "1536x1536",
+                            "2048x2048",
+                            "full"
+                          ],
+                          "required": true
+                        }
+                      }
+                    }
+                  },
+                  "string": {
+                    "default": {
+                      "$$type": "string",
+                      "value": "medium_large"
+                    },
+                    "key": "string",
+                    "kind": "string",
+                    "settings": {
+                      "enum": [
+                        "thumbnail",
+                        "medium",
+                        "medium_large",
+                        "large",
+                        "1536x1536",
+                        "2048x2048",
+                        "full"
+                      ],
+                      "required": true
+                    }
+                  }
+                },
+                "settings": {
+                  "required": true
+                }
+              },
+              "src": {
+                "default": {
+                  "$$type": "image-src",
+                  "value": {
+                    "id": null,
+                    "url": {
+                      "$$type": "url",
+                      "value": "http://localhost:8899/wp-content/plugins/elementor/assets/images/placeholder-v4.svg"
+                    }
+                  }
+                },
+                "kind": "union",
+                "prop_types": {
+                  "dynamic": {
+                    "key": "dynamic",
+                    "kind": "plain",
+                    "settings": {
+                      "categories": ["image"]
+                    }
+                  },
+                  "image-src": {
+                    "default": {
+                      "$$type": "image-src",
+                      "value": {
+                        "id": null,
+                        "url": {
+                          "$$type": "url",
+                          "value": "http://localhost:8899/wp-content/plugins/elementor/assets/images/placeholder-v4.svg"
+                        }
+                      }
+                    },
+                    "key": "image-src",
+                    "kind": "object",
+                    "settings": {
+                      "required": true
+                    },
+                    "shape": {
+                      "alt": {
+                        "kind": "union",
+                        "prop_types": {
+                          "dynamic": {
+                            "key": "dynamic",
+                            "kind": "plain",
+                            "settings": {
+                              "categories": ["text"]
+                            }
+                          },
+                          "overridable": {
+                            "key": "overridable",
+                            "kind": "plain",
+                            "settings": {
+                              "origin_prop_type": {
+                                "kind": "union",
+                                "prop_types": {
+                                  "dynamic": {
+                                    "key": "dynamic",
+                                    "kind": "plain",
+                                    "settings": {
+                                      "categories": ["text"]
+                                    }
+                                  },
+                                  "string": {
+                                    "key": "string",
+                                    "kind": "string"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "string": {
+                            "key": "string",
+                            "kind": "string"
+                          }
+                        }
+                      },
+                      "id": {
+                        "kind": "union",
+                        "prop_types": {
+                          "dynamic": {
+                            "key": "dynamic",
+                            "kind": "plain",
+                            "settings": {
+                              "categories": ["number"]
+                            }
+                          },
+                          "image-attachment-id": {
+                            "key": "image-attachment-id",
+                            "kind": "number"
+                          },
+                          "overridable": {
+                            "key": "overridable",
+                            "kind": "plain",
+                            "settings": {
+                              "origin_prop_type": {
+                                "kind": "union",
+                                "prop_types": {
+                                  "dynamic": {
+                                    "key": "dynamic",
+                                    "kind": "plain",
+                                    "settings": {
+                                      "categories": ["number"]
+                                    }
+                                  },
+                                  "image-attachment-id": {
+                                    "key": "image-attachment-id",
+                                    "kind": "number"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "url": {
+                        "kind": "union",
+                        "prop_types": {
+                          "dynamic": {
+                            "key": "dynamic",
+                            "kind": "plain",
+                            "settings": {
+                              "categories": ["url"]
+                            }
+                          },
+                          "overridable": {
+                            "key": "overridable",
+                            "kind": "plain",
+                            "settings": {
+                              "origin_prop_type": {
+                                "kind": "union",
+                                "prop_types": {
+                                  "dynamic": {
+                                    "key": "dynamic",
+                                    "kind": "plain",
+                                    "settings": {
+                                      "categories": ["url"]
+                                    }
+                                  },
+                                  "url": {
+                                    "key": "url",
+                                    "kind": "string"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "url": {
+                            "key": "url",
+                            "kind": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "overridable": {
+                    "key": "overridable",
+                    "kind": "plain",
+                    "settings": {
+                      "origin_prop_type": {
+                        "default": {
+                          "$$type": "image-src",
+                          "value": {
+                            "id": null,
+                            "url": {
+                              "$$type": "url",
+                              "value": "http://localhost:8899/wp-content/plugins/elementor/assets/images/placeholder-v4.svg"
+                            }
+                          }
+                        },
+                        "kind": "union",
+                        "prop_types": {
+                          "dynamic": {
+                            "key": "dynamic",
+                            "kind": "plain",
+                            "settings": {
+                              "categories": ["image"]
+                            }
+                          },
+                          "image-src": {
+                            "default": {
+                              "$$type": "image-src",
+                              "value": {
+                                "id": null,
+                                "url": {
+                                  "$$type": "url",
+                                  "value": "http://localhost:8899/wp-content/plugins/elementor/assets/images/placeholder-v4.svg"
+                                }
+                              }
+                            },
+                            "key": "image-src",
+                            "kind": "object",
+                            "settings": {
+                              "required": true
+                            },
+                            "shape": {
+                              "alt": {
+                                "kind": "union",
+                                "prop_types": {
+                                  "dynamic": {
+                                    "key": "dynamic",
+                                    "kind": "plain",
+                                    "settings": {
+                                      "categories": ["text"]
+                                    }
+                                  },
+                                  "overridable": {
+                                    "key": "overridable",
+                                    "kind": "plain",
+                                    "settings": {
+                                      "origin_prop_type": {
+                                        "kind": "union",
+                                        "prop_types": {
+                                          "dynamic": {
+                                            "key": "dynamic",
+                                            "kind": "plain",
+                                            "settings": {
+                                              "categories": ["text"]
+                                            }
+                                          },
+                                          "string": {
+                                            "key": "string",
+                                            "kind": "string"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "string": {
+                                    "key": "string",
+                                    "kind": "string"
+                                  }
+                                }
+                              },
+                              "id": {
+                                "kind": "union",
+                                "prop_types": {
+                                  "dynamic": {
+                                    "key": "dynamic",
+                                    "kind": "plain",
+                                    "settings": {
+                                      "categories": ["number"]
+                                    }
+                                  },
+                                  "image-attachment-id": {
+                                    "key": "image-attachment-id",
+                                    "kind": "number"
+                                  },
+                                  "overridable": {
+                                    "key": "overridable",
+                                    "kind": "plain",
+                                    "settings": {
+                                      "origin_prop_type": {
+                                        "kind": "union",
+                                        "prop_types": {
+                                          "dynamic": {
+                                            "key": "dynamic",
+                                            "kind": "plain",
+                                            "settings": {
+                                              "categories": ["number"]
+                                            }
+                                          },
+                                          "image-attachment-id": {
+                                            "key": "image-attachment-id",
+                                            "kind": "number"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "url": {
+                                "kind": "union",
+                                "prop_types": {
+                                  "dynamic": {
+                                    "key": "dynamic",
+                                    "kind": "plain",
+                                    "settings": {
+                                      "categories": ["url"]
+                                    }
+                                  },
+                                  "overridable": {
+                                    "key": "overridable",
+                                    "kind": "plain",
+                                    "settings": {
+                                      "origin_prop_type": {
+                                        "kind": "union",
+                                        "prop_types": {
+                                          "dynamic": {
+                                            "key": "dynamic",
+                                            "kind": "plain",
+                                            "settings": {
+                                              "categories": ["url"]
+                                            }
+                                          },
+                                          "url": {
+                                            "key": "url",
+                                            "kind": "string"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "url": {
+                                    "key": "url",
+                                    "kind": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "settings": {
+                          "required": true
+                        }
+                      }
+                    }
+                  }
+                },
+                "settings": {
+                  "required": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "poster_enabled": {
+    "default": {
+      "$$type": "boolean",
+      "value": false
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "boolean": {
+        "default": {
+          "$$type": "boolean",
+          "value": false
+        },
+        "key": "boolean",
+        "kind": "boolean"
+      },
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "boolean",
+              "value": false
+            },
+            "key": "boolean",
+            "kind": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "preload": {
+    "default": {
+      "$$type": "string",
+      "value": "metadata"
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "string",
+              "value": "metadata"
+            },
+            "key": "string",
+            "kind": "string",
+            "settings": {
+              "enum": ["auto", "metadata", "none"]
+            }
+          }
+        }
+      },
+      "string": {
+        "default": {
+          "$$type": "string",
+          "value": "metadata"
+        },
+        "key": "string",
+        "kind": "string",
+        "settings": {
+          "enum": ["auto", "metadata", "none"]
+        }
+      }
+    },
+    "settings": {
+      "enum": ["auto", "metadata", "none"]
+    }
+  },
+  "source": {
+    "dynamic": {
+      "active": true,
+      "categories": ["number"]
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "key": "video-src",
+            "kind": "object",
+            "shape": {
+              "id": {
+                "kind": "union",
+                "prop_types": {
+                  "dynamic": {
+                    "key": "dynamic",
+                    "kind": "plain",
+                    "settings": {
+                      "categories": ["number"]
+                    }
+                  },
+                  "overridable": {
+                    "key": "overridable",
+                    "kind": "plain",
+                    "settings": {
+                      "origin_prop_type": {
+                        "kind": "union",
+                        "prop_types": {
+                          "dynamic": {
+                            "key": "dynamic",
+                            "kind": "plain",
+                            "settings": {
+                              "categories": ["number"]
+                            }
+                          },
+                          "video-attachment-id": {
+                            "key": "video-attachment-id",
+                            "kind": "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "video-attachment-id": {
+                    "key": "video-attachment-id",
+                    "kind": "number"
+                  }
+                }
+              },
+              "url": {
+                "kind": "union",
+                "prop_types": {
+                  "dynamic": {
+                    "key": "dynamic",
+                    "kind": "plain",
+                    "settings": {
+                      "categories": ["url"]
+                    }
+                  },
+                  "overridable": {
+                    "key": "overridable",
+                    "kind": "plain",
+                    "settings": {
+                      "origin_prop_type": {
+                        "kind": "union",
+                        "prop_types": {
+                          "dynamic": {
+                            "key": "dynamic",
+                            "kind": "plain",
+                            "settings": {
+                              "categories": ["url"]
+                            }
+                          },
+                          "url": {
+                            "key": "url",
+                            "kind": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "url": {
+                    "key": "url",
+                    "kind": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "video-src": {
+        "key": "video-src",
+        "kind": "object",
+        "shape": {
+          "id": {
+            "kind": "union",
+            "prop_types": {
+              "dynamic": {
+                "key": "dynamic",
+                "kind": "plain",
+                "settings": {
+                  "categories": ["number"]
+                }
+              },
+              "overridable": {
+                "key": "overridable",
+                "kind": "plain",
+                "settings": {
+                  "origin_prop_type": {
+                    "kind": "union",
+                    "prop_types": {
+                      "dynamic": {
+                        "key": "dynamic",
+                        "kind": "plain",
+                        "settings": {
+                          "categories": ["number"]
+                        }
+                      },
+                      "video-attachment-id": {
+                        "key": "video-attachment-id",
+                        "kind": "number"
+                      }
+                    }
+                  }
+                }
+              },
+              "video-attachment-id": {
+                "key": "video-attachment-id",
+                "kind": "number"
+              }
+            }
+          },
+          "url": {
+            "kind": "union",
+            "prop_types": {
+              "dynamic": {
+                "key": "dynamic",
+                "kind": "plain",
+                "settings": {
+                  "categories": ["url"]
+                }
+              },
+              "overridable": {
+                "key": "overridable",
+                "kind": "plain",
+                "settings": {
+                  "origin_prop_type": {
+                    "kind": "union",
+                    "prop_types": {
+                      "dynamic": {
+                        "key": "dynamic",
+                        "kind": "plain",
+                        "settings": {
+                          "categories": ["url"]
+                        }
+                      },
+                      "url": {
+                        "key": "url",
+                        "kind": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "url": {
+                "key": "url",
+                "kind": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "start_time": {
+    "default": {
+      "$$type": "number",
+      "value": null
+    },
+    "key": "union",
+    "kind": "union",
+    "prop_types": {
+      "number": {
+        "default": {
+          "$$type": "number",
+          "value": null
+        },
+        "key": "number",
+        "kind": "number"
+      },
+      "overridable": {
+        "key": "overridable",
+        "kind": "plain",
+        "settings": {
+          "origin_prop_type": {
+            "default": {
+              "$$type": "number",
+              "value": null
+            },
+            "key": "number",
+            "kind": "number"
+          }
+        }
+      }
+    }
+  }
+}

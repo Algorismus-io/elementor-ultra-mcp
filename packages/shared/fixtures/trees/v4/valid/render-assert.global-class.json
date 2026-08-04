@@ -1,0 +1,29 @@
+{
+  "$fixture": 1,
+  "id": "render-assert.global-class",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Render-assert global-class-only — an atomic e-div-block referencing ONLY the kit GLOBAL class s01hero (no local style); asserts the global-class CSS renders",
+  "_comment": "WP-Q06 render-assertion fixture (14-fixtures-harness.md §3 step 3). The GLOBAL-CLASS-ONLY case: a single atomic e-div-block whose settings.classes references ONLY the kit global class `s01hero` (NO local `styles` map). The Q06 PHP suite registers `s01hero` into the active kit (the kit-level repository, from the frozen [S01] definition) BEFORE save. EXPECTED SELECTOR RULE: `.elementor .s01hero{...background-color:rgb(255,0,128);padding:...}` — emitted into the per-doc global-<postId>-frontend-desktop.css when the class is referenced on the rendered post (the [S01]-verified atomic global-class file). MECHANISM NOTE (WP-Q06 Interface): atomic global-class CSS lives in the kit's global CSS; for a class referenced on a post it materialises into the per-doc `global-*` file via the Css_Primer document-prime path, AND the kit-CSS itself regenerates via Cache_Service::flush_design_system() (kit-CSS regen, WP-P05). The render assertion reads the per-doc global-* file (the authoritative [S01] location) and the suite additionally exercises the kit regen. [R8]: typed envelope; the class id is STABLE across save ([R5] applies only to LOCAL style ids). expect.valid:true (prefilter defers to PHP).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements", "e_classes"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tree": [
+    {
+      "id": "ragcdiv1",
+      "elType": "e-div-block",
+      "settings": { "classes": { "$$type": "classes", "value": ["s01hero"] } },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

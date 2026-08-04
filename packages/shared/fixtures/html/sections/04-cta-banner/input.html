@@ -1,0 +1,30 @@
+<!--
+  WP-H12 corpus section 04 — CTA banner (full-width gradient call-to-action).
+  Real bottom-of-page conversion banner. Exercises: a GRADIENT/complex background
+  (linear-gradient panel -> typed Background_Prop_Type decomposition vs custom_css
+  fallback, S3 §4 -> realistic fallback), CENTERED text-align (text-align:center ->
+  logical conversion), an ABSOLUTELY-POSITIONED badge (.cta__badge position:absolute
+  -> position:absolute inference) plus blurred decorative blobs (filter:blur).
+  DELIBERATE a11y warning: the trailing icon-only action link (.cta__icon-link) has
+  NO accessible text (icon glyph is aria-hidden) -> empty-interactive-name warning.
+  S3 analog: spike 05-cta-banner (native 84.2% realistic).
+-->
+<section class="cta">
+  <div class="cta__panel">
+    <span class="cta__badge">Limited offer</span>
+    <span class="cta__blob cta__blob--1" aria-hidden="true"></span>
+    <span class="cta__blob cta__blob--2" aria-hidden="true"></span>
+
+    <div class="cta__content">
+      <h2 class="cta__title">Ready to ship your next page?</h2>
+      <p class="cta__sub">Start converting HTML to native blocks today. No credit card required.</p>
+
+      <div class="cta__actions">
+        <a class="cta__btn" href="/start">Get started</a>
+        <a class="cta__icon-link" href="/learn-more"><span aria-hidden="true">›</span></a>
+      </div>
+
+      <p class="cta__fine">14-day free trial · Cancel anytime</p>
+    </div>
+  </div>
+</section>

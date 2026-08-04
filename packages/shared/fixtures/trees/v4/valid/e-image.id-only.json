@@ -1,0 +1,37 @@
+{
+  "$fixture": 1,
+  "id": "e-image.id-only",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Atomic image with an id-only image-src (the preferred media-library form, R9 XOR honored)",
+  "_comment": "WP-Q01 VALID fixture (one-per-atomic-widget, SUPPLEMENT §B.2 e-image; Detailed-Req #1). The `image` OBJECT envelope ([R8]) carries src:image-src with id ONLY (the preferred media-library form — sideload first; never id AND url, never neither, R9/§3.2 image-src-prop-type.php:36-44) plus size 'full'. attachment id 1 exists on the dev site. VERIFIED valid:true via Validator::dry_run on Elementor 4.1.1. prefilter.verdict:defer — image/image-src are not trivially-proven (the pre-filter does enforce R9 XOR structurally but defers the rest, §4).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "im00001",
+      "elType": "widget",
+      "widgetType": "e-image",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "image": {
+          "$$type": "image",
+          "value": {
+            "src": {
+              "$$type": "image-src",
+              "value": {
+                "id": { "$$type": "image-attachment-id", "value": 1 }
+              }
+            },
+            "size": { "$$type": "string", "value": "full" }
+          }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

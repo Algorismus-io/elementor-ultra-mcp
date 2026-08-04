@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+  WP-F06 — PHPUnit config for the companion plugin's authoritative dry_run suite (14-fixtures-harness.md
+  §3, §10). `composer test:php` runs this inside wp-env with Elementor + Pro active. The bootstrap
+  force-activates Elementor + Pro + this plugin and points the fixture loader at the single
+  packages/shared/fixtures directory (ELEMENTOR_ULTRA_FIXTURES_DIR).
+
+  Compatible with PHPUnit 7-9 (the wp-env / wordpress-tests-lib range for PHP 7.4 — Elementor 4.1.x
+  minimum). The convertX attributes keep deprecation/notice handling predictable across versions.
+-->
+<phpunit
+	bootstrap="tests/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	beStrictAboutTestsThatDoNotTestAnything="false"
+>
+	<testsuites>
+		<testsuite name="elementor-ultra-mcp">
+			<directory suffix=".php">./tests</directory>
+			<exclude>./tests/bootstrap.php</exclude>
+			<exclude>./tests/class-fixture-loader.php</exclude>
+		</testsuite>
+	</testsuites>
+</phpunit>

@@ -1,0 +1,23 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.pro.woo.add_widget",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the Pro elementor.pro.woo.add_widget tool",
+  "_comment": "WP-R12 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §1.8). elementor.pro.woo.add_widget is MUTATING (class M, side BOTH: POST elementor-ultra/v1/pro/woo/add-widget — PHP Woo_Context_Validator classifies the widget by get_categories() then writes it surgically against base_hash). It is a NON-★ Pro tool, so the lean profile registers it DISABLED at boot; the smoke driver must enable it (tools.search 'elementor.pro.woo') before invoking. Gated on requires.pro:true so a free-only install SKIPS rather than fails (the harness FixtureRequires gate is {experiments,pro,min_elementor} — there is no woo gate, so a Woo-absent-but-Pro-active install does not SKIP; instead the PHP route returns the graceful 501 EXPERIMENT_INACTIVE woo-not-active → mapped to a CLEAR isError, never a -326xx — Woo REQUIRES NOTE: WooCommerce must be active for a non-error placement). MINIMAL valid input per §1.8: REQUIRED {post_id,container_id,widget,base_hash}; we pick widget:'woocommerce-cart' — a CONTEXT-FREE Woo widget (woocommerce-elements category, SUPPLEMENT.md §A.5) — so the smoke is the LEAST context-dependent (no single-product / archive template needed; context_ok should be true). post_id/container_id reference a driver-prepared disposable draft + container; base_hash is read from that draft just-in-time. The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {element, diff, context_ok, context_warning?, base_hash}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "pro": true,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.pro.woo.add_widget",
+  "arguments": {
+    "post_id": 0,
+    "container_id": "REPLACE_WITH_CONTAINER_ID",
+    "widget": "woocommerce-cart",
+    "base_hash": "REPLACE_WITH_BASE_HASH"
+  }
+}

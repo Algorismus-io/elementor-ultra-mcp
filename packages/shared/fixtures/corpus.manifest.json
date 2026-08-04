@@ -1,0 +1,30 @@
+{
+  "$comment": "WP-F06 — the EMPTY/sample corpus manifest (14-fixtures-harness.md §6, Implementation-Notes). This file declares the shape WP-Q04's HTML-corpus runner consumes: each entry under `sections` maps an `fixtures/html/sections/<n>/` directory to its S3-ANCHORED coverage/a11y thresholds (NEVER a hardcoded 85% — RESEARCH.md §6.8). F06 ships it empty with one DOCUMENTED example so the loader + runner have a stable schema to read; WP-Q04 ADDS the real ≥5 marketing sections + their thresholds (and never edits F06's runner). Lowering a threshold here later requires an explicit PR diff (the §6 regression baseline).",
+  "version": 1,
+  "default_tolerance": {
+    "native_pct": 0.05,
+    "class_pct": 0.05,
+    "custom_css_pct": 0.05,
+    "dropped_pct": 0.05
+  },
+  "sections": {},
+  "example_section_shape": {
+    "$comment": "NON-RUNTIME illustration of one `sections` entry (keyed by the section dir name). WP-Q04 adds real entries with measured S3 numbers; this key is ignored by the runner.",
+    "01-pricing-table": {
+      "title": "Pricing table (3 tiers)",
+      "thresholds": {
+        "native_pct": 0.7,
+        "class_pct": 0.2,
+        "custom_css_pct": 0.05,
+        "dropped_pct": 0.05
+      },
+      "tolerance": {
+        "native_pct": 0.05,
+        "class_pct": 0.05,
+        "custom_css_pct": 0.05,
+        "dropped_pct": 0.05
+      },
+      "requires": { "experiments": ["e_atomic_elements"], "pro": false }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "post_id": 404,
+  "permalink": "http://localhost:8899/mvp-hero-speed-of-thought-10/?preview=true",
+  "div_id": "mvpdivmq34w7yx",
+  "heading_id": "mvpheadmq34w7yx",
+  "paragraph_id": "mvpparamq34w7yx",
+  "button_id": "mvpbtnmq34w7yx",
+  "local_style_id": "e-mvpheadmq34w7yx-loc",
+  "authored_local_style_id": "e-mvpheadmq34w7yx-loc",
+  "global_class_id": "g-mvphero",
+  "global_class_selector": "mvphero",
+  "css_dir": "/var/www/html/wp-content/uploads/elementor/css/",
+  "headline": "Build sites at the speed of thought",
+  "base_hash_built": "eaa8de7e70b07c755a15429cbd18c155",
+  "live_heading_id": "mvpheadmq34w7yx",
+  "heading_color": "rgb(0, 128, 255)",
+  "base_hash_edited": "a404378d75ae85559f12acaaea9c2719",
+  "base_hash_rolledback": "eaa8de7e70b07c755a15429cbd18c155",
+  "rollback_restored_from": "_emcp_backup_1780797571_1"
+}

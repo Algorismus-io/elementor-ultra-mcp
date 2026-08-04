@@ -1,0 +1,9 @@
+import { spawn } from 'node:child_process';
+const env={...process.env,WP_URL:'http://localhost:8899',WP_USER:'admin',WP_APP_PASSWORD:'SET-VIA-WP_APP_PASSWORD-ENV',ULTRA_TOOLS:'full'};
+const SZ=(n,u)=>({$$type:'size',value:{unit:u,size:n}});const CLS=a=>({$$type:'classes',value:a});
+const child=(i,w)=>({id:'c'+i,elType:'e-div-block',version:'0.0',settings:{tag:{$$type:'string',value:'div'},classes:CLS(['e-c'+i+'-s'])},styles:{['e-c'+i+'-s']:{id:'e-c'+i+'-s',type:'class',label:'c'+i+'cls',variants:[{meta:{breakpoint:'desktop',state:null},props:{width:SZ(w,'%'),'min-height':SZ(40,'px')}}]}},editor_settings:[],interactions:[],elements:[]});
+const elements=[{id:'w25',elType:'e-flexbox',version:'0.0',settings:{tag:{$$type:'string',value:'div'},classes:CLS(['e-w25-s'])},styles:{'e-w25-s':{id:'e-w25-s',type:'class',label:'w25cls',variants:[{meta:{breakpoint:'desktop',state:null},props:{display:{$$type:'string',value:'flex'},gap:SZ(24,'px')}}]}},editor_settings:[],interactions:[],elements:[child('a',25),child('b',25),child('c',25),child('d',25)]}];
+const p=spawn('node',['dist/index.js'],{env,stdio:['pipe','pipe','pipe']});let buf='';p.stdout.on('data',d=>buf+=d);const send=o=>p.stdin.write(JSON.stringify(o)+'\n');
+send({jsonrpc:'2.0',id:1,method:'initialize',params:{protocolVersion:'2024-11-05',capabilities:{},clientInfo:{name:'c',version:'1'}}});send({jsonrpc:'2.0',method:'notifications/initialized'});
+send({jsonrpc:'2.0',id:2,method:'tools/call',params:{name:'elementor.page.dry_run',arguments:{elements}}});
+setTimeout(()=>{const L=buf.split('\n').filter(Boolean).map(l=>{try{return JSON.parse(l)}catch{return null}}).filter(Boolean);const r=L.find(l=>l.id===2)?.result;console.log('isError:',r?.isError);console.log('content:',(r?.content?.[0]?.text||'').slice(0,400));p.kill();},9000);

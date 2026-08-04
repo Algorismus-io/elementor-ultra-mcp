@@ -1,0 +1,77 @@
+{
+  "$version": 1,
+  "$comment": "WP-H12 — the S3-anchored HTML-native corpus regression manifest the WP-H10 coverage gate + corpus regression read (14-fixtures-harness §6, RESEARCH.md §6.8, 13-tool-catalog §1.9). Maps every section under fixtures/html/sections/ to its path, S3-MEASURED thresholds, tolerance bands, capability `requires`, and the default_coverage_gate convert.html_to_page uses when the caller omits coverage_gate. Numbers are the WP-S03 REALISTIC band (typed-object props transform/transition/filter/background-gradient routed to fallback by a v1 converter; see spec/spikes/S03-html-native-coverage-baseline.md §3/§6). NEVER a hardcoded 85% (15-eng-standards §4.6/§6). Lowering a threshold requires an explicit PR diff (14-fixtures-harness §6). thresholds.* and tolerance.* are PERCENTAGES (0-100); default_coverage_gate + auto_commit_min_native_pct/review_below_native_pct are the §7 commit-policy anchors. default_coverage_gate is a FRACTION (0..1) to match the convert tool's coverage_gate input (z.number().min(0).max(1), 13-tool-catalog §1.9). Section 05-rich-text-card is FLAGGED provisional (S3 did not measure it literally; anchored to the closest analog, spike 04-testimonial) so the gate is not falsely tightened (15-eng-standards §6); tolerance absorbs provisional drift.",
+  "generated_from": "spec/spikes/S03-html-native-coverage-baseline.md (REALISTIC band, declaration-weighted)",
+  "band": "realistic",
+  "elementor": { "version": "4.1.1", "pro": "4.1.0", "experiments": ["e_atomic_elements", "e_classes", "e_variables"] },
+  "default_coverage_gate": 0.6,
+  "auto_commit_min_native_pct": 60.0,
+  "review_below_native_pct": 70.0,
+  "corpus": {
+    "expected_pct_native": 84.8,
+    "thresholds": { "min_pct_native": 79.8, "min_pct_covered": 79.8, "max_pct_dropped": 5.0 },
+    "tolerance": { "pct_native": 5.0, "pct_covered": 5.0 }
+  },
+  "sections": [
+    {
+      "id": "01-hero",
+      "path": "sections/01-hero",
+      "s3_analog": "02-hero",
+      "provisional": false,
+      "expected_pct_native": 85.1,
+      "thresholds": { "min_pct_native": 80.1, "min_pct_covered": 80.1, "max_pct_dropped": 5.0 },
+      "tolerance": { "pct_native": 5.0, "pct_covered": 5.0 },
+      "requires": { "experiments": ["e_atomic_elements", "e_classes"], "pro": false, "min_elementor": "4.1.1" },
+      "default_coverage_gate": 0.6,
+      "exercises": ["flex-layout", "single-h1-clean-a11y", "hover-state", "image-sideload", "button-mapping", "gradient-bg", "text-clip-gradient"]
+    },
+    {
+      "id": "02-pricing-table",
+      "path": "sections/02-pricing-table",
+      "s3_analog": "01-pricing-table",
+      "provisional": false,
+      "expected_pct_native": 90.5,
+      "thresholds": { "min_pct_native": 85.5, "min_pct_covered": 85.5, "max_pct_dropped": 5.0 },
+      "tolerance": { "pct_native": 5.0, "pct_covered": 5.0 },
+      "requires": { "experiments": ["e_atomic_elements", "e_classes"], "pro": false, "min_elementor": "4.1.1" },
+      "default_coverage_gate": 0.6,
+      "exercises": ["repeated-card-hoist-global-class", "grid-vs-flex", "price-inline-markup", "ul-no-atomic-structural-fallback", "hover-state"]
+    },
+    {
+      "id": "03-feature-grid",
+      "path": "sections/03-feature-grid",
+      "s3_analog": "03-feature-grid",
+      "provisional": false,
+      "expected_pct_native": 76.8,
+      "thresholds": { "min_pct_native": 71.8, "min_pct_covered": 71.8, "max_pct_dropped": 5.0 },
+      "tolerance": { "pct_native": 5.0, "pct_covered": 5.0 },
+      "requires": { "experiments": ["e_atomic_elements", "e_classes"], "pro": false, "min_elementor": "4.1.1" },
+      "default_coverage_gate": 0.6,
+      "exercises": ["true-2d-grid-areas-fallback", "icon-heading-text-cells", "per-breakpoint-column-variants", "off-enum-font-weight-fall", "heading-hierarchy-skipped-level-warning"]
+    },
+    {
+      "id": "04-cta-banner",
+      "path": "sections/04-cta-banner",
+      "s3_analog": "05-cta-banner",
+      "provisional": false,
+      "expected_pct_native": 84.2,
+      "thresholds": { "min_pct_native": 79.2, "min_pct_covered": 79.2, "max_pct_dropped": 5.0 },
+      "tolerance": { "pct_native": 5.0, "pct_covered": 5.0 },
+      "requires": { "experiments": ["e_atomic_elements", "e_classes"], "pro": false, "min_elementor": "4.1.1" },
+      "default_coverage_gate": 0.6,
+      "exercises": ["gradient-typed-object-vs-custom-css", "text-align-center-logical", "position-absolute-badge", "filter-blur-fallback", "empty-interactive-name-warning"]
+    },
+    {
+      "id": "05-rich-text-card",
+      "path": "sections/05-rich-text-card",
+      "s3_analog": "04-testimonial",
+      "provisional": true,
+      "expected_pct_native": 82.8,
+      "thresholds": { "min_pct_native": 77.8, "min_pct_covered": 77.8, "max_pct_dropped": 5.0 },
+      "tolerance": { "pct_native": 5.0, "pct_covered": 5.0 },
+      "requires": { "experiments": ["e_atomic_elements", "e_classes"], "pro": false, "min_elementor": "4.1.1" },
+      "default_coverage_gate": 0.6,
+      "exercises": ["html-v3-block-promotion", "stripped-inline-tags-mark-code-br-div", "missing-alt-warning", "allowlisted-inline-survives"]
+    }
+  ]
+}

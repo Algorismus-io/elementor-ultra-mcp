@@ -1,0 +1,84 @@
+{
+  "$fixture": 1,
+  "id": "render-assert.hero",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Render-assert hero — atomic e-div-block > (e-heading[1 LOCAL style] + e-button[GLOBAL class s01hero]); the M1 standing guard that a saved+primed atomic page renders STYLED",
+  "_comment": "WP-Q06 render-assertion fixture (14-fixtures-harness.md §3 step 3 / RESEARCH §9.3f, the S01/M1 regression). REUSES the [S01] frozen atomic-hero shape (spec/spikes/fixtures/s01-atomic-hero.json) so M1 shares one shape with WP-Q01's hero. The heading carries ONE LOCAL style (the `styles` map key `e-rahead-local`, mirrored into settings.classes.value so it does not detach — R4/§5.1) whose desktop variant declares color + font-size; the button references the GLOBAL class `s01hero` (registered into the kit by the Q06 PHP suite from the frozen s01 definition: background-color rgb(255,0,128) + padding). EXPECTED SELECTOR RULES the render-assertion asserts (read STRUCTURALLY from the primed CSS, robust to whitespace/minification): LOCAL → `.elementor .<savedLocalId>{font-size:48px;color:rgb(0,128,255)}` in local-<postId>-frontend-desktop.css; GLOBAL → `.elementor .s01hero{...background-color:rgb(255,0,128)...}` in global-<postId>-frontend-desktop.css; plus a non-empty base-desktop.css. [R5]: the local-style id is REGENERATED on save (Document_Writer mints ids + Elementor re-IDs dependent local styles), so the extractor re-reads the ACTUAL id from the saved _elementor_data — it NEVER asserts the authored `e-rahead-local`. [R8]: every prop value is a TYPED {$$type,value} envelope verified against the live Elementor 4.1.1 validator. expect.valid:true (the §4 meta-invariant; prefilter defers to PHP).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tree": [
+    {
+      "id": "radiv01",
+      "elType": "e-div-block",
+      "settings": { "classes": { "$$type": "classes", "value": [] } },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": [
+        {
+          "id": "rahead1",
+          "elType": "widget",
+          "widgetType": "e-heading",
+          "settings": {
+            "classes": { "$$type": "classes", "value": ["e-rahead-local"] },
+            "tag": { "$$type": "string", "value": "h1" },
+            "title": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Render Assert Hero" },
+                "children": []
+              }
+            }
+          },
+          "styles": {
+            "e-rahead-local": {
+              "id": "e-rahead-local",
+              "type": "class",
+              "label": "local",
+              "variants": [
+                {
+                  "meta": { "breakpoint": "desktop", "state": null },
+                  "props": {
+                    "color": { "$$type": "color", "value": "rgb(0, 128, 255)" },
+                    "font-size": { "$$type": "size", "value": { "unit": "px", "size": 48 } }
+                  }
+                }
+              ]
+            }
+          },
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        },
+        {
+          "id": "rabtn01",
+          "elType": "widget",
+          "widgetType": "e-button",
+          "settings": {
+            "classes": { "$$type": "classes", "value": ["s01hero"] },
+            "text": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Click me" },
+                "children": []
+              }
+            }
+          },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

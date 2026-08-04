@@ -1,0 +1,68 @@
+{
+  "$fixture": 1,
+  "id": "e-image.id-only.roundtrip",
+  "kind": "roundtrip",
+  "generation": "v4",
+  "title": "Round-trip identity — atomic image, id-only image-src (post-sideload preferred shape)",
+  "_comment": "WP-Q05 (14-fixtures-harness.md §7). An e-image widget whose `image` prop carries an image-src with `id` only (NO `url`) — the preferred shape after media.sideload_url (R9 id-XOR-url, image-src-prop-type.php:36-44). build → get_structure → normalize(both) → assert structural equality. The attachment id (24) is the dev-site fixture media id; the round-trip test re-IDs the ELEMENT id structurally (C2/R5) but the attachment id inside image-src.value.id is content and is preserved verbatim. _cssid stripped; empty sibling keys dropped. Run as ADMIN (content-sanitizer exempt). prefilter.verdict:defer (image prop is non-trivial; PHP dry_run authoritative).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "input_tree": [
+    {
+      "id": "rtimg01",
+      "elType": "widget",
+      "widgetType": "e-image",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "image": {
+          "$$type": "image",
+          "value": {
+            "src": {
+              "$$type": "image-src",
+              "value": {
+                "id": { "$$type": "image-attachment-id", "value": 24 }
+              }
+            },
+            "size": { "$$type": "string", "value": "full" }
+          }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "normalized_expected": [
+    {
+      "id": "rtimg01",
+      "elType": "widget",
+      "widgetType": "e-image",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "image": {
+          "$$type": "image",
+          "value": {
+            "src": {
+              "$$type": "image-src",
+              "value": {
+                "id": { "$$type": "image-attachment-id", "value": 24 }
+              }
+            },
+            "size": { "$$type": "string", "value": "full" }
+          }
+        }
+      }
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

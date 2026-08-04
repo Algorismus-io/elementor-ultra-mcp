@@ -1,0 +1,55 @@
+{
+  "$fixture": 1,
+  "id": "page-settings.merge-regression",
+  "kind": "design",
+  "generation": "v4",
+  "title": "Settings deep-merge regression — partial PUT must not wipe omitted top-level or nested-sibling keys",
+  "_comment": "Seed [S04/C3/R3] settings-merge regression (WP-F06, SUMMARY.md C3/R3, ticket Spike-Corrections). Spike S04 verified that a bare Document::save(['settings'=>$patch]) REPLACES _elementor_page_settings wholesale (top + nested) and PUT {} DELETES the meta — only Document::update_settings($patch) deep-merges (array_replace_recursive). The runner: (1) seeds `merge_regression.seed` (≥3 settings of different types incl. the nested `padding` map AND a 2-row `links` repeater); (2) applies `merge_regression.patch` updating exactly ONE top-level key (background_color) and ONE nested sub-key (padding.top), omitting the rest; (3) asserts `survives` (background_background, the OMITTED nested sibling padding.left, AND both repeater rows) are UNCHANGED and `updates` (background_color, padding.top) took effect. This FAILS if the controller bare-saves instead of update_settings()ing. The test MUST wp_set_current_user(admin) first or save()/update_settings() no-op via is_editable_by_current_user() (C3). The `links` repeater documents the array_replace_recursive shorter-list caveat: patch must NOT touch repeaters or trailing rows go stale.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": [],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "merge_regression": {
+    "seed": {
+      "background_color": "#112233",
+      "background_background": "classic",
+      "padding": {
+        "unit": "px",
+        "top": "10",
+        "right": "20",
+        "bottom": "30",
+        "left": "40"
+      },
+      "links": [
+        { "_id": "row1", "label": "Home", "url": "/" },
+        { "_id": "row2", "label": "About", "url": "/about" }
+      ]
+    },
+    "patch": {
+      "background_color": "#445566",
+      "padding": {
+        "top": "99"
+      }
+    },
+    "survives": {
+      "background_background": "classic",
+      "padding.right": "20",
+      "padding.bottom": "30",
+      "padding.left": "40",
+      "links.0.label": "Home",
+      "links.1.label": "About"
+    },
+    "updates": {
+      "background_color": "#445566",
+      "padding.top": "99"
+    }
+  },
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

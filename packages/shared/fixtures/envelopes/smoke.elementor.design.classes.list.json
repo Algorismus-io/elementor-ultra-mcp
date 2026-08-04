@@ -1,0 +1,21 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.design.classes.list",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.design.classes.list tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #13, §1.4). design.classes.list is READ-ONLY (readOnlyHint/idempotentHint; proxied-to-REST GET elementor-ultra/v1/design/classes; paginated §0.6). GET reads remain available even without the UPDATE_CLASS cap (S05/C4 — only the PUT/write is cap-gated), but global classes are a v4 feature, so requires.experiments gates this on e_classes (a classes-disabled site SKIPS). MINIMAL valid input per §1.4: every field is optional/defaulted ({context?='frontend'} + §0.6 {limit?,cursor?,fields?}); we set a small `limit`. The §8 suite asserts no protocol error (-326xx) and a result matching the paginated outputSchema {items[GlobalClassObject], next_cursor, total, order[]}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_classes"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.design.classes.list",
+  "arguments": {
+    "limit": 5
+  }
+}

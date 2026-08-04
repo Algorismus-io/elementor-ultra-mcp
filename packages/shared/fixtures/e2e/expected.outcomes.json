@@ -1,0 +1,79 @@
+{
+  "$e2e": 1,
+  "id": "expected.outcomes",
+  "title": "ULTRA milestone — expected end-state for the agency-site brief (M1-M8 outcome assertions)",
+  "_comment": "WP-Q07 expected outcomes. Read DIRECTLY by e2e-agency-site.contract.ts (NOT the generic fixture-loader). Each `metrics.M*` block encodes the contract-accurate end-state the scenario must observe AFTER running brief.agency-site.json over the live MCP/REST surface (00-product-overview.md §6 M1-M8). Values that are install-minted at runtime (post ids, regenerated local-style ids, watermark counters) are NOT pinned here — the assertions are STRUCTURAL (selector rules present, conditions slash-strings equal, modified_labels non-empty, results map shape) exactly like the WP-Q06 render assertion re-reads the saved id. M3/M4/M7 are NOT Q07's gates (HTML coverage / drift / visual-fidelity live in their own suites); they are listed as `out_of_scope` so the M-coverage map stays complete.",
+
+  "metrics": {
+    "M1": {
+      "name": "Build-a-hero-renders-styled",
+      "_comment": "Reuse the WP-Q06 render assertion: the hero page is created, the atomic tree saved with prime_css, and the public per-breakpoint CSS contains the local + global class selector rules. Re-derives the styled ids from the saved tree ([R5] — the local id is regenerated on save; assert the GLOBAL stable rule over HTTP and treat the local rule as confirmed when present / prime confirmed [S01]).",
+      "hero_page_created": true,
+      "css_primed": true,
+      "global_class_rule_present": true,
+      "global_class_id": "g-q7-hero",
+      "base_css_non_empty": true
+    },
+    "M2": {
+      "name": "Safe-edit-with-rollback",
+      "_comment": "Edit produces a structured diff + passes authoritative dry_run; rollback restores the prior tree AND re-primes CSS. Asserted structurally: the diff is non-empty before commit, the post-rollback structure equals the pre-edit structure (compare by element ids/structure, not literal minted ids), and prime_css ran on rollback.",
+      "edit_produced_diff": true,
+      "edit_passed_dry_run": true,
+      "rollback_restored_prior_tree": true,
+      "rollback_reprimed_css": true,
+      "concurrency_base_hash_used": true
+    },
+    "M5": {
+      "name": "Design-system safety",
+      "_comment": "classes.upsert uses the diff-PUT (full order, explicit changes.deleted), pre-flights the 1000-item budget, and reconciles DUPLICATED_LABEL soft errors. Asserted: the PUT returned ok with a consistent final order; a budget pre-flight ran (count(existing)−deleted+added ≤ 1000); the seeded duplicate-label class produced a non-empty modified_labels soft outcome (a 200, not an error) the caller can rebind.",
+      "classes_put_ok": true,
+      "order_consistent": true,
+      "budget_preflighted": true,
+      "budget_max_allowed": 1000,
+      "duplicated_label_reconciled": true,
+      "modified_labels_non_empty": true,
+      "variables_batch_ok": true,
+      "watermark_advanced": true
+    },
+    "M6": {
+      "name": "Capability-aware operation",
+      "_comment": "The server probes site/capabilities before assuming any route. On atomic-off: design-system tools hard-fail with actionable messages (can_update_class=false / experiment inactive) and atomic builds fall back to V3 — never a crash. On no-Pro: the theme + popup steps SKIP cleanly with an actionable message. The Pro/atomic legs are gated so the SAME corpus runs on free-only and Pro installs (mirrors the fixture-loader requires gate).",
+      "probes_capabilities_first": true,
+      "pro_steps_skip_cleanly_when_no_pro": true,
+      "atomic_off_falls_back_to_v3": true,
+      "no_crash_on_degraded": true,
+      "actionable_skip_message": true
+    },
+    "M8": {
+      "name": "Cross-doc transaction integrity",
+      "_comment": "batch.apply records backups of the kit + every touched doc UP FRONT and best-effort compensates on partial failure, returning a per-step result map. Asserted via the forced-partial-failure plan: backups_required (from batch.plan) enumerates the kit + touched docs BEFORE any mutation; step 0 ok:true, step 1 ok:false with error code E_ATOMIC_VALIDATION; compensated:true (step 0 was rolled back). A separate forced-compensation-failure variant asserts E_COMPENSATION_FAILED surfaces (HTTP 500) when the compensation itself fails (maps to INTERNAL_ERROR with meta.phase='compensation' in the TS taxonomy, since COMPENSATION_FAILED is not in the §6 enum).",
+      "backups_recorded_up_front": true,
+      "results_map_shape": {
+        "step_fields": ["step_index", "ok", "output", "error", "compensated"]
+      },
+      "step_results": [
+        { "step_index": 0, "ok": true, "compensated": true },
+        { "step_index": 1, "ok": false, "compensated": false, "error_code": "E_ATOMIC_VALIDATION" }
+      ],
+      "compensated": true,
+      "compensation_failure_surfaces_code": "E_COMPENSATION_FAILED",
+      "compensation_failure_http_status": 500
+    }
+  },
+
+  "out_of_scope": {
+    "_comment": "These M-metrics are proven by other QA suites, not Q07 — listed so the M-coverage map is complete.",
+    "M3": "HTML coverage gate — WP-Q04 html-corpus.contract.ts",
+    "M4": "Validator fidelity / schema drift — WP-Q02 schema-drift.test.ts + dry-run-roundtrip.contract.ts",
+    "M7": "Visual fidelity — convert.fidelity_check visual-diff gate"
+  },
+
+  "teardown": {
+    "_comment": "The scenario is idempotent (re-runnable) and trashes ALL created artifacts + reverts kit changes in teardown.",
+    "trashes_all_created_posts": true,
+    "trashes_theme_docs": true,
+    "trashes_popup": true,
+    "reverts_kit_classes": true,
+    "reverts_kit_variables": true
+  }
+}

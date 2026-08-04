@@ -1,0 +1,82 @@
+{
+  "$fixture": 1,
+  "id": "e-div-block.flex-row",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Atomic div-block (section tag) styled as a flex row via a local style, wrapping two atomic children",
+  "_comment": "WP-Q01 VALID fixture (one-per-atomic-widget, SUPPLEMENT §B.2 e-div-block container; Detailed-Req #1). The container serializes WITHOUT widgetType (§2.1); `tag` is {$$type:string} 'section' (in the div-block tag enum). The local style applies native Style_Schema flex props (display:flex, flex-direction:row enum, gap:size — all §B.3-native) and is mirrored into classes (R4/§5.1). Two atomic children (e-heading, e-paragraph) test nesting (R6). VERIFIED valid:true via Validator::dry_run on Elementor 4.1.1. prefilter.verdict:defer (§4).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "db00001",
+      "elType": "e-div-block",
+      "settings": {
+        "classes": { "$$type": "classes", "value": ["e-db00001-3c4d5e6"] },
+        "tag": { "$$type": "string", "value": "section" }
+      },
+      "styles": {
+        "e-db00001-3c4d5e6": {
+          "id": "e-db00001-3c4d5e6",
+          "type": "class",
+          "label": "row",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "display": { "$$type": "string", "value": "flex" },
+                "flex-direction": { "$$type": "string", "value": "row" },
+                "gap": {
+                  "$$type": "size",
+                  "value": { "unit": "px", "size": 16 }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "editor_settings": [],
+      "interactions": [],
+      "elements": [
+        {
+          "id": "db00001a",
+          "elType": "widget",
+          "widgetType": "e-heading",
+          "settings": {
+            "classes": { "$$type": "classes", "value": [] },
+            "tag": { "$$type": "string", "value": "h3" },
+            "title": {
+              "$$type": "html-v3",
+              "value": { "content": { "$$type": "string", "value": "Column A" }, "children": [] }
+            }
+          },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        },
+        {
+          "id": "db00001b",
+          "elType": "widget",
+          "widgetType": "e-paragraph",
+          "settings": {
+            "classes": { "$$type": "classes", "value": [] },
+            "tag": { "$$type": "string", "value": "p" },
+            "paragraph": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Column B body." },
+                "children": []
+              }
+            }
+          },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

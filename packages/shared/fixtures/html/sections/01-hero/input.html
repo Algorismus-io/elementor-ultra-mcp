@@ -1,0 +1,28 @@
+<!--
+  WP-H12 corpus section 01 — Hero (flex two-column, gradient + media).
+  Real landing-page hero: eyebrow, single <h1>, lead <p>, a CTA <a class=button>
+  with a hover state, a trust line, and a media column with a background image.
+  Exercises: flex layout, h1 a11y (clean — exactly one h1 + alt text on the image),
+  parse hover-forcing on the button, image sideload, button mapping, gradient bg.
+  S3 analog: spike 02-hero (native 85.1% realistic).
+-->
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__copy">
+      <p class="hero__eyebrow">New · v4 is here</p>
+      <h1 class="hero__title">Ship marketing pages <span class="hero__accent">in minutes</span></h1>
+      <p class="hero__lead">
+        Turn any HTML section into native, editable building blocks. Fast, accessible, and on-brand by default.
+      </p>
+      <div class="hero__actions">
+        <a class="button button--solid" href="/start">Start free</a>
+        <a class="button button--ghost" href="/demo">Watch the demo</a>
+      </div>
+      <p class="hero__trust">Trusted by 12,000+ teams worldwide</p>
+    </div>
+
+    <div class="hero__media">
+      <img class="hero__img" src="images/hero-dashboard.jpg" alt="Product dashboard preview showing the page builder canvas" width="720" height="520" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+{
+  "$fixture": 1,
+  "id": "e-button.missing-required-prop",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Atomic button whose text html-v3 envelope omits its required `content` field → Props_Parser throws → ATOMIC_SETTINGS_INVALID",
+  "_comment": "WP-Q01 INVALID fixture (one-per-failure-mode, Detailed-Req #4; 12-error-taxonomy.md §3.1 ATOMIC_SETTINGS_INVALID). The `text` prop IS a correctly-keyed html-v3 envelope ([R8]) but its `value` OMITS the required `content` field (only {children:[]}), so the live Props_Parser rejects it and get_data_for_save() throws 'Settings validation failed.' (has-atomic-base.php:113) → classified as ATOMIC_SETTINGS_INVALID (NEVER string-matched, 12 §4). VERIFIED valid:false {ATOMIC_SETTINGS_INVALID} via Validator::dry_run on Elementor 4.1.1. prefilter.verdict:defer — the missing required sub-field is a deep/conditional validity the structural pre-filter cannot prove (html-v3 is not trivially-proven), so it DEFERS to the authoritative PHP dry_run (§4); defer on an invalid fixture is permitted by the meta-invariant. The tree is structurally a well-formed ElementNode (passes the authoring-schema check).",
+  "expect": { "valid": false, "errors": ["ATOMIC_SETTINGS_INVALID"] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "btmiss1",
+      "elType": "widget",
+      "widgetType": "e-button",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "text": {
+          "$$type": "html-v3",
+          "value": { "children": [] }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

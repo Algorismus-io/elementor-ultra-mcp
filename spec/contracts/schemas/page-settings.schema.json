@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elementor-ultra-mcp/spec/contracts/schemas/page-settings.schema.json",
+  "$comment": "Contract 18 §7-AI S1 — the DOCUMENT-settings typed ALLOWLIST (kills AF1). A page/document settings bag is open (unknown keys pass through verbatim), but the known keys below are validated for render-fatal shapes: page-settings `custom_css` MUST be a plain string — the object `{raw:<base64>}` shape is the STYLE-VARIANT form (contract 11 §5) and on PAGE settings it fatals Elementor Pro's custom-css module (`trim()` on an array, elementor-pro/modules/custom-css/module.php:101) for every visitor. This is the AF1 inverse-trap pair: style custom_css REQUIRES the object; page-settings custom_css REQUIRES the string. Violations map to taxonomy code SETTINGS_INVALID (12-error-taxonomy.md §3.1). The PHP validator (Validator::validate_settings) is AUTHORITATIVE; the TS pageSettingsInputSchema mirrors this allowlist as a prefilter only. Source of truth: this file; packages/shared/schemas/page-settings.schema.json is the CI-checked byte-identical mirror (scripts/sync-schemas.mjs).",
+  "type": "object",
+  "properties": {
+    "custom_css": {
+      "type": "string",
+      "$comment": "Plain CSS string (NOT base64, NOT the {raw} object). REJECT object/array → SETTINGS_INVALID."
+    },
+    "template": {
+      "type": "string",
+      "enum": ["default", "elementor_canvas", "elementor_header_footer", "elementor_theme"],
+      "$comment": "The `_wp_page_template` page template (incl. elementor_canvas per §7-AI S1)."
+    },
+    "hide_title": {
+      "$comment": "Boolean per §7-AI S1; the legacy Elementor switcher strings 'yes'/'' are also accepted so stored settings round-trip.",
+      "oneOf": [{ "type": "boolean" }, { "type": "string", "enum": ["yes", ""] }]
+    },
+    "post_status": {
+      "type": "string",
+      "enum": ["draft", "publish", "pending", "private", "future"]
+    }
+  },
+  "additionalProperties": true
+}

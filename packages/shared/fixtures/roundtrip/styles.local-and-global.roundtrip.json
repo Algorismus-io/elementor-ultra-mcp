@@ -1,0 +1,91 @@
+{
+  "$fixture": 1,
+  "id": "styles.local-and-global.roundtrip",
+  "kind": "roundtrip",
+  "generation": "v4",
+  "title": "Round-trip identity — atomic heading with a local style + a global-class ref (R4/R5)",
+  "_comment": "WP-Q05 (14-fixtures-harness.md §7). An e-heading carrying BOTH a local style (in `styles`, mirrored into `classes` per R4/§5.1) AND a global-class id reference (g-roundtrip) in the same `classes` array. build → get_structure → normalize(both) → assert structural equality. CRITICAL (C2/R5, spike S02): on save the ELEMENT id AND the dependent LOCAL-STYLE id are BOTH re-minted (local-style ids are NOT stable across save). The round-trip test therefore builds a structural id-map that remaps element ids AND local-style ids (the `styles` key, the StyleDefinition.id, and the mirrored entry in `classes.value`) positionally before comparing — never literal ids. The GLOBAL-class id `g-roundtrip` is a stable external reference and is preserved verbatim. Local-style variant props (color/size envelopes) are content and survive. _cssid stripped; empty sibling keys dropped. Run as ADMIN (content-sanitizer exempt). prefilter.verdict:defer (style props non-trivial; PHP dry_run authoritative). NB: requires the `g-roundtrip` global class to exist on the target (design-classes vertical) — the live half feature-detects and skips if absent.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements", "e_classes"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "input_tree": [
+    {
+      "id": "rtsty01",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": ["e-rtsty01-7f3a9c2", "g-roundtrip"] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Styled heading" },
+            "children": []
+          }
+        }
+      },
+      "styles": {
+        "e-rtsty01-7f3a9c2": {
+          "id": "e-rtsty01-7f3a9c2",
+          "type": "class",
+          "label": "local",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "color": { "$$type": "color", "value": "rgb(0, 128, 255)" },
+                "font-size": { "$$type": "size", "value": { "unit": "px", "size": 48 } }
+              }
+            }
+          ]
+        }
+      },
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "normalized_expected": [
+    {
+      "id": "rtsty01",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": ["e-rtsty01-7f3a9c2", "g-roundtrip"] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Styled heading" },
+            "children": []
+          }
+        }
+      },
+      "styles": {
+        "e-rtsty01-7f3a9c2": {
+          "id": "e-rtsty01-7f3a9c2",
+          "type": "class",
+          "label": "local",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "color": { "$$type": "color", "value": "rgb(0, 128, 255)" },
+                "font-size": { "$$type": "size", "value": { "unit": "px", "size": 48 } }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

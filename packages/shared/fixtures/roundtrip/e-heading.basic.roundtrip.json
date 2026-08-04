@@ -1,0 +1,60 @@
+{
+  "$fixture": 1,
+  "id": "e-heading.basic.roundtrip",
+  "kind": "roundtrip",
+  "generation": "v4",
+  "title": "Round-trip identity — basic atomic heading (h2, html-v3 title, _cssid tolerated)",
+  "_comment": "WP-Q05 (14-fixtures-harness.md §7). build(input_tree) → get_structure → normalize(both) → assert structural equality. `normalized_expected` is exactly normalize(input_tree): empty `styles`/`editor_settings`/`interactions`/`elements` sibling keys dropped; the auto-injected `_cssid` (has-atomic-base.php:310-321) is stripped on read so it does not show as a spurious diff (RESEARCH §4.1). Ids are NOT compared literally — the round-trip test re-IDs structurally (C2/R5: element ids AND local-style ids are re-minted on save). Run as ADMIN so the content-sanitizer title rewrite is exempt (RESEARCH §2.1/§6.6, §7 step 3). prefilter.verdict:defer because the html-v3 title prop is non-trivial (PHP dry_run is authoritative).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "input_tree": [
+    {
+      "id": "rtba001",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Round-trip basic" },
+            "children": []
+          }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "normalized_expected": [
+    {
+      "id": "rtba001",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Round-trip basic" },
+            "children": []
+          }
+        }
+      }
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

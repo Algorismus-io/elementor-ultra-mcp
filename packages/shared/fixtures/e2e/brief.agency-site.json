@@ -1,0 +1,471 @@
+{
+  "$e2e": 1,
+  "id": "brief.agency-site",
+  "title": "ULTRA milestone — agency site from brief (pages + theme builder + design system + popups + rollback + cross-doc compensation)",
+  "_comment": "WP-Q07 declarative brief. This is NOT the LOCKED §2 envelope (kind/expect etc.) — it is a custom e2e brief shape ($e2e:1) read DIRECTLY by packages/server/src/test-harness/e2e-scenario.ts, NOT by the generic fixture-loader (fixtures/e2e/** is not in FIXTURE_SUBDIRS, so fixtures:validate skips it). It drives the M1-M8 end-to-end run (00-product-overview.md §6) over the live MCP/REST surface: create pages + build the styled-primed hero (M1), apply a design system via the diff-PUT (M5) + watermarked variables batch, stand up a Pro header/footer + popup (M6, gated behind Pro), make a safe edit then rollback (M2), and run a cross-doc batch.apply with a FORCED partial failure to exercise best-effort compensation + E_COMPENSATION_FAILED (M8). Every authoring node uses TYPED prop envelopes ([R8] — the live 4.1.1 validator rejects bare strings). Pro conditions are ConditionTuple [type,name,sub_name?,sub_id?] arrays — the companion writes them via Conditions_Manager::save_conditions() which slash-joins + regenerates cache (SUPPLEMENT §A.1); the brief never writes _elementor_conditions raw. Expected end-state assertions live in expected.outcomes.json.",
+
+  "capabilities_required": {
+    "atomic": { "experiments": ["e_atomic_elements", "e_classes", "e_variables"] },
+    "pro": true,
+    "min_elementor": "4.1.1"
+  },
+
+  "pages": [
+    {
+      "ref": "home",
+      "title": "Q07 Home (agency)",
+      "status": "publish",
+      "is_hero": true,
+      "prime_css": true,
+      "tree": [
+        {
+          "id": "q7hero1",
+          "elType": "e-div-block",
+          "settings": { "classes": { "$$type": "classes", "value": ["g-q7-hero"] } },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": [
+            {
+              "id": "q7head1",
+              "elType": "widget",
+              "widgetType": "e-heading",
+              "settings": {
+                "classes": { "$$type": "classes", "value": ["e-q7head-local"] },
+                "tag": { "$$type": "string", "value": "h1" },
+                "title": {
+                  "$$type": "html-v3",
+                  "value": {
+                    "content": { "$$type": "string", "value": "Agency that ships" },
+                    "children": []
+                  }
+                }
+              },
+              "styles": {
+                "e-q7head-local": {
+                  "id": "e-q7head-local",
+                  "type": "class",
+                  "label": "hlocal",
+                  "variants": [
+                    {
+                      "meta": { "breakpoint": "desktop", "state": null },
+                      "props": {
+                        "color": { "$$type": "color", "value": "rgb(10, 10, 10)" },
+                        "font-size": { "$$type": "size", "value": { "unit": "px", "size": 56 } }
+                      }
+                    }
+                  ]
+                }
+              },
+              "editor_settings": [],
+              "interactions": [],
+              "elements": []
+            },
+            {
+              "id": "q7para1",
+              "elType": "widget",
+              "widgetType": "e-paragraph",
+              "settings": {
+                "classes": { "$$type": "classes", "value": [] },
+                "paragraph": {
+                  "$$type": "html-v3",
+                  "value": {
+                    "content": {
+                      "$$type": "string",
+                      "value": "We build conversion-first marketing sites."
+                    },
+                    "children": []
+                  }
+                }
+              },
+              "styles": {},
+              "editor_settings": [],
+              "interactions": [],
+              "elements": []
+            },
+            {
+              "id": "q7btn01",
+              "elType": "widget",
+              "widgetType": "e-button",
+              "settings": {
+                "classes": { "$$type": "classes", "value": ["g-q7-cta"] },
+                "text": {
+                  "$$type": "html-v3",
+                  "value": {
+                    "content": { "$$type": "string", "value": "Book a call" },
+                    "children": []
+                  }
+                }
+              },
+              "styles": {},
+              "editor_settings": [],
+              "interactions": [],
+              "elements": []
+            }
+          ]
+        }
+      ],
+      "edit_patch": {
+        "_comment": "M2 safe-edit: change the heading copy via widget.update_settings; the rollback restores the prior tree + re-primes CSS.",
+        "element_id": "q7head1",
+        "settings": {
+          "title": {
+            "$$type": "html-v3",
+            "value": {
+              "content": { "$$type": "string", "value": "Agency that ships fast" },
+              "children": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "ref": "services",
+      "title": "Q07 Services (agency)",
+      "status": "publish",
+      "is_hero": false,
+      "prime_css": true,
+      "tree": [
+        {
+          "id": "q7svc01",
+          "elType": "e-div-block",
+          "settings": { "classes": { "$$type": "classes", "value": ["g-q7-card"] } },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": [
+            {
+              "id": "q7svch1",
+              "elType": "widget",
+              "widgetType": "e-heading",
+              "settings": {
+                "classes": { "$$type": "classes", "value": [] },
+                "tag": { "$$type": "string", "value": "h2" },
+                "title": {
+                  "$$type": "html-v3",
+                  "value": {
+                    "content": { "$$type": "string", "value": "Services" },
+                    "children": []
+                  }
+                }
+              },
+              "styles": {},
+              "editor_settings": [],
+              "interactions": [],
+              "elements": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "design_system": {
+    "_comment": "M5: classes via the diff-PUT (10-rest-api.md §4.2) — FULL final `order`, EXPLICIT `changes.deleted`, `items` ONLY for added+modified, budget pre-flight (count(existing)−deleted+added ≤ 1000). The TS caller MUST GET /design/classes first to learn current ids+order before building this PUT (the scenario does). `seed_duplicate_label` drives the DUPLICATED_LABEL reconcile assertion: it adds a class whose label collides with an existing one so the handler returns a 200 with modified_labels (a soft outcome — the caller rebinds, never a hard error).",
+    "classes": {
+      "context": "frontend",
+      "add": [
+        {
+          "id": "g-q7-hero",
+          "type": "class",
+          "label": "q7hero",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "background": {
+                  "$$type": "background",
+                  "value": { "color": { "$$type": "color", "value": "rgb(8, 12, 24)" } }
+                },
+                "padding": {
+                  "$$type": "dimensions",
+                  "value": {
+                    "block-start": { "$$type": "size", "value": { "unit": "px", "size": 96 } },
+                    "block-end": { "$$type": "size", "value": { "unit": "px", "size": 96 } },
+                    "inline-start": { "$$type": "size", "value": { "unit": "px", "size": 48 } },
+                    "inline-end": { "$$type": "size", "value": { "unit": "px", "size": 48 } }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "g-q7-cta",
+          "type": "class",
+          "label": "q7cta",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "background": {
+                  "$$type": "background",
+                  "value": { "color": { "$$type": "color", "value": "rgb(255, 0, 128)" } }
+                },
+                "color": { "$$type": "color", "value": "rgb(255, 255, 255)" }
+              }
+            }
+          ]
+        },
+        {
+          "id": "g-q7-card",
+          "type": "class",
+          "label": "q7card",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "background": {
+                  "$$type": "background",
+                  "value": { "color": { "$$type": "color", "value": "rgb(245, 245, 245)" } }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "delete": [],
+      "seed_duplicate_label": {
+        "_comment": "A second class authored with the SAME label as g-q7-card (q7card) so the diff-PUT triggers the DUPLICATED_LABEL soft-reconcile path (200 + modified_labels, 10-rest-api.md §4.3). The scenario asserts modified_labels is non-empty and the renamed id is rebindable.",
+        "id": "g-q7-card2",
+        "type": "class",
+        "label": "q7card",
+        "variants": [
+          {
+            "meta": { "breakpoint": "desktop", "state": null },
+            "props": {
+              "color": { "$$type": "color", "value": "rgb(20, 20, 20)" }
+            }
+          }
+        ]
+      }
+    },
+    "variables": {
+      "_comment": "M5 design-system: a watermarked atomic variables batch (10-rest-api.md §4.4). watermark is REQUIRED + read from GET /design/variables first; a stale watermark fails the whole batch (WATERMARK_STALE). All three types are FREE.",
+      "operations": [
+        {
+          "type": "create",
+          "payload": {
+            "type": "global-color-variable",
+            "label": "q7brand",
+            "value": "#FF0080"
+          }
+        },
+        {
+          "type": "create",
+          "payload": {
+            "type": "global-color-variable",
+            "label": "q7ink",
+            "value": "#0A0A0A"
+          }
+        },
+        {
+          "type": "create",
+          "payload": {
+            "type": "global-size-variable",
+            "label": "q7gutter",
+            "value": "24px"
+          }
+        }
+      ]
+    }
+  },
+
+  "pro": {
+    "_comment": "M6: gated behind Pro capability. On a free-only / atomic-off install the scenario SKIPS these steps with an actionable message (never crashes), and the V4-atomic pages fall back to V3 build where applicable. Conditions are ConditionTuple arrays [type,name,sub_name?,sub_id?]; the companion slash-joins + regenerates cache via Conditions_Manager::save_conditions() (SUPPLEMENT §A.1). The brief NEVER writes _elementor_conditions raw.",
+    "theme": [
+      {
+        "ref": "header",
+        "type": "header",
+        "title": "Q07 Site Header",
+        "status": "publish",
+        "conditions": [["include", "general"]],
+        "elements": [
+          {
+            "id": "q7hdr01",
+            "elType": "e-div-block",
+            "settings": { "classes": { "$$type": "classes", "value": [] } },
+            "styles": {},
+            "editor_settings": [],
+            "interactions": [],
+            "elements": [
+              {
+                "id": "q7hdrh1",
+                "elType": "widget",
+                "widgetType": "e-heading",
+                "settings": {
+                  "classes": { "$$type": "classes", "value": [] },
+                  "tag": { "$$type": "string", "value": "div" },
+                  "title": {
+                    "$$type": "html-v3",
+                    "value": {
+                      "content": { "$$type": "string", "value": "Algorismus" },
+                      "children": []
+                    }
+                  }
+                },
+                "styles": {},
+                "editor_settings": [],
+                "interactions": [],
+                "elements": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ref": "footer",
+        "type": "footer",
+        "title": "Q07 Site Footer",
+        "status": "publish",
+        "conditions": [["include", "general"]],
+        "elements": [
+          {
+            "id": "q7ftr01",
+            "elType": "e-div-block",
+            "settings": { "classes": { "$$type": "classes", "value": [] } },
+            "styles": {},
+            "editor_settings": [],
+            "interactions": [],
+            "elements": [
+              {
+                "id": "q7ftrp1",
+                "elType": "widget",
+                "widgetType": "e-paragraph",
+                "settings": {
+                  "classes": { "$$type": "classes", "value": [] },
+                  "paragraph": {
+                    "$$type": "html-v3",
+                    "value": {
+                      "content": { "$$type": "string", "value": "© Algorismus" },
+                      "children": []
+                    }
+                  }
+                },
+                "styles": {},
+                "editor_settings": [],
+                "interactions": [],
+                "elements": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "popup": {
+      "ref": "newsletter",
+      "title": "Q07 Newsletter",
+      "status": "publish",
+      "layout_settings": { "width": { "unit": "px", "size": 640 }, "overlay": "yes" },
+      "display_settings": {
+        "triggers": { "page_load": "yes", "page_load_delay": 2 },
+        "timing": { "times": "yes", "times_times": 3, "times_period": "week" }
+      },
+      "conditions": [["include", "general"]],
+      "set_triggers": {
+        "_comment": "M-step: a follow-up PUT /pro/popup/{id}/display that MERGES new triggers (proves set_triggers persists into _elementor_popup_display_settings).",
+        "triggers": { "page_exit": "yes" }
+      },
+      "elements": [
+        {
+          "id": "q7pop01",
+          "elType": "e-div-block",
+          "settings": { "classes": { "$$type": "classes", "value": [] } },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": [
+            {
+              "id": "q7poph1",
+              "elType": "widget",
+              "widgetType": "e-heading",
+              "settings": {
+                "classes": { "$$type": "classes", "value": [] },
+                "tag": { "$$type": "string", "value": "h2" },
+                "title": {
+                  "$$type": "html-v3",
+                  "value": {
+                    "content": { "$$type": "string", "value": "Join our newsletter" },
+                    "children": []
+                  }
+                }
+              },
+              "styles": {},
+              "editor_settings": [],
+              "interactions": [],
+              "elements": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+
+  "batch": {
+    "_comment": "M8 cross-doc transaction (10-rest-api.md §13). batch.apply records backups of the kit + every touched doc UP FRONT, executes steps in order, and on a partial failure best-effort compensates (reverse-order restore) + returns a per-step result map {step_index,ok,output,error,compensated}. A failed step is NOT an HTTP error — the per-step results[] carries it; HTTP is 200 unless the request is malformed (400) or compensation itself failed (500 E_COMPENSATION_FAILED). The plan below has a deliberately INVALID step 2 (a save with a bare-string prop the validator rejects → E_ATOMIC_VALIDATION) AFTER a valid step 1, forcing the partial failure + compensation of step 1.",
+    "plan": [
+      {
+        "ref": "batch-page-ok",
+        "route": "documents/save",
+        "title": "Q07 Batch OK page",
+        "expect_ok": true,
+        "tree": [
+          {
+            "id": "q7bok01",
+            "elType": "e-div-block",
+            "settings": { "classes": { "$$type": "classes", "value": [] } },
+            "styles": {},
+            "editor_settings": [],
+            "interactions": [],
+            "elements": [
+              {
+                "id": "q7bokh1",
+                "elType": "widget",
+                "widgetType": "e-heading",
+                "settings": {
+                  "classes": { "$$type": "classes", "value": [] },
+                  "tag": { "$$type": "string", "value": "h2" },
+                  "title": {
+                    "$$type": "html-v3",
+                    "value": {
+                      "content": { "$$type": "string", "value": "Batch step one" },
+                      "children": []
+                    }
+                  }
+                },
+                "styles": {},
+                "editor_settings": [],
+                "interactions": [],
+                "elements": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "ref": "batch-page-fail",
+        "route": "documents/save",
+        "title": "Q07 Batch FAIL page",
+        "expect_ok": false,
+        "expected_error_code": "E_ATOMIC_VALIDATION",
+        "_comment": "FORCED partial failure: a bare-string `tag` (not a {$$type,value} envelope) which the live 4.1.1 validator rejects ([R8]). This is invalid by construction so the batch fails at step 2 and compensates step 1.",
+        "tree": [
+          {
+            "id": "q7bbad1",
+            "elType": "widget",
+            "widgetType": "e-heading",
+            "settings": {
+              "classes": { "$$type": "classes", "value": [] },
+              "tag": "h1",
+              "title": "Batch step two (invalid)"
+            },
+            "styles": {},
+            "editor_settings": [],
+            "interactions": [],
+            "elements": []
+          }
+        ]
+      }
+    ]
+  }
+}

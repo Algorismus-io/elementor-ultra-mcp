@@ -1,0 +1,57 @@
+<!--
+  WP-H12 corpus section 02 — Pricing table (3-tier, featured middle card).
+  Real SaaS pricing section. Exercises: a REPEATED card pattern (3 identical .card
+  blocks -> HOIST into a shared global class), a 2-3 column layout (CSS grid vs flex
+  decision), price text with INLINE markup (<strong>/<span>), and a <ul> feature
+  list (Elementor has NO atomic list widget -> structural fallback: <ul>/<li>
+  rebuilt as e-div-block + e-paragraph nodes). Section heading is <h2> (no <h1> in a
+  fragment; <h2> -> <h3> card names = no skipped level), so a11y is CLEAN.
+  S3 analog: spike 01-pricing-table (native 90.5% realistic — highest coverage).
+-->
+<section class="pricing">
+  <div class="pricing__head">
+    <h2 class="pricing__title">Simple, transparent pricing</h2>
+    <p class="pricing__sub">Pick the plan that scales with your team. No hidden fees.</p>
+  </div>
+
+  <div class="pricing__grid">
+    <article class="card">
+      <h3 class="card__name">Starter</h3>
+      <p class="card__price"><strong class="card__amount">$9</strong><span class="card__per">/mo</span></p>
+      <p class="card__blurb">For individuals getting started.</p>
+      <ul class="card__features">
+        <li>Up to 3 projects</li>
+        <li>2 GB storage</li>
+        <li>Community support</li>
+      </ul>
+      <a class="card__cta" href="/signup?plan=starter">Choose Starter</a>
+    </article>
+
+    <article class="card card--featured">
+      <span class="card__badge">Most popular</span>
+      <h3 class="card__name">Growth</h3>
+      <p class="card__price"><strong class="card__amount">$29</strong><span class="card__per">/mo</span></p>
+      <p class="card__blurb">For growing teams that need more power.</p>
+      <ul class="card__features">
+        <li>Unlimited projects</li>
+        <li>100 GB storage</li>
+        <li>Priority email support</li>
+        <li>Advanced analytics</li>
+      </ul>
+      <a class="card__cta card__cta--primary" href="/signup?plan=growth">Choose Growth</a>
+    </article>
+
+    <article class="card">
+      <h3 class="card__name">Scale</h3>
+      <p class="card__price"><strong class="card__amount">$79</strong><span class="card__per">/mo</span></p>
+      <p class="card__blurb">For organizations at scale.</p>
+      <ul class="card__features">
+        <li>Everything in Growth</li>
+        <li>1 TB storage</li>
+        <li>24/7 phone support</li>
+        <li>SSO &amp; audit logs</li>
+      </ul>
+      <a class="card__cta" href="/signup?plan=scale">Choose Scale</a>
+    </article>
+  </div>
+</section>

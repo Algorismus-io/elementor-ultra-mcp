@@ -1,0 +1,43 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.page.dry_run",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.page.dry_run tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #7, §1.2). page.dry_run is READ-ONLY (readOnlyHint/idempotentHint — the AUTHORITATIVE validator, NO persistence: PHP instantiates every node + get_data_for_save) so this payload runs WITHOUT a disposable draft (`post_id` is omitted ⇒ proxies POST elementor-ultra/v1/dry-run). Gated on v4 atomic (requires.experiments e_atomic_elements) so a v4-disabled site SKIPS. MINIMAL valid input per §1.2: REQUIRED `elements` (post_id/settings optional, generation defaults v4). The tree is a STRICTLY-TYPED atomic heading ([R8]/S01 — bare strings fail the validator). The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {valid, errors[], diff?, preview_url?}. (Q03 owns this canonical payload; it supersedes the F06 bootstrap seed of the same name.)",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.page.dry_run",
+  "arguments": {
+    "generation": "v4",
+    "elements": [
+      {
+        "id": "smdry01",
+        "elType": "widget",
+        "widgetType": "e-heading",
+        "settings": {
+          "classes": { "$$type": "classes", "value": [] },
+          "tag": { "$$type": "string", "value": "h1" },
+          "title": {
+            "$$type": "html-v3",
+            "value": {
+              "content": { "$$type": "string", "value": "Smoke" },
+              "children": []
+            }
+          }
+        },
+        "styles": {},
+        "editor_settings": [],
+        "interactions": [],
+        "elements": []
+      }
+    ]
+  }
+}

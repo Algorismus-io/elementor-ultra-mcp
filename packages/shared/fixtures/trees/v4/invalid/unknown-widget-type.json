@@ -1,0 +1,41 @@
+{
+  "$fixture": 1,
+  "id": "unknown-widget-type",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Atomic widget node with an unregistered widgetType 'e-not-a-real-widget' → on save atomic unknowns THROW → UNKNOWN_WIDGET_TYPE (valid:false)",
+  "_comment": "WP-Q01 INVALID fixture (one-per-failure-mode, Detailed-Req #4; 14-fixtures-harness.md §1 trees/v4/invalid; 12-error-taxonomy.md §3.1 UNKNOWN_WIDGET_TYPE). The widgetType 'e-not-a-real-widget' is NOT registered (probe schema/registered-types); for an atomic node the real save THROWS (has-atomic-base.php:97,113). Validator::dry_run returns EXACTLY {valid:false, errors:[UNKNOWN_WIDGET_TYPE]} (VERIFIED live on Elementor 4.1.1) — its R2 check returns early for an unregistered type, so the deeper atomic settings/styles/R4 checks are NOT run and no other code is emitted. prefilter.verdict:reject — the F06 loader SKIPS authoring-schema validation for reject fixtures (fixture-loader.ts:206-230), which is required here because the frozen element-node schema's AtomicWidgetNode widgetType is a CLOSED enum that cannot contain an unknown 'e-foo' type (so a defer-encoding would fail that schema check; an 'e-' type also cannot route to the loose ClassicNode branch which forbids the atomic sibling keys styles/editor_settings/interactions). To satisfy the §4 pre-filter SUBSET contract (reject⇒the TS pre-filter MUST reject), the node also carries an intentional orphan local style 'e-u9k0001-deadc0d' present in `styles` but NOT mirrored into settings.classes.value — so the structural pre-filter (which has NO live registered-type/R2 check) rejects via R4/LOCAL_STYLE_UNLINKED. Both sides therefore agree the tree is INVALID (meta-invariant reject⇒valid:false holds); the AUTHORITATIVE PHP error SET that expect.errors compares against is the single UNKNOWN_WIDGET_TYPE.",
+  "expect": { "valid": false, "errors": ["UNKNOWN_WIDGET_TYPE"] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "u9k0001",
+      "elType": "widget",
+      "widgetType": "e-not-a-real-widget",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "title": {
+          "$$type": "html-v3",
+          "value": { "content": { "$$type": "string", "value": "Ghost" }, "children": [] }
+        }
+      },
+      "styles": {
+        "e-u9k0001-deadc0d": {
+          "id": "e-u9k0001-deadc0d",
+          "type": "class",
+          "label": "orphan",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": { "color": { "$$type": "color", "value": "rgb(1, 2, 3)" } }
+            }
+          ]
+        }
+      },
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "reject" }
+}

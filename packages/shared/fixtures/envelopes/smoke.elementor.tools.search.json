@@ -1,0 +1,16 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.tools.search",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.tools.search tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #1, §1.1). tools.search is READ-ONLY (readOnlyHint/idempotentHint, side:TS — pure local registry, no REST). Runs UNCONDITIONALLY: no disposable draft, no capability gate. MINIMAL valid input per the §1.1 inputSchema: every field is optional ({query?, prefix?, limit?}); we set a single free-text `query` so the call exercises the real matcher. The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {tools[], total}. tools.search is the ★ enabler (it enable()s matched advanced tools + sendToolListChanged), so it must be present + callable in the lean profile.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "tool": "elementor.tools.search",
+  "arguments": {
+    "query": "page"
+  }
+}

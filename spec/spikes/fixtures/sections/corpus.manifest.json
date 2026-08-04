@@ -1,0 +1,66 @@
+{
+  "$comment": "WP-S03 seed corpus manifest. Maps each real marketing section to its S3-MEASURED native-coverage thresholds + tolerance bands. These are the regression baseline for the convert.* coverage gate (Contract 14 §6, RESEARCH.md §6.8). Numbers are the REALISTIC band (typed-object props transform/transition/filter/background-gradient routed to fallback per a v1 converter; see WP-S03-findings.md). WP-Q04 moves these sections into packages/shared/fixtures/html/sections/<n>/ with derived expected.coverage.json / expected.a11y.json and copies this manifest to packages/shared/fixtures/html/corpus.manifest.json. The auto-commit floor blocks an auto-commit below `auto_commit_min_native_pct`; below it the convert tool MUST return the dry-run + coverage report and require an explicit `commit` (never auto-persist).",
+  "generated_by": "spec/spikes/scripts/s03-measure-coverage.mjs",
+  "elementor": { "version": "4.1.1", "pro": "4.1.0", "experiments": ["e_atomic_elements", "e_classes", "e_variables"] },
+  "band": "realistic",
+  "tolerance_pct": 5.0,
+  "auto_commit_min_native_pct": 60.0,
+  "review_below_native_pct": 70.0,
+  "corpus": {
+    "expected_native_pct": 84.8,
+    "min_native_pct": 79.8,
+    "optimistic_native_pct": 89.5
+  },
+  "sections": {
+    "01-pricing-table": {
+      "nodes": 43,
+      "authored_declarations": 285,
+      "expected_native_pct": 90.5,
+      "min_native_pct": 85.5,
+      "expected_custom_css_pct": 9.5,
+      "expected_dropped_pct": 0.0,
+      "hard_property_fallbacks": ["transition", "transform", "background_gradient", "list-style"],
+      "notes": "Cleanly authored 3-tier pricing grid. CSS grid template, hover transitions, lift transforms, featured-card gradient, check-mark list-style::before pseudo all drive the tail."
+    },
+    "02-hero": {
+      "nodes": 18,
+      "authored_declarations": 94,
+      "expected_native_pct": 85.1,
+      "min_native_pct": 80.1,
+      "expected_custom_css_pct": 14.9,
+      "expected_dropped_pct": 0.0,
+      "hard_property_fallbacks": ["background_gradient", "text-clip", "transition", "transform", "filter"],
+      "notes": "Two-column gradient hero. Radial+linear gradients (incl. text-clip gradient), glass chip backdrop-filter, button hover transforms/transitions drive the tail."
+    },
+    "03-feature-grid": {
+      "nodes": 35,
+      "authored_declarations": 185,
+      "expected_native_pct": 76.8,
+      "min_native_pct": 71.8,
+      "expected_custom_css_pct": 23.2,
+      "expected_dropped_pct": 0.0,
+      "hard_property_fallbacks": ["font-weight", "transition", "transform", "background_gradient"],
+      "notes": "LOWEST-coverage section (heaviest hard-prop density): 6 gradient icon tiles, off-enum font-weight (650), hover transforms/transitions, auto-fit/minmax grid. Anchors the lower end of the band."
+    },
+    "04-testimonial": {
+      "nodes": 16,
+      "authored_declarations": 64,
+      "expected_native_pct": 82.8,
+      "min_native_pct": 77.8,
+      "expected_custom_css_pct": 17.2,
+      "expected_dropped_pct": 0.0,
+      "hard_property_fallbacks": ["background_gradient", "text-clip", "filter"],
+      "notes": "Quote card with gradient quote-mark (text-clip), grayscale avatar filter, panel gradient. Stripped-text: <br> and a nested <img> inside figcaption flagged for block-promotion."
+    },
+    "05-cta-banner": {
+      "nodes": 13,
+      "authored_declarations": 76,
+      "expected_native_pct": 84.2,
+      "min_native_pct": 79.2,
+      "expected_custom_css_pct": 15.8,
+      "expected_dropped_pct": 0.0,
+      "hard_property_fallbacks": ["background_gradient", "filter", "transition", "transform"],
+      "notes": "Full-width gradient CTA with blurred decorative blobs (filter:blur), inline email form (no atomic equiv on free -> e-form Pro / fallback), button hover transform."
+    }
+  }
+}

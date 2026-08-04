@@ -1,0 +1,43 @@
+# Dependencies & build output
+node_modules/
+dist/
+build/
+vendor/
+*.tsbuildinfo
+coverage/
+.turbo/
+
+# Extracted Elementor sources & local wp-env plugin zips
+plugins/
+.wp-env-plugins/
+
+# Lockfile (managed by pnpm)
+pnpm-lock.yaml
+
+# PHP is formatted by PHPCS (WP-P01), not Prettier
+plugin/
+
+# HTML conversion corpus fixtures (WP-H12): inputs are intentionally hand-authored to exercise the
+# html-v3 pipeline, including INVALID HTML (e.g. 05-rich-text-card/input.html nests block <div>/<ul>
+# inside a <p> to drive block-promotion). Prettier cannot parse the malformed fixture and reformatting
+# the inputs/expected-snapshots would defeat their purpose, so the whole corpus tree is ignored.
+# (WP-F01-spine / Wave-3 Integrate decision.)
+packages/shared/fixtures/html/**
+
+# Frozen spec tree + top-level research docs — not owned by F01; append-only contracts.
+spec/
+RESEARCH.md
+SUPPLEMENT.md
+SPEC.md
+REVIEW-DIGEST.md
+
+# Harness state (Claude Code workflow scripts, settings) — generated, not project source
+.claude/
+
+# OS cruft
+.DS_Store
+*.log
+
+# scratch screenshot helper
+packages/server/_shot.mjs
+packages/server/_*.mjs

@@ -1,0 +1,40 @@
+# WP-Q08 — published-surface allowlist control for the npx server tarball.
+#
+# `15-engineering-standards.md §2.10` + WP-Q08 Detailed Requirements #1: the published package keeps
+# only the RUNNABLE artifact (`dist/` incl. the `bin`) + the README; it excludes sources, tests,
+# fixtures, and build config. `pack:server` ALSO uses a publish-manifest `files` allowlist, but this
+# `.npmignore` is the belt-and-suspenders guard so a direct `npm pack` of this package is also clean.
+#
+# NOTE: npm IGNORES `.npmignore` when a `package.json` `files` allowlist is present (the allowlist
+# wins). The server manifest sets `"files": ["dist"]`, so this file is documentary + a safety net if
+# the allowlist is ever removed. Patterns below mirror the allowlist's exclusions.
+
+# --- sources & build inputs (not shipped; dist/ is the artifact) ---
+src/
+*.ts
+!dist/**/*.d.ts
+tsconfig*.json
+*.tsbuildinfo
+
+# --- tests & fixtures (never shipped) ---
+**/*.test.js
+**/*.test.d.ts
+**/*.test.d.ts.map
+__tests__/
+test/
+tests/
+fixtures/
+**/*.spec.*
+
+# --- tooling / CI / editor cruft ---
+.turbo/
+.eslintrc*
+eslint.config.*
+.prettierrc*
+vitest.config.*
+coverage/
+*.log
+.DS_Store
+
+# --- dev-only manifests already excluded by the allowlist ---
+.npmignore

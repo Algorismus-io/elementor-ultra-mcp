@@ -1,0 +1,41 @@
+{
+  "$comment": "WP-R05 cross-runtime dynamic-tag encoding fixtures. OWNED by WP-R05 (PHP encoder PHPUnit), CONSUMED read-only by WP-R11 (TS encoder vitest). Each row's expected_string MUST be produced byte-for-byte by BOTH Dynamic_Encoder::encode($tag, $settings, $id) (PHP) and the TS mirror. Strings are the verbatim SUPPLEMENT.md §A.6 worked bindings + empty-settings %7B%7D gotcha. encoding = urlencode(wp_json_encode(settings, JSON_FORCE_OBJECT)); empty -> %7B%7D (never empty string, never []).",
+  "source": "SUPPLEMENT.md §A.6 + elementor/core/dynamic-tags/manager.php:141-142",
+  "rows": [
+    {
+      "name": "post-title (no settings -> %7B%7D)",
+      "tag": "post-title",
+      "settings": {},
+      "id": "a1b2c3d",
+      "expected_string": "[elementor-tag id=\"a1b2c3d\" name=\"post-title\" settings=\"%7B%7D\"]"
+    },
+    {
+      "name": "post-featured-image (nested object settings)",
+      "tag": "post-featured-image",
+      "settings": { "fallback": { "id": "", "url": "" } },
+      "id": "b2c3d4e",
+      "expected_string": "[elementor-tag id=\"b2c3d4e\" name=\"post-featured-image\" settings=\"%7B%22fallback%22%3A%7B%22id%22%3A%22%22%2C%22url%22%3A%22%22%7D%7D\"]"
+    },
+    {
+      "name": "acf-text (composite key, colon -> %3A)",
+      "tag": "acf-text",
+      "settings": { "key": "field_5f3a1b2c:project_client" },
+      "id": "c3d4e5f",
+      "expected_string": "[elementor-tag id=\"c3d4e5f\" name=\"acf-text\" settings=\"%7B%22key%22%3A%22field_5f3a1b2c%3Aproject_client%22%7D\"]"
+    },
+    {
+      "name": "empty-settings explicit (gotcha: %7B%7D, never empty string)",
+      "tag": "site-title",
+      "settings": {},
+      "id": "d4e5f6g",
+      "expected_string": "[elementor-tag id=\"d4e5f6g\" name=\"site-title\" settings=\"%7B%7D\"]"
+    },
+    {
+      "name": "post-excerpt (scalar + string settings)",
+      "tag": "post-excerpt",
+      "settings": { "max_length": 25, "apply_to_post_content": "no" },
+      "id": "e5f6g7h",
+      "expected_string": "[elementor-tag id=\"e5f6g7h\" name=\"post-excerpt\" settings=\"%7B%22max_length%22%3A25%2C%22apply_to_post_content%22%3A%22no%22%7D\"]"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.page.get_structure",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.page.get_structure tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #4, §1.1). page.get_structure is READ-ONLY (readOnlyHint/idempotentHint; proxied-to-REST GET elementor-ultra/v1/documents/{id}/structure) but its REQUIRED `post_id` must reference a REAL document — so this smoke READS the DISPOSABLE DRAFT created in setup/teardown (it never reads a real page). The `{{DRAFT_POST_ID}}` token is substituted by smoke-driver.ts with the live draft id at call time (and with a representative integer for the offline input-schema self-check). MINIMAL valid input per §1.1: only `post_id` is required (depth/subtree_id/projection optional, projection defaults to 'full'). The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {elements[], base_hash, generation}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "tool": "elementor.page.get_structure",
+  "arguments": {
+    "post_id": "{{DRAFT_POST_ID}}"
+  }
+}

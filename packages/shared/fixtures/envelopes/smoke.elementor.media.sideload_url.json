@@ -1,0 +1,17 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.media.sideload_url",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.media.sideload_url tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #16, §1.5). media.sideload_url is MUTATING (class M, idempotentHint — deduped by _elementor_source_image_hash; proxied-to-REST POST elementor-ultra/v1/media/sideload). It does NOT touch a page document — it imports ONE small external image into the media library; the dedupe makes repeated smokes a no-op, and the driver trashes the returned attachment_id in teardown so the library is left clean. No v4/Pro gate (media works on free Elementor), so it runs UNCONDITIONALLY. MINIMAL valid input per §1.5: REQUIRED `url` (alt/title optional); we point at a tiny stable picsum image (1x1-ish) + an `alt` so a11y is clean. The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {attachment_id, url, sizes, deduped}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "tool": "elementor.media.sideload_url",
+  "arguments": {
+    "url": "https://picsum.photos/id/237/2/2.jpg",
+    "alt": "Ultra MCP smoke image"
+  }
+}

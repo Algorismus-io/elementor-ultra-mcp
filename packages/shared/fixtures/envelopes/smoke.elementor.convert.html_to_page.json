@@ -1,0 +1,23 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.convert.html_to_page",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.convert.html_to_page tool (commit:false)",
+  "_comment": "WP-H12 — Inspector smoke (14-fixtures-harness §8; 13-tool-catalog §1.9). convert.html_to_page is destructive ONLY when commit:true; here commit:false so it NEVER persists — it runs the full pipeline (html_to_tree -> sideload -> classes.upsert -> page.dry_run authoritative) and returns the diff/report/committed:false WITHOUT writing. The §8 smoke suite targets a disposable draft only for payloads that WRITE; this one does not, so it is safe to run against the live site read-only. MINIMAL valid input per §1.9: `html` required; `title` + `commit:false` set explicitly (commit/confirm default false). LOCKED: convert.html_to_page NEVER auto-commits (§1.9). requires.experiments gates the v4 atomic output.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.convert.html_to_page",
+  "arguments": {
+    "html": "<section><h1>Hi</h1><p>Body</p></section>",
+    "title": "Smoke",
+    "commit": false
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "$fixture": 1,
+  "id": "styles.states-breakpoints",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "One element whose local style exercises every valid StyleState (null,hover,active,focus,focus-visible,checked,e--selected) and the desktop/tablet/mobile breakpoints",
+  "_comment": "WP-Q01 STATE/BREAKPOINT variant fixture (Detailed-Req #3; styles/style-states.php:6-12 + SUPPLEMENT §B.3). One e-button local style with variants covering the FULL StyleState set [null,hover,active,focus,focus-visible,checked,e--selected] on desktop, plus variants on the live breakpoints tablet+mobile (schema/breakpoints returns mobile@767/tablet@1024 max-width; desktop is the base). State lives on variant.meta.state, breakpoint on variant.meta.breakpoint — NEVER on a prop (§5.2). All props native (color, font-size:size). The local-style id is mirrored into classes (R4/§5.1). VERIFIED valid:true via Validator::dry_run on Elementor 4.1.1 (all 11 variants accepted). prefilter.verdict:defer (§4).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "sb00001",
+      "elType": "widget",
+      "widgetType": "e-button",
+      "settings": {
+        "classes": { "$$type": "classes", "value": ["e-sb00001-d4e5f60"] },
+        "text": {
+          "$$type": "html-v3",
+          "value": { "content": { "$$type": "string", "value": "Stateful" }, "children": [] }
+        }
+      },
+      "styles": {
+        "e-sb00001-d4e5f60": {
+          "id": "e-sb00001-d4e5f60",
+          "type": "class",
+          "label": "stateful",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": { "color": { "$$type": "color", "value": "rgb(0, 0, 0)" } }
+            },
+            {
+              "meta": { "breakpoint": "desktop", "state": "hover" },
+              "props": { "color": { "$$type": "color", "value": "rgb(20, 20, 20)" } }
+            },
+            {
+              "meta": { "breakpoint": "desktop", "state": "active" },
+              "props": { "color": { "$$type": "color", "value": "rgb(40, 40, 40)" } }
+            },
+            {
+              "meta": { "breakpoint": "desktop", "state": "focus" },
+              "props": { "color": { "$$type": "color", "value": "rgb(60, 60, 60)" } }
+            },
+            {
+              "meta": { "breakpoint": "desktop", "state": "focus-visible" },
+              "props": { "color": { "$$type": "color", "value": "rgb(80, 80, 80)" } }
+            },
+            {
+              "meta": { "breakpoint": "desktop", "state": "checked" },
+              "props": { "color": { "$$type": "color", "value": "rgb(100, 100, 100)" } }
+            },
+            {
+              "meta": { "breakpoint": "desktop", "state": "e--selected" },
+              "props": { "color": { "$$type": "color", "value": "rgb(120, 120, 120)" } }
+            },
+            {
+              "meta": { "breakpoint": "tablet", "state": null },
+              "props": { "font-size": { "$$type": "size", "value": { "unit": "px", "size": 18 } } }
+            },
+            {
+              "meta": { "breakpoint": "tablet", "state": "hover" },
+              "props": { "color": { "$$type": "color", "value": "rgb(140, 140, 140)" } }
+            },
+            {
+              "meta": { "breakpoint": "mobile", "state": null },
+              "props": { "font-size": { "$$type": "size", "value": { "unit": "px", "size": 16 } } }
+            },
+            {
+              "meta": { "breakpoint": "mobile", "state": "active" },
+              "props": { "color": { "$$type": "color", "value": "rgb(160, 160, 160)" } }
+            }
+          ]
+        }
+      },
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

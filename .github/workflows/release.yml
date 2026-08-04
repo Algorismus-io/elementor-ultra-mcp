@@ -1,0 +1,97 @@
+# WP-F07 — release pipeline SKELETON (tag-triggered). Consumed/extended by WP-Q08 (packaging logic).
+#
+# Builds the two distributable artifacts by calling WP-Q08's contract-named scripts:
+#   - `pnpm pack:server` — the npx-distributable server tarball (`packages/server`, RESEARCH.md §8),
+#   - `pnpm pack:plugin` — the installable companion-plugin zip (`plugin/elementor-ultra-mcp`).
+# The actual packaging logic lives in WP-Q08; THIS workflow only wires the pipeline + gates. It runs
+# the @modelcontextprotocol 2.x SDK guard as a RELEASE GATE (`15-engineering-standards.md §7`) and is
+# DRY-RUN BY DEFAULT — it never publishes without an explicit `publish: true` dispatch input.
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish artifacts (npm + GitHub release). Default false = dry-run.'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # needed only when actually creating a GitHub Release (publish path)
+
+jobs:
+  # Release gate: re-run the SDK 2.x guard before building anything (§7).
+  sdk-guard:
+    name: 'release gate: SDK 2.x guard'
+    uses: ./.github/workflows/_setup-node.yml
+    with:
+      name: sdk-guard
+      install: false
+      run: node scripts/ci/check-sdk-version.mjs --self-test && node scripts/ci/check-sdk-version.mjs
+
+  build-artifacts:
+    name: build server tarball + plugin zip
+    needs: sdk-guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      # WP-Q08 owns the packaging scripts; this workflow calls them by their contract names. Guarded
+      # so the skeleton is green before WP-Q08 lands (missing script => notice + skip).
+      - name: Pack server tarball (WP-Q08 pack:server)
+        run: |
+          set -euo pipefail
+          if pnpm run --silent --if-present pack:server; then
+            echo "pack:server done."
+          else
+            echo "::notice::pack:server not yet defined (WP-Q08 pending) — skipping."
+          fi
+
+      - name: Pack plugin zip (WP-Q08 pack:plugin)
+        run: |
+          set -euo pipefail
+          if pnpm run --silent --if-present pack:plugin; then
+            echo "pack:plugin done."
+          else
+            echo "::notice::pack:plugin not yet defined (WP-Q08 pending) — skipping."
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: |
+            dist/**
+            packages/server/*.tgz
+            plugin/**/*.zip
+          if-no-files-found: ignore
+
+      # Publishing is OPT-IN (dry-run by default). Both push-tag and a non-publish dispatch stop here.
+      - name: Publish (opt-in only)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.publish }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "::notice::Publish requested. WP-Q08 owns the publish step (npm publish + gh release)."
+          # WP-Q08 wires the actual `npm publish` / `gh release create` here; the skeleton is a no-op
+          # until then so a tag push never accidentally publishes.

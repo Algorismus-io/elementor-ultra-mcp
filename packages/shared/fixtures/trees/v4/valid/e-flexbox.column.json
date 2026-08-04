@@ -1,0 +1,63 @@
+{
+  "$fixture": 1,
+  "id": "e-flexbox.column",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Atomic flexbox container (div tag) styled as a flex column via a local style, holding one atomic child",
+  "_comment": "WP-Q01 VALID fixture (one-per-atomic-widget, SUPPLEMENT §B.2 e-flexbox container; Detailed-Req #1). e-flexbox serializes WITHOUT widgetType (§2.1); `tag` is {$$type:string} 'div' (in the flexbox tag enum). The local style applies native flex props (display:flex, flex-direction:column, align-items:center, gap:size — all §B.3 enum/size-native) and is mirrored into classes (R4/§5.1). One atomic child tests nesting (R6). VERIFIED valid:true via Validator::dry_run on Elementor 4.1.1. prefilter.verdict:defer (§4).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "fb00001",
+      "elType": "e-flexbox",
+      "settings": {
+        "classes": { "$$type": "classes", "value": ["e-fb00001-7a8b9c0"] },
+        "tag": { "$$type": "string", "value": "div" }
+      },
+      "styles": {
+        "e-fb00001-7a8b9c0": {
+          "id": "e-fb00001-7a8b9c0",
+          "type": "class",
+          "label": "stack",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "display": { "$$type": "string", "value": "flex" },
+                "flex-direction": { "$$type": "string", "value": "column" },
+                "align-items": { "$$type": "string", "value": "center" },
+                "gap": { "$$type": "size", "value": { "unit": "px", "size": 24 } }
+              }
+            }
+          ]
+        }
+      },
+      "editor_settings": [],
+      "interactions": [],
+      "elements": [
+        {
+          "id": "fb00001a",
+          "elType": "widget",
+          "widgetType": "e-heading",
+          "settings": {
+            "classes": { "$$type": "classes", "value": [] },
+            "tag": { "$$type": "string", "value": "h2" },
+            "title": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Stacked heading" },
+                "children": []
+              }
+            }
+          },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

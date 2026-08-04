@@ -1,0 +1,9 @@
+{
+  "$comment": "WP-H12 — expected S3-anchored coverage for 01-hero (CoverageReport.coverage shape, diff.schema.json). Numbers are the WP-S03 REALISTIC band for the hero analog (spike 02-hero): native 85.1%, custom_css 14.9%, dropped 0%. NEVER a hardcoded 85% (15-eng-standards §4.6/§6). pct_local_or_global_class == pct_native because every native declaration is placed in a local or global class (the local/global split is a placement decision, not a fidelity loss — WP-S03-findings §3/§5). custom_css tail = radial+linear gradient bg, text-clip gradient (.hero__accent), button transition/transform hover. Within ±5.0pp tolerance (corpus.manifest.json).",
+  "coverage": {
+    "pct_native": 85.1,
+    "pct_local_or_global_class": 85.1,
+    "pct_custom_css": 14.9,
+    "pct_dropped": 0.0
+  }
+}

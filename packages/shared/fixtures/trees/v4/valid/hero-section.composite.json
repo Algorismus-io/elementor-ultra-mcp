@@ -1,0 +1,184 @@
+{
+  "$fixture": 1,
+  "id": "hero-section.composite",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "M1 build-a-hero composite: e-div-block (global class g-hero + local style) > e-heading + e-paragraph + e-button, each with a local style",
+  "_comment": "WP-Q01 COMPOSITE hero fixture (Detailed-Req #2; the M1 build-a-hero shape, Interface §). e-div-block carries a GLOBAL class ref (g-hero) AND a local style (e-hero001-aa11bb2), wrapping e-heading + e-paragraph + e-button, EACH with its own local style — the ≥1 global + ≥1 local requirement. The button's local style adds a hover state variant. All props are typed envelopes ([R8]); every local-style id is mirrored into its element's classes (R4/§5.1). VERIFIED valid:true via Validator::dry_run on Elementor 4.1.1. [S02]/[C2] VERIFIED: this exact tree round-trips through save_item → get_data → process_global_styles(match_site) → Document::save with REMAPPED element ids AND REMAPPED local-style ids ([R5]: ids not stable across save) while structure + all 4 local styles + the g-hero ref survive and the global-class relation merges with NO orphan/dup (Q01 self-check, 14 PASS). Aligned with the WP-S01/WP-Q06 render-assertion shape so M1 (build-a-hero-renders-styled) tests share it. prefilter.verdict:defer (§4).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "hero001",
+      "elType": "e-div-block",
+      "settings": {
+        "classes": { "$$type": "classes", "value": ["g-hero", "e-hero001-aa11bb2"] },
+        "tag": { "$$type": "string", "value": "section" }
+      },
+      "styles": {
+        "e-hero001-aa11bb2": {
+          "id": "e-hero001-aa11bb2",
+          "type": "class",
+          "label": "herowrap",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "display": { "$$type": "string", "value": "flex" },
+                "flex-direction": { "$$type": "string", "value": "column" },
+                "gap": { "$$type": "size", "value": { "unit": "px", "size": 20 } },
+                "padding": {
+                  "$$type": "dimensions",
+                  "value": {
+                    "block-start": { "$$type": "size", "value": { "unit": "px", "size": 64 } },
+                    "block-end": { "$$type": "size", "value": { "unit": "px", "size": 64 } },
+                    "inline-start": { "$$type": "size", "value": { "unit": "px", "size": 32 } },
+                    "inline-end": { "$$type": "size", "value": { "unit": "px", "size": 32 } }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "editor_settings": [],
+      "interactions": [],
+      "elements": [
+        {
+          "id": "hero002",
+          "elType": "widget",
+          "widgetType": "e-heading",
+          "settings": {
+            "classes": { "$$type": "classes", "value": ["e-hero002-cc33dd4"] },
+            "tag": { "$$type": "string", "value": "h1" },
+            "title": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Build faster with Ultra" },
+                "children": []
+              }
+            }
+          },
+          "styles": {
+            "e-hero002-cc33dd4": {
+              "id": "e-hero002-cc33dd4",
+              "type": "class",
+              "label": "herotitle",
+              "variants": [
+                {
+                  "meta": { "breakpoint": "desktop", "state": null },
+                  "props": {
+                    "color": { "$$type": "color", "value": "rgb(17, 17, 17)" },
+                    "font-size": { "$$type": "size", "value": { "unit": "px", "size": 56 } },
+                    "font-weight": { "$$type": "string", "value": "700" }
+                  }
+                }
+              ]
+            }
+          },
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        },
+        {
+          "id": "hero003",
+          "elType": "widget",
+          "widgetType": "e-paragraph",
+          "settings": {
+            "classes": { "$$type": "classes", "value": ["e-hero003-ee55ff6"] },
+            "tag": { "$$type": "string", "value": "p" },
+            "paragraph": {
+              "$$type": "html-v3",
+              "value": {
+                "content": {
+                  "$$type": "string",
+                  "value": "A composable authoring layer for Elementor V4."
+                },
+                "children": []
+              }
+            }
+          },
+          "styles": {
+            "e-hero003-ee55ff6": {
+              "id": "e-hero003-ee55ff6",
+              "type": "class",
+              "label": "herolede",
+              "variants": [
+                {
+                  "meta": { "breakpoint": "desktop", "state": null },
+                  "props": {
+                    "color": { "$$type": "color", "value": "rgb(85, 85, 85)" },
+                    "font-size": { "$$type": "size", "value": { "unit": "px", "size": 20 } }
+                  }
+                }
+              ]
+            }
+          },
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        },
+        {
+          "id": "hero004",
+          "elType": "widget",
+          "widgetType": "e-button",
+          "settings": {
+            "classes": { "$$type": "classes", "value": ["e-hero004-118822a"] },
+            "text": {
+              "$$type": "html-v3",
+              "value": { "content": { "$$type": "string", "value": "Get started" }, "children": [] }
+            },
+            "link": {
+              "$$type": "link",
+              "value": {
+                "destination": { "$$type": "url", "value": "https://example.com/start" },
+                "isTargetBlank": { "$$type": "boolean", "value": false }
+              }
+            }
+          },
+          "styles": {
+            "e-hero004-118822a": {
+              "id": "e-hero004-118822a",
+              "type": "class",
+              "label": "herocta",
+              "variants": [
+                {
+                  "meta": { "breakpoint": "desktop", "state": null },
+                  "props": {
+                    "color": { "$$type": "color", "value": "rgb(255, 255, 255)" },
+                    "background": {
+                      "$$type": "background",
+                      "value": { "color": { "$$type": "color", "value": "rgb(55, 94, 251)" } }
+                    },
+                    "padding": {
+                      "$$type": "dimensions",
+                      "value": {
+                        "block-start": { "$$type": "size", "value": { "unit": "px", "size": 14 } },
+                        "block-end": { "$$type": "size", "value": { "unit": "px", "size": 14 } },
+                        "inline-start": { "$$type": "size", "value": { "unit": "px", "size": 28 } },
+                        "inline-end": { "$$type": "size", "value": { "unit": "px", "size": 28 } }
+                      }
+                    }
+                  }
+                },
+                {
+                  "meta": { "breakpoint": "desktop", "state": "hover" },
+                  "props": {
+                    "background": {
+                      "$$type": "background",
+                      "value": { "color": { "$$type": "color", "value": "rgb(36, 67, 196)" } }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

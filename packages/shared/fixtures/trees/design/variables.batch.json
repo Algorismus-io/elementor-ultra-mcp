@@ -1,0 +1,50 @@
+{
+  "$fixture": 1,
+  "id": "variables.batch",
+  "kind": "design",
+  "generation": "v4",
+  "title": "Variables atomic batch op — create/update/delete/reorder in one watermarked request (POST /design/variables/batch, 10-rest-api.md §4.4)",
+  "_comment": "WP-Q01 design fixture. Carries the EXACT variables batch request body (10-rest-api.md §4.4) in `settings` (the only free-form object slot in the locked envelope, 14-fixtures-harness.md §2). Encoded invariants: (1) `watermark` is REQUIRED (the optimistic-concurrency token) — a stale watermark fails the whole batch → WATERMARK_STALE (12-error-taxonomy.md §3.3). (2) `operations[].type` ∈ create|update|delete|restore|reorder (rest-api.php:507). (3) all three variable types are FREE: global-color-variable, global-font-variable, global-size-variable. (4) limits: id ≤ 64, label ≤ 50, value ≤ 512, ≤ MAX 1000 variables; over-budget → BUDGET_EXCEEDED. (5) `op_id` for idempotent replay. expect.valid:true is the STRUCTURAL validity of the batch body (kind:design fixtures are NOT run through Validator::dry_run; the design-write suite asserts the body against §4.4). The 'reorder' op carries the final order array consistent with the surviving ids after create+delete.",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": ["e_variables"], "pro": false, "min_elementor": "4.1.1" },
+  "settings": {
+    "watermark": 7,
+    "operations": [
+      {
+        "type": "create",
+        "payload": {
+          "type": "global-color-variable",
+          "label": "brand",
+          "value": "#375EFB"
+        }
+      },
+      {
+        "type": "update",
+        "id": "e-gv-1",
+        "payload": {
+          "type": "global-color-variable",
+          "label": "ink",
+          "value": "#0a0a0a"
+        }
+      },
+      {
+        "type": "create",
+        "payload": {
+          "type": "global-size-variable",
+          "label": "gutter",
+          "value": "24px"
+        }
+      },
+      {
+        "type": "delete",
+        "id": "e-gv-2"
+      },
+      {
+        "type": "reorder",
+        "order": ["e-gv-1", "e-gv-3", "e-gv-4"]
+      }
+    ],
+    "op_id": "op_vars_q01_1"
+  },
+  "prefilter": { "verdict": "defer" }
+}

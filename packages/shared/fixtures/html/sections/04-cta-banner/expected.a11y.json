@@ -1,0 +1,7 @@
+{
+  "$comment": "WP-H12 — expected a11y findings for 04-cta-banner. DELIBERATE empty-interactive-name warning: the trailing icon-only action link (.cta__icon-link) contains only an aria-hidden chevron glyph, so its accessible name is empty -> the converter SHOULD emit an empty-interactive-name 'warning' for that link/button (WP-H10 §2). The primary 'Get started' link carries text (no finding). Heading hierarchy is clean (single <h2>, no skipped levels). Matched by rule+severity+locator (element_id minted at runtime, 14-fixtures-harness §7).",
+  "match_by": ["rule", "severity", "locator"],
+  "findings": [
+    { "rule": "empty-interactive-name", "severity": "warning", "locator": "a.cta__icon-link", "message": "Interactive element has no accessible name (icon-only link, glyph is aria-hidden)." }
+  ]
+}

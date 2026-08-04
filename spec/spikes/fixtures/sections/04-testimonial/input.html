@@ -1,0 +1,30 @@
+<!--
+  WP-S03 fixture 04 — Testimonial section (quote card + author).
+  Representative social-proof block: section heading, a single large quote
+  card with a gradient quote mark, star rating row, author row (avatar +
+  name + title). Deliberately includes block-in-text content (<blockquote>,
+  <br>, <cite>) and a <small> to exercise the html-v3 inline-only stripping,
+  plus filter (grayscale avatar), transition, and absolute positioning.
+-->
+<section class="testimonial">
+  <h2 class="testimonial__heading">Loved by teams everywhere</h2>
+
+  <figure class="quote">
+    <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+    <blockquote class="quote__body">
+      This tool replaced three steps in our launch workflow.<br />
+      We shipped a full campaign landing page in an afternoon —
+      <strong>on brand</strong> and fully editable.
+    </blockquote>
+    <div class="quote__rating" aria-label="Rated 5 out of 5">
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+    </div>
+    <figcaption class="quote__author">
+      <img class="quote__avatar" src="https://i.pravatar.cc/96?img=12" alt="Maria Chen" />
+      <span class="quote__who">
+        <cite class="quote__name">Maria Chen</cite>
+        <small class="quote__role">VP Marketing, Northwind</small>
+      </span>
+    </figcaption>
+  </figure>
+</section>

@@ -1,0 +1,63 @@
+<!--
+  WP-H12 corpus section 03 — Feature grid (true 2D grid of icon cards).
+  Real "features" block: section header + 6 cards, each with an inline <svg> icon,
+  a heading, and body text. Exercises: a TRUE 2D grid (grid-template-areas + named
+  rows/columns -> NO Style_Schema key -> grid fallback ladder, S3 §4), repeated
+  icon+heading+text cells, and PER-BREAKPOINT column changes (responsive variants
+  via @media -> 3col/2col/1col). DELIBERATE a11y warning: section title is <h2> but
+  card titles jump to <h4>, SKIPPING <h3> -> heading-hierarchy warning. Off-enum
+  font-weight:650 (.feature__title) FALLS to custom_css (S3 §4 confirmed FALL).
+  S3 analog: spike 03-feature-grid (native 76.8% realistic — LOWEST coverage,
+  heaviest hard-prop density: 6 gradient icon tiles + grid + transforms).
+-->
+<section class="features">
+  <header class="features__head">
+    <p class="features__kicker">Everything you need</p>
+    <h2 class="features__title">Built for modern marketing teams</h2>
+  </header>
+
+  <div class="features__grid">
+    <div class="feature" style="grid-area: a;">
+      <div class="feature__icon feature__icon--a">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="26" height="26"><path d="M13 2 4 14h6l-1 8 9-12h-6z" fill="currentColor"/></svg>
+      </div>
+      <h4 class="feature__title">Lightning fast</h4>
+      <p class="feature__body">Pages render in milliseconds with optimized atomic CSS.</p>
+    </div>
+    <div class="feature" style="grid-area: b;">
+      <div class="feature__icon feature__icon--b">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="26" height="26"><circle cx="12" cy="12" r="9" fill="currentColor"/></svg>
+      </div>
+      <h4 class="feature__title">On-brand</h4>
+      <p class="feature__body">Global classes and variables keep every page consistent.</p>
+    </div>
+    <div class="feature" style="grid-area: c;">
+      <div class="feature__icon feature__icon--c">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="26" height="26"><rect x="4" y="4" width="16" height="16" rx="4" fill="currentColor"/></svg>
+      </div>
+      <h4 class="feature__title">Accessible</h4>
+      <p class="feature__body">Heading hierarchy and alt-text checks run on every build.</p>
+    </div>
+    <div class="feature" style="grid-area: d;">
+      <div class="feature__icon feature__icon--d">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="26" height="26"><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="3"/></svg>
+      </div>
+      <h4 class="feature__title">Reusable</h4>
+      <p class="feature__body">Hoist repeated styles into shared classes automatically.</p>
+    </div>
+    <div class="feature" style="grid-area: e;">
+      <div class="feature__icon feature__icon--e">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="26" height="26"><polygon points="12,3 21,21 3,21" fill="currentColor"/></svg>
+      </div>
+      <h4 class="feature__title">Responsive</h4>
+      <p class="feature__body">Breakpoint variants map cleanly to your design system.</p>
+    </div>
+    <div class="feature" style="grid-area: f;">
+      <div class="feature__icon feature__icon--f">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="26" height="26"><path d="M6 11V8a6 6 0 0 1 12 0v3h1v10H5V11z" fill="currentColor"/></svg>
+      </div>
+      <h4 class="feature__title">Secure</h4>
+      <p class="feature__body">Sanitized output and capability-gated writes by default.</p>
+    </div>
+  </div>
+</section>

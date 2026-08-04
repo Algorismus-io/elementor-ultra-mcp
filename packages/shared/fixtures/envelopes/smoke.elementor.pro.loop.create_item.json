@@ -1,0 +1,20 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.pro.loop.create_item",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the Pro elementor.pro.loop.create_item tool",
+  "_comment": "WP-R10 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §1.8). elementor.pro.loop.create_item is MUTATING (class M, side proxied-to-REST: POST elementor-ultra/v1/pro/loop/item — PHP Loop_Service documents->create('loop-item',{post_title,post_status})). It is a NON-★ Pro tool, so the lean profile registers it DISABLED at boot; the smoke driver must enable it (tools.search 'elementor.pro.loop') before invoking. It CREATES a NEW loop-item template doc, so it does not touch any shared disposable draft; the driver trashes the created template_id in teardown. Gated on `requires.pro:true` so a free-only install SKIPS rather than fails (the PHP route returns 501 PRO_REQUIRED otherwise → mapped to an isError, never a -326xx). MINIMAL valid input per §1.8: REQUIRED {title}; elements is optional and omitted. The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {template_id, edit_url}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "pro": true,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.pro.loop.create_item",
+  "arguments": {
+    "title": "Card"
+  }
+}

@@ -1,0 +1,120 @@
+{
+    "save_and_read": {
+        "template_id": 33,
+        "stored_class_refs": [
+            "s02rt",
+            "e-1ff0cada-35a18fe",
+            "e-1999e9ae-805ca8b"
+        ],
+        "stored_style_ids": [
+            "e-1ff0cada-35a18fe",
+            "e-1999e9ae-805ca8b"
+        ],
+        "stored_element_ids": [
+            "1af0e1e4",
+            "1ff0cada",
+            "1999e9ae"
+        ],
+        "source_ids": [
+            "s02rtdiv",
+            "s02rthead",
+            "s02rtbtn"
+        ],
+        "source_style_ids": [
+            "e-s02rthead-local",
+            "e-s02rtbtn-local"
+        ],
+        "element_ids_remapped": true,
+        "local_style_ids_remapped": true,
+        "global_ref_present": true,
+        "template_relations": [
+            "e-1ff0cada-35a18fe",
+            "e-1999e9ae-805ca8b",
+            "s02rt"
+        ],
+        "getdata_class_refs": [
+            "s02rt",
+            "e-7d629776-df6e110",
+            "e-56d7dd9f-6f021c0"
+        ],
+        "getdata_snapshot_ids": [
+            "s02rt"
+        ]
+    },
+    "match_site": {
+        "processed_class_refs": [
+            "s02rt",
+            "e-7d629776-df6e110",
+            "e-56d7dd9f-6f021c0"
+        ],
+        "updated_global_classes": {
+            "added_items": [],
+            "added_items_order": []
+        },
+        "kit_labels": {
+            "s01hero": "s01hero",
+            "s02card": "s02card",
+            "s02rt": "s02rt",
+            "g-6737fb4": "s02rt-foreign"
+        },
+        "target_post_id": 35,
+        "target_relations": [
+            "e-7d629776-df6e110",
+            "e-56d7dd9f-6f021c0",
+            "s02rt"
+        ],
+        "ref_preserved": true
+    },
+    "keep_create": {
+        "input_class_refs": [
+            "s02rt-foreign",
+            "e-7d629776-df6e110",
+            "e-56d7dd9f-6f021c0"
+        ],
+        "processed_class_refs": [
+            "g-4a5b8fc",
+            "e-7d629776-df6e110",
+            "e-56d7dd9f-6f021c0"
+        ],
+        "updated_global_classes": {
+            "added_items_order": [
+                "g-4a5b8fc"
+            ],
+            "added_items": {
+                "g-4a5b8fc": {
+                    "id": "g-4a5b8fc",
+                    "type": "class",
+                    "label": "DUP_s02rt-foreign",
+                    "variants": [
+                        {
+                            "meta": {
+                                "breakpoint": "desktop",
+                                "state": null
+                            },
+                            "props": {
+                                "background": {
+                                    "$$type": "background",
+                                    "value": {
+                                        "color": {
+                                            "$$type": "color",
+                                            "value": "rgb(9, 9, 9)"
+                                        }
+                                    }
+                                }
+                            },
+                            "custom_css": null
+                        }
+                    ]
+                }
+            }
+        },
+        "kit_labels": {
+            "s01hero": "s01hero",
+            "s02card": "s02card",
+            "s02rt": "s02rt",
+            "g-6737fb4": "s02rt-foreign",
+            "g-4a5b8fc": "DUP_s02rt-foreign"
+        },
+        "import_id": "s02rt-foreign"
+    }
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elementor-ultra-mcp/spec/contracts/schemas/error-payload.schema.json",
+  "title": "MCP Error Payload",
+  "description": "FROZEN structured error payload (12-error-taxonomy.md §2). Every error the system surfaces — as isError text, in DryRunResult.errors[], or in Diff.design_system.modified_labels — serializes to this shape. TS type name: McpErrorPayload (WP-F05); PHP: ErrorPayload. Aligns with diff.schema.json#/$defs/ValidationError (code/message/element_id/style_id/prop/retryable). The `code` is one of the frozen 29 taxonomy codes (12-error-taxonomy.md §6).",
+
+  "$defs": {
+    "ErrorCode": {
+      "type": "string",
+      "description": "One of the frozen 29 SCREAMING_SNAKE_CASE taxonomy codes (12-error-taxonomy.md §6).",
+      "enum": [
+        "VALIDATION_FAILED",
+        "SCHEMA_INVALID_PARAMS",
+        "ATOMIC_SETTINGS_INVALID",
+        "ATOMIC_STYLES_INVALID",
+        "UNKNOWN_WIDGET_TYPE",
+        "DUPLICATE_ELEMENT_ID",
+        "LOCAL_STYLE_UNLINKED",
+        "IMAGE_SRC_XOR_VIOLATION",
+        "HTML_V3_STRIPPED",
+        "LOCK_HELD",
+        "AUTOSAVE_CONFLICT",
+        "CONCURRENCY_STALE_HASH",
+        "IDEMPOTENT_REPLAY",
+        "BUDGET_EXCEEDED",
+        "DUPLICATED_LABEL",
+        "INVALID_ORDER",
+        "WATERMARK_STALE",
+        "CAPABILITY_MISSING",
+        "EXPERIMENT_INACTIVE",
+        "AUTH_FAILED",
+        "PRO_REQUIRED",
+        "WOO_CONTEXT_INVALID",
+        "NOT_FOUND",
+        "NOT_EDITABLE",
+        "CSS_PRIME_FAILED",
+        "IMPORT_REMAP_FAILED",
+        "RATE_LIMITED",
+        "UPSTREAM_ERROR",
+        "INTERNAL_ERROR"
+      ]
+    },
+
+    "ErrorSurface": {
+      "type": "string",
+      "description": "Where the error lands on the MCP wire (12-error-taxonomy.md §1).",
+      "enum": ["protocol", "isError"]
+    },
+
+    "McpErrorPayload": {
+      "type": "object",
+      "description": "The frozen structured error payload (12-error-taxonomy.md §2).",
+      "required": ["code", "message", "http_status", "retryable", "surface", "rpc_code", "meta"],
+      "properties": {
+        "code": { "$ref": "#/$defs/ErrorCode" },
+        "message": {
+          "type": "string",
+          "description": "Human, actionable. Includes appended parser errors verbatim where applicable."
+        },
+        "http_status": {
+          "type": "integer",
+          "description": "The REST status the plugin returned (informational; from the §3 tables by default)."
+        },
+        "retryable": {
+          "type": "boolean",
+          "description": "True => an identical / backoff retry MAY succeed (transient)."
+        },
+        "surface": { "$ref": "#/$defs/ErrorSurface" },
+        "rpc_code": {
+          "type": ["integer", "null"],
+          "description": "JSON-RPC error code; non-null ONLY when surface=='protocol' (e.g. -32602), else null."
+        },
+        "meta": {
+          "type": "object",
+          "description": "Code-specific structured context (12-error-taxonomy.md §3 documents the keys per code). Open object.",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "$ref": "#/$defs/McpErrorPayload"
+}

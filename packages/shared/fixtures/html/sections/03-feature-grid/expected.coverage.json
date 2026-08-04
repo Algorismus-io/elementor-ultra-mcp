@@ -1,0 +1,9 @@
+{
+  "$comment": "WP-H12 — expected S3-anchored coverage for 03-feature-grid (CoverageReport.coverage shape). WP-S03 REALISTIC band for the feature-grid analog (spike 03-feature-grid): native 76.8%, custom_css 23.2%, dropped 0% — the LOWEST-coverage section, anchoring the lower end of the honest band. custom_css tail = 6 gradient icon tiles, off-enum font-weight:650 (FALLS, S3 §4), hover transforms/transitions, and grid-template-areas (NO Style_Schema key -> falls; the 2D-grid fallback ladder). repeat(auto-fit/3,1fr) grid-template-columns STICKS as native (S3 §4). NEVER a hardcoded 85% (15-eng-standards §4.6/§6). Within ±5.0pp tolerance (min_native 71.8%).",
+  "coverage": {
+    "pct_native": 76.8,
+    "pct_local_or_global_class": 76.8,
+    "pct_custom_css": 23.2,
+    "pct_dropped": 0.0
+  }
+}

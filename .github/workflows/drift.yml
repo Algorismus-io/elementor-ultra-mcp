@@ -1,0 +1,82 @@
+# WP-F07 — schema-drift REQUIRED check (`14-fixtures-harness.md §5`, §10 last line).
+#
+# The single most important guard against Elementor version drift (`§0/§5`). It boots wp-env with the
+# pinned Elementor 4.1.1 + Pro 4.1.0, fetches the LIVE post-filter `get_props_schema()` per supported
+# atomic widget + the Style-Schema, and diffs against the committed baseline in
+# `packages/shared/fixtures/schemas/*.schema.json`. ANY diff fails the job; the failure message lists
+# the per-widget added/removed/changed props (produced by the WP-Q02 `test:drift` runner — CI only
+# reports it). The job NEVER regenerates the baseline (that is the manual, reviewed
+# `pnpm fixtures:snapshot-schemas`, WP-F06).
+#
+# REQUIRED-CHECK SCOPING (§10): this drift job is the REQUIRED status check on PRs that touch the
+# schema baselines or the pre-filter. GitHub branch protection can only require a check that RAN, so:
+#   - on PRs touching `packages/shared/schemas/**`, `packages/shared/fixtures/schemas/**`, or
+#     `packages/server/src/authoring/prefilter.ts`, the real `drift` job RUNS and must pass;
+#   - on all other PRs, a no-op `drift` job with the SAME NAME reports success so the single required
+#     check `drift / schema-drift` is always satisfiable.
+# Mark `drift / schema-drift` as a Required status check in branch protection (see CODEOWNERS/README).
+name: drift
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: drift-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # Detect whether this PR touches the schema baselines or the pre-filter (the REQUIRED-on paths).
+  changes:
+    name: detect schema/prefilter changes
+    runs-on: ubuntu-latest
+    outputs:
+      relevant: ${{ steps.filter.outputs.relevant }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Path filter
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          # LOCKED REQUIRED-on paths (§10): schema baselines + the TS pre-filter.
+          filters: |
+            relevant:
+              - 'packages/shared/schemas/**'
+              - 'packages/shared/fixtures/schemas/**'
+              - 'packages/server/src/authoring/prefilter.ts'
+
+  # Real drift job — runs when the relevant paths changed, OR on push to main / manual dispatch.
+  schema-drift:
+    name: schema-drift
+    needs: changes
+    if: ${{ needs.changes.outputs.relevant == 'true' || github.event_name != 'pull_request' }}
+    uses: ./.github/workflows/_setup-wp-env.yml
+    with:
+      name: schema-drift (pnpm test:drift)
+      # The drift leg uses the pinned Elementor + Pro so the live schema includes Pro-injected props
+      # (display-conditions). Pro provisioned when the secret exists; otherwise the Pro-only props are
+      # simply absent and the baseline must reflect a free install for that leg.
+      pro: true
+      run: pnpm test:drift
+    secrets:
+      ELEMENTOR_PRO_ZIP_B64: ${{ secrets.ELEMENTOR_PRO_ZIP_B64 }}
+
+  # No-op twin so the REQUIRED check `drift / schema-drift` is ALWAYS reported, even on PRs that do
+  # not touch the schema/pre-filter paths (branch protection requires a check that ran).
+  schema-drift-skip:
+    name: schema-drift
+    needs: changes
+    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.relevant != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Drift check not required for these paths
+        run: echo "::notice::No schema-baseline / pre-filter changes — schema-drift not required for this PR."

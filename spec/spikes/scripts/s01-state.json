@@ -1,0 +1,10 @@
+{
+    "post_id": 50,
+    "permalink": "http:\/\/localhost:8899\/s01-atomic-hero-3\/",
+    "div_id": "s01div01",
+    "heading_id": "s01head1",
+    "button_id": "s01btn01",
+    "local_style_id": "e-s01head1-local",
+    "global_class_id": "s01hero",
+    "css_dir": "\/var\/www\/html\/wp-content\/uploads\/elementor\/css\/"
+}

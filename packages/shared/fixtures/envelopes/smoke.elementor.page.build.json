@@ -1,0 +1,45 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.page.build",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.page.build tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #6, §1.2). page.build is MUTATING (class M, side BOTH; mints ids + pre-filters in TS, proxies POST documents + save + prime-css). It CREATES a NEW draft (status:'draft'), so it does not touch the shared disposable draft; the driver trashes the created id in teardown. Gated on v4 atomic (requires.experiments e_atomic_elements) so a v4-disabled site SKIPS rather than fails; gated on Spike S1 prime-css at the tool layer. MINIMAL valid input per §1.2: REQUIRED {title, elements}; we set status:'draft' explicitly. The `elements` tree is a STRICTLY-TYPED atomic heading ([R8]/S01 — bare strings fail the validator; tag/title use the {$$type,value} envelopes). The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {id, edit_url, preview_url, diff, base_hash, css_primed, report?}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.page.build",
+  "arguments": {
+    "title": "Ultra MCP smoke draft (page.build)",
+    "status": "draft",
+    "generation": "v4",
+    "elements": [
+      {
+        "id": "smbld01",
+        "elType": "widget",
+        "widgetType": "e-heading",
+        "settings": {
+          "classes": { "$$type": "classes", "value": [] },
+          "tag": { "$$type": "string", "value": "h1" },
+          "title": {
+            "$$type": "html-v3",
+            "value": {
+              "content": { "$$type": "string", "value": "Smoke" },
+              "children": []
+            }
+          }
+        },
+        "styles": {},
+        "editor_settings": [],
+        "interactions": [],
+        "elements": []
+      }
+    ]
+  }
+}

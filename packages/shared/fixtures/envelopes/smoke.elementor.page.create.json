@@ -1,0 +1,17 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.page.create",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.page.create tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #5, §1.2). page.create is MUTATING (class M; proxied-to-REST POST elementor-ultra/v1/documents) — it CREATES its own blank draft, so it does not touch the shared disposable draft and needs no token substitution; status:'draft' keeps it unpublished. The driver TRASHES the created draft in teardown (it tracks ids returned by create-class smokes) so the live site is left clean. MINIMAL valid input per §1.2: every field is optional/defaulted ({title?, post_type?='page', template?, status?='draft'}); we set `title` + explicit status:'draft'. The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {id, edit_url, status, type}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "tool": "elementor.page.create",
+  "arguments": {
+    "title": "Ultra MCP smoke draft (page.create)",
+    "status": "draft"
+  }
+}

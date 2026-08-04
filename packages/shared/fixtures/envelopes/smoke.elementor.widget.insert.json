@@ -1,0 +1,43 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.widget.insert",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.widget.insert tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #11, §1.3). widget.insert is MUTATING (class M; transactional, optimistic-lock + idempotency guarded; proxied-to-REST POST documents/{id}/elements) — so it targets the SHARED DISPOSABLE DRAFT, never a real page. Gated on v4 atomic (requires.experiments e_atomic_elements). The driver substitutes the live `{{DRAFT_POST_ID}}`, the root container `{{DRAFT_PARENT_ID}}`, and the fresh `{{DRAFT_BASE_HASH}}` (re-read after setup; S02/R5 — local-style/element ids are NOT stable across save, so base_hash is always re-read, never cached). MINIMAL valid input per §1.3: REQUIRED {post_id, parent_id, node, base_hash} (index/op_id/force optional). `node` is a STRICTLY-TYPED atomic heading ([R8]). The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {diff, inserted_id, base_hash}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.widget.insert",
+  "arguments": {
+    "post_id": "{{DRAFT_POST_ID}}",
+    "parent_id": "{{DRAFT_PARENT_ID}}",
+    "base_hash": "{{DRAFT_BASE_HASH}}",
+    "node": {
+      "id": "smins01",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Inserted" },
+            "children": []
+          }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  }
+}

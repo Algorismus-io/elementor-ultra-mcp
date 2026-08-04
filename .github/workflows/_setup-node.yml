@@ -1,0 +1,53 @@
+# WP-F07 — reusable Node-toolchain job (Node 20 LTS + pnpm + cached store, then a job-specific command).
+#
+# GitHub reusable workflows are called at the JOB level (`uses:`), so a calling job cannot interleave
+# its own steps with steps defined here. To keep the shared Node setup DRY (`§1`: Node >=20 LTS, pnpm,
+# committed lockfile) while still letting each caller run its OWN command, this workflow accepts a
+# `run` input: it checks out, installs pnpm + Node (pnpm store cached), runs
+# `pnpm install --frozen-lockfile`, then executes the caller's `run` command. ci.yml uses one call per
+# Stage-1 gate (lint, format:check, build, fixtures:validate, test:unit, REST drift, catalog snapshot,
+# SDK guard) so failures are isolated and parallelizable; release.yml reuses it for the SDK gate.
+name: _setup-node
+
+on:
+  workflow_call:
+    inputs:
+      run:
+        description: 'Command to run after Node + pnpm setup and a frozen-lockfile install.'
+        required: true
+        type: string
+      install:
+        description: 'Run `pnpm install --frozen-lockfile` before the command.'
+        required: false
+        type: boolean
+        default: true
+      name:
+        description: 'Human label for the run step (appears in the job log).'
+        required: false
+        type: string
+        default: 'run'
+
+jobs:
+  node:
+    name: ${{ inputs.name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        # Version is read from package.json "packageManager" (pnpm@9.x).
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        if: ${{ inputs.install }}
+        run: pnpm install --frozen-lockfile
+
+      - name: ${{ inputs.name }}
+        run: ${{ inputs.run }}

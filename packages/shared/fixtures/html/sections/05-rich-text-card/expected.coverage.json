@@ -1,0 +1,16 @@
+{
+  "$comment": "WP-H12 — expected coverage for 05-rich-text-card (CoverageReport.coverage shape) PLUS the stripped_text expectation the WP-H10 corpus suite reads (14-fixtures-harness §6 step 4; aligns with CoverageReport.stripped_text in diff.schema.json). SHAPE NOTE: stripped_text lives HERE (a `stripped_text` key on this file) rather than a sibling expected.stripped.json — the WP-H10 suite reads report.stripped_text and matches the stripped_tags SET per source-text node (matched by locator, not minted element_id; 14-fixtures-harness §7). PROVISIONAL coverage: S3 did not measure this exact section; the number is anchored to the closest S3 analog (spike 04-testimonial, block-in-text, native 82.8% realistic) and FLAGGED provisional in corpus.manifest.json (15-eng-standards §6 — no convert WP locks a threshold S3 did not produce). The card is text-heavy with a small hard-prop tail (box-shadow on the card, list-style on .note__points -> custom_css).",
+  "provisional": true,
+  "coverage": {
+    "pct_native": 82.8,
+    "pct_local_or_global_class": 82.8,
+    "pct_custom_css": 17.2,
+    "pct_dropped": 0.0
+  },
+  "stripped_text": [
+    {
+      "locator": "p.note__lead",
+      "stripped_tags": ["mark", "code", "br", "div", "ul", "li"]
+    }
+  ]
+}

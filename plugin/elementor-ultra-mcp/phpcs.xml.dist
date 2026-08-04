@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<ruleset name="Elementor Ultra MCP">
+	<description>WordPress + WordPress-Extra coding standards for the Elementor Ultra MCP companion plugin (15-engineering-standards.md §3.1).</description>
+
+	<!-- What to scan (files_owned + the includes tree future PHP WPs land in). -->
+	<file>includes</file>
+	<file>elementor-ultra-mcp.php</file>
+
+	<!-- Ignore Composer's vendor tree and any build artifacts. -->
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+
+	<!-- Use colors + show sniff codes; only scan PHP. -->
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="ps"/>
+
+	<!-- Rulesets: WordPress (incl. Core/Docs/Extra) + WordPress-Extra (15-engineering-standards.md §3.1). -->
+	<rule ref="WordPress"/>
+	<rule ref="WordPress-Extra"/>
+
+	<!-- Text domain (15-engineering-standards.md §3.1). -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="elementor-ultra-mcp"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Prefix all globals (functions/hooks/options) to the plugin namespace. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="emcp"/>
+				<element value="Elementor\Ultra"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Minimum supported versions (10-rest-api.md header; 15-engineering-standards.md §7). -->
+	<config name="minimum_wp_version" value="6.0"/>
+	<config name="testVersion" value="7.4-"/>
+</ruleset>

@@ -1,0 +1,22 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.convert.fidelity_check",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the elementor.convert.fidelity_check tool (post_id placeholder)",
+  "_comment": "WP-H12 — Inspector smoke (14-fixtures-harness §8 step 3; 13-tool-catalog §1.9). convert.fidelity_check is read-only but RENDERS a SAVED page, so it needs a real post to point at: the §8 smoke runner CREATES a disposable draft in fixture setup, SUBSTITUTES its id into `arguments.post_id`, runs, then TRASHES the draft in teardown. PLACEHOLDER CONVENTION (documented): `arguments.post_id` is the SENTINEL 0; the runner MUST replace arguments.post_id (0) with the disposable draft id (the SAME draft convert.html_to_page would have written) before invoking — a smoke run against post_id:0 is expected to be substituted, never invoked literally. MINIMAL valid input per §1.9: `post_id` (int) + `source_html` (string); `breakpoints` optional. Skipped if the convert/persist capability is unavailable (capability-gated like every mutating-adjacent smoke, §8).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.convert.fidelity_check",
+  "arguments": {
+    "post_id": 0,
+    "source_html": "<section><h1>Hi</h1></section>"
+  }
+}

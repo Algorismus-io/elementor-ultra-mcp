@@ -1,0 +1,38 @@
+{
+    "name": "elementor/ultra-mcp",
+    "description": "Companion WordPress plugin for the Elementor Ultra MCP server: exposes the elementor-ultra/v1 REST seam consumed by the external TypeScript MCP server.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=7.4",
+        "automattic/jetpack-autoloader": "^3.0 || ^4.0 || ^5.0"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "phpunit/phpunit": "^9.6 || ^10.5",
+        "squizlabs/php_codesniffer": "^3.9",
+        "wp-coding-standards/wpcs": "^3.0",
+        "yoast/phpunit-polyfills": "^2.0"
+    },
+    "suggest": {
+        "wordpress/mcp-adapter": "Optional secondary WP-Abilities/MCP-Adapter path; absent => graceful no-op (15-engineering-standards.md §1, §5)."
+    },
+    "autoload": {
+        "psr-4": {
+            "Elementor\\Ultra\\": "includes/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "automattic/jetpack-autoloader": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "scripts": {
+        "phpcs": "phpcs --standard=phpcs.xml.dist",
+        "phpcbf": "phpcbf --standard=phpcs.xml.dist",
+        "test:php": "phpunit"
+    }
+}

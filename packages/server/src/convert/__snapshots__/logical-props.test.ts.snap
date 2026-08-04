@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`contract — dimensions field names match atomic-prop-types.schema.json > matches the frozen Dimensions field-name snapshot 1`] = `
+[
+  "block-end",
+  "block-start",
+  "inline-end",
+  "inline-start",
+]
+`;

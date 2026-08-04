@@ -1,0 +1,9 @@
+{
+  "$comment": "WP-H12 — expected S3-anchored coverage for 02-pricing-table (CoverageReport.coverage shape). WP-S03 REALISTIC band for the pricing analog (spike 01-pricing-table): native 90.5%, custom_css 9.5%, dropped 0%. This is the HIGHEST-coverage section (declaration count dominated by trivially-mappable padding/margin/color/font-size/border-radius/grid props). The repeated .card pattern HOISTS into a shared global class (76.5% of native lands as global_class in S3) — counted in pct_local_or_global_class, still native. custom_css tail = featured-card gradient, hover transition/transform, list-style:none + ::before check marks. NEVER a hardcoded 85% (15-eng-standards §4.6/§6). Within ±5.0pp tolerance.",
+  "coverage": {
+    "pct_native": 90.5,
+    "pct_local_or_global_class": 90.5,
+    "pct_custom_css": 9.5,
+    "pct_dropped": 0.0
+  }
+}

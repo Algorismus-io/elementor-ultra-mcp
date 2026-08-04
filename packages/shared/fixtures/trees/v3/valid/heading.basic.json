@@ -1,0 +1,25 @@
+{
+  "$fixture": 1,
+  "id": "heading.basic",
+  "kind": "tree",
+  "generation": "v3",
+  "title": "V3 classic heading widget — flat scalar settings (header_size, align, title_color), no typed envelopes",
+  "_comment": "WP-Q01 V3 VALID fixture (Detailed-Req #5; 11-authoring-contract.md §2.3 classic node). The classic heading uses a FLAT assoc settings map of scalar control values (title, header_size, align, title_color) — NO typed envelopes, NO styles map; CSS is control-selector driven. requires.experiments is EMPTY (classic V3 needs no atomic experiment) so this runs on a free-only / atomic-off install. VERIFIED valid:true via Validator::dry_run on Elementor 4.1.1. prefilter.verdict:defer — the pre-filter cannot prove a flat classic settings map and defers to PHP (§4).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": [], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "v3hd001",
+      "elType": "widget",
+      "widgetType": "heading",
+      "settings": {
+        "title": "Hello classic",
+        "header_size": "h1",
+        "align": "center",
+        "title_color": "#222222"
+      },
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

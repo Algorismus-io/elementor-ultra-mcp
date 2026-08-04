@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elementor-ultra-mcp/spec/contracts/schemas/element-node.schema.json",
+  "title": "Element Node (V4 atomic OR V3 classic)",
+  "description": "FROZEN canonical authoring node. Two node schemas coexist in the same tree (RESEARCH.md §2.1, §4). V4 atomic (elType 'e-*' container or widgetType 'e-*') is the PRIMARY target; V3 classic (section/column/container + classic widgets) is the FALLBACK. TS type names: ElementNode = AtomicNode | ClassicNode; AtomicContainerNode, AtomicWidgetNode, ClassicNode (WP-F03). The PHP dry_run validator (WP-P03) is AUTHORITATIVE: unknown legacy elTypes/widgetTypes are SILENTLY DROPPED on save; unknown/invalid atomic nodes THROW and abort the whole save (has-atomic-base.php:97,113). This schema is a structural pre-filter only.",
+
+  "$defs": {
+    "ElementId": {
+      "type": "string",
+      "description": "Node id. Minted by TS as substr(strtolower(dechex(wp_rand)),0,7) (7 hex chars; NOT a UUID). Elementor performs NO server-side uniqueness check (controls-stack.php trusts id verbatim) — the MCP MUST guarantee uniqueness across the whole tree and against existing document ids. Duplicates collide on .elementor-element-<id> selectors and break CSS.",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+
+    "AtomicTag": {
+      "type": "object",
+      "description": "Container tag prop. enum for e-div-block/e-flexbox: div,header,section,article,aside,footer,a,button (div-block.php:52). For e-heading: h1..h6. For e-paragraph: p,span.",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "const": "string" },
+        "value": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "AtomicContainerNode": {
+      "type": "object",
+      "description": "V4 atomic container (extends Atomic_Element_Base). Serializes WITHOUT widgetType. Carries sibling keys version/styles/editor_settings/interactions in addition to settings/elements. settings values are TypedValue envelopes. styles is a map of local StyleDefinition keyed by id; every local style id MUST also be present in settings.classes.value.",
+      "required": ["id", "elType", "settings"],
+      "properties": {
+        "id": { "$ref": "#/$defs/ElementId" },
+        "elType": {
+          "type": "string",
+          "description": "Atomic container element type. Verified set from modules/atomic-widgets/elements/.",
+          "enum": ["e-div-block", "e-flexbox", "e-tabs", "e-tabs-menu", "e-tab", "e-tabs-content-area", "e-tab-content", "e-form", "e-form-success-message", "e-form-error-message"]
+        },
+        "version": { "type": "string", "description": "Atomic node version stamp, e.g. '0.0'." },
+        "settings": {
+          "type": "object",
+          "description": "Map of prop name -> TypedValue (generic envelope; the loose pre-filter check). ALWAYS includes classes (Classes envelope, default empty). Auto-injected _cssid (string, ignorable) may appear on round-trip; tolerate but do not author. STRICTER PRE-FILTER (optional, WP-T prefilter.ts): substitute the strict per-$$type defs from atomic-prop-types.schema.json (e.g. #/$defs/Image, #/$defs/ImageSrc which enforces id-XOR-url, #/$defs/Size, #/$defs/HtmlV3, #/$defs/Classes) keyed by the per-widget prop map from authoring-contract §4.1. The PHP dry_run validator (WP-P03) is authoritative for all nested/conditional rules either way.",
+          "additionalProperties": { "$ref": "atomic-prop-types.schema.json#/$defs/TypedValue" }
+        },
+        "styles": {
+          "type": "object",
+          "description": "Local style objects keyed by style id (e-<elementId>-<7hex>). Each id MUST also appear in settings.classes.value.",
+          "additionalProperties": { "$ref": "style-variant.schema.json#/$defs/StyleDefinition" }
+        },
+        "editor_settings": {
+          "description": "Editor-only metadata; array or object. Often holds {title} label or the idempotency op_id (hidden).",
+          "type": ["array", "object"]
+        },
+        "interactions": {
+          "type": "array",
+          "description": "Animation/behavior interactions. Envelope confirmed; full item schema UNVERIFIED (RESEARCH.md §10 OQ#10). Default []."
+        },
+        "origin_id": { "type": "string", "description": "Optional provenance id (template origin)." },
+        "isInner": { "type": "boolean" },
+        "isLocked": { "type": "boolean" },
+        "elements": {
+          "type": "array",
+          "description": "Atomic child nodes.",
+          "items": { "$ref": "#/$defs/ElementNode" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "AtomicWidgetNode": {
+      "type": "object",
+      "description": "V4 atomic widget (extends Atomic_Widget_Base). Serializes elType:'widget' + widgetType:'e-*'. Same sibling keys as containers. elements is typically empty.",
+      "required": ["id", "elType", "widgetType", "settings"],
+      "properties": {
+        "id": { "$ref": "#/$defs/ElementId" },
+        "elType": { "const": "widget" },
+        "widgetType": {
+          "type": "string",
+          "description": "Atomic widget type. Verified set from modules/atomic-widgets/elements/ + Pro atomic forms (gated on e_pro_atomic_form).",
+          "enum": [
+            "e-heading", "e-paragraph", "e-image", "e-button", "e-svg", "e-youtube", "e-divider", "e-self-hosted-video",
+            "e-tab-content",
+            "e-form-input", "e-form-textarea", "e-form-checkbox", "e-form-radio-button", "e-form-select", "e-form-date-picker", "e-form-time-picker", "e-form-file-upload", "e-form-label", "e-form-submit-button"
+          ]
+        },
+        "version": { "type": "string" },
+        "settings": {
+          "type": "object",
+          "additionalProperties": { "$ref": "atomic-prop-types.schema.json#/$defs/TypedValue" }
+        },
+        "styles": {
+          "type": "object",
+          "additionalProperties": { "$ref": "style-variant.schema.json#/$defs/StyleDefinition" }
+        },
+        "editor_settings": { "type": ["array", "object"] },
+        "interactions": { "type": "array" },
+        "origin_id": { "type": "string" },
+        "isLocked": { "type": "boolean" },
+        "elements": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ElementNode" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "ClassicNode": {
+      "type": "object",
+      "description": "V3 classic node (FALLBACK). section/column/container element, or any classic widget. settings is a FLAT assoc map of scalar/object control values (NO typed envelopes). Responsive overrides use SUFFIX keys (_tablet/_mobile), never nested objects. Group controls expand to flat prefixed keys. Switcher = 'yes'/''. Dynamic via settings.__dynamic__[ctrl]; globals via settings.__globals__[ctrl]. Emit only non-default keys.",
+      "required": ["id", "elType", "settings"],
+      "properties": {
+        "id": { "$ref": "#/$defs/ElementId" },
+        "elType": {
+          "type": "string",
+          "enum": ["section", "column", "container", "widget"]
+        },
+        "widgetType": {
+          "type": "string",
+          "description": "Required when elType=='widget'. Classic widget slug (e.g. heading, text-editor, image, button). MUST NOT start with 'e-' (that is the atomic namespace; atomic widgets use AtomicWidgetNode). Unknown slugs are SILENTLY DROPPED on save.",
+          "not": { "pattern": "^e-" }
+        },
+        "settings": {
+          "type": "object",
+          "description": "Flat control-value map. Reserved keys: __dynamic__ (map ctrl->elementor-tag shortcode), __globals__ (map ctrl->'globals/...?id=...'). Other keys are control names; values scalar (Base_Data_Control) or object (Base_Multiple: media/url/icons/slider/dimensions/box_shadow).",
+          "properties": {
+            "__dynamic__": {
+              "type": "object",
+              "description": "ctrl -> '[elementor-tag id=\"..\" name=\"..\" settings=\"<urlencoded JSON_FORCE_OBJECT>\"]'. Empty settings encode as %7B%7D, NOT empty string.",
+              "additionalProperties": { "type": "string" }
+            },
+            "__globals__": {
+              "type": "object",
+              "description": "ctrl -> 'globals/colors?id=<_id>' or 'globals/typography?id=<_id>'. Typography group key is typography_typography.",
+              "additionalProperties": { "type": "string" }
+            }
+          },
+          "additionalProperties": true
+        },
+        "isInner": { "type": "boolean" },
+        "isLocked": { "type": "boolean" },
+        "elements": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ElementNode" }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "elType": { "const": "widget" } } },
+          "then": { "required": ["widgetType"] }
+        }
+      ],
+      "additionalProperties": false
+    },
+
+    "ElementNode": {
+      "description": "Discriminated union over all node kinds. A subtree MAY mix generations but test nesting (RESEARCH.md §4.5 rule 6). TS: type ElementNode = AtomicContainerNode | AtomicWidgetNode | ClassicNode. Discrimination is deterministic so each node routes to exactly ONE branch (the loose ClassicNode never absorbs atomic shapes): an atomic container elType ('e-*' except 'widget') -> AtomicContainerNode; elType 'widget' with an atomic 'e-*' widgetType -> AtomicWidgetNode; everything else -> ClassicNode. This lets the pre-filter enforce strict atomic sub-rules (e.g. image-src XOR) instead of falling through to additionalProperties:true. PHP dry_run remains authoritative.",
+      "type": "object",
+      "required": ["id", "elType"],
+      "properties": {
+        "id": { "$ref": "#/$defs/ElementId" },
+        "elType": { "type": "string" }
+      },
+      "if": {
+        "properties": {
+          "elType": {
+            "enum": ["e-div-block", "e-flexbox", "e-tabs", "e-tabs-menu", "e-tab", "e-tabs-content-area", "e-tab-content", "e-form", "e-form-success-message", "e-form-error-message"]
+          }
+        },
+        "required": ["elType"]
+      },
+      "then": { "$ref": "#/$defs/AtomicContainerNode" },
+      "else": {
+        "if": {
+          "properties": {
+            "elType": { "const": "widget" },
+            "widgetType": { "pattern": "^e-" }
+          },
+          "required": ["elType", "widgetType"]
+        },
+        "then": { "$ref": "#/$defs/AtomicWidgetNode" },
+        "else": { "$ref": "#/$defs/ClassicNode" }
+      }
+    }
+  },
+
+  "$ref": "#/$defs/ElementNode"
+}

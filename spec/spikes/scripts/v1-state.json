@@ -1,0 +1,2918 @@
+{
+  "post_id": 477,
+  "preview_url": "http://localhost:8899/v1-convert-demo-launch-in-record-time/?preview=true",
+  "public_url": "http://localhost:8899/v1-convert-demo-launch-in-record-time/",
+  "committed": true,
+  "css_primed_reported": true,
+  "rendered_styled": true,
+  "native_not_dump": true,
+  "dry_run_coverage": {
+    "native_pct": 59.3,
+    "class_pct": 59.3,
+    "custom_css_pct": 40.7,
+    "dropped_pct": 0
+  },
+  "commit_coverage": {
+    "native_pct": 59.3,
+    "class_pct": 59.3,
+    "custom_css_pct": 40.7,
+    "dropped_pct": 0
+  },
+  "widget_type_histogram": {
+    "e-flexbox": 7,
+    "e-div-block": 1,
+    "e-heading": 4,
+    "e-paragraph": 4,
+    "e-button": 2,
+    "e-image": 3
+  },
+  "total_nodes": 21,
+  "proposed_classes": 0,
+  "proposed_variables": 0,
+  "fallbacks": [
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"normal\" is not a valid line-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"normal\" is not a valid letter-spacing length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4dc0737",
+      "declaration": "\"auto\" not in cursor enum [pointer]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "578a479",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d86213d",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "fbb9830",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "68dcc86",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "d0f9bf1",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f20c1f7",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "7fd989a",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "4e3c11e",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "69aaae3",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"clip\" not in overflow enum [visible,hidden,auto]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "5aca300",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "34ad532",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "e0198d7",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "0f422a4",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"clip\" not in overflow enum [visible,hidden,auto]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "63071e8",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "3645dcf",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "17528f4",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "f299e8f",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"clip\" not in overflow enum [visible,hidden,auto]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "192fc34",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "02154ac",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"flex-grow\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"flex-shrink\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"flex-basis\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"normal\" is not a valid gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"row-gap\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"normal\" is not a valid column-gap length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"normal\" not in align-content enum [center,start,end,space-between,space-around,space-evenly]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "prop \"grid-column\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "prop \"grid-row\" $$type \"span\" not modeled in TS pre-filter",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"none\" is not a valid max-width length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"none\" is not a valid max-height length",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"50% 50%\" not in object-position enum [center center,center left,center right,top center,top left,top right,bottom center,bottom left,bottom right]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"auto\" is not numeric for z-index",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"background-color\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"background-image\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"background-size\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"background-position\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"background-repeat\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"background-attachment\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"background-clip\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "\"border-top-style\" absent from Style_Schema",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "unit \"px\" not in opacity units [%,custom]",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "typed-object prop \"filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "typed-object prop \"backdrop-filter\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "typed-object prop \"transform\" requires exact decomposition",
+      "tier": "custom_css"
+    },
+    {
+      "node_id": "139bb99",
+      "declaration": "typed-object prop \"transition\" requires exact decomposition",
+      "tier": "custom_css"
+    }
+  ],
+  "a11y": [
+    {
+      "node_id": "34ad532",
+      "rule": "heading-hierarchy",
+      "severity": "warn",
+      "message": "Heading level skipped: h1 followed by h3 (expected h2)."
+    }
+  ],
+  "widget_texts": [
+    {
+      "widget": "e-heading",
+      "tag": "h1",
+      "text": "Launch your product in record time"
+    },
+    {
+      "widget": "e-paragraph",
+      "tag": "p",
+      "text": "A complete starter kit for modern marketing teams. Design, build, and ship beautiful pages without writing a single line of code."
+    },
+    {
+      "widget": "e-button",
+      "text": "Start free trial"
+    },
+    {
+      "widget": "e-button",
+      "text": "Book a demo"
+    },
+    {
+      "widget": "e-heading",
+      "tag": "h3",
+      "text": "Drag & drop builder"
+    },
+    {
+      "widget": "e-paragraph",
+      "tag": "p",
+      "text": "Compose pages visually with real, editable native building blocks — no shortcodes, no lock-in."
+    },
+    {
+      "widget": "e-heading",
+      "tag": "h3",
+      "text": "Native performance"
+    },
+    {
+      "widget": "e-paragraph",
+      "tag": "p",
+      "text": "Output is clean, atomic markup that loads fast and scores high on Core Web Vitals."
+    },
+    {
+      "widget": "e-heading",
+      "tag": "h3",
+      "text": "On-brand by default"
+    },
+    {
+      "widget": "e-paragraph",
+      "tag": "p",
+      "text": "Global classes and variables keep every page consistent with your design system."
+    }
+  ],
+  "element_mapping": [
+    {
+      "html": "<section>",
+      "widget": "e-div-block (section wrapper)"
+    },
+    {
+      "html": "<div class=promo__inner/promo__copy/features/feature>",
+      "widget": "e-div-block (flex containers)"
+    },
+    {
+      "html": "<h1 class=promo__title>",
+      "widget": "e-heading (tag h1)"
+    },
+    {
+      "html": "<h3 class=feature__title>",
+      "widget": "e-heading (tag h3)"
+    },
+    {
+      "html": "<p class=promo__lead/feature__text>",
+      "widget": "e-paragraph"
+    },
+    {
+      "html": "<a class=button> ×2",
+      "widget": "e-button"
+    },
+    {
+      "html": "<img class=feature__img> ×3",
+      "widget": "e-image (media sideloaded → attachment id)"
+    }
+  ],
+  "css_files": [
+    "local-477-frontend-desktop.css",
+    "local-477-frontend-mobile.css",
+    "local-477-frontend-tablet.css"
+  ],
+  "text_checks": {
+    "headline in HTML": true,
+    "lead paragraph in HTML": true,
+    "button text in HTML": true,
+    "feature card title in HTML": true
+  },
+  "css_checks": {
+    "primed CSS files present": true,
+    "primed CSS non-empty": true,
+    "class selector present in CSS": true,
+    "CSS declarations present": true
+  },
+  "fidelity": null,
+  "s3_floor_pct": 60,
+  "commit_covered_pct": 100,
+  "commit_native_pct": 59.3,
+  "covered_above_floor": true,
+  "native_in_band": true,
+  "v1_pass": true,
+  "transcript": [
+    {
+      "step": "initialize",
+      "outcome": "serverInfo=elementor-ultra-mcp@0.0.0; protocol=2024-11-05"
+    },
+    {
+      "step": "tools/list",
+      "outcome": "86 tools exposed (full profile)"
+    },
+    {
+      "step": "convert tools present",
+      "outcome": "elementor.convert.{html_to_tree,html_to_page,fidelity_check} all in tools/list"
+    },
+    {
+      "step": "convert.html_to_tree (DRY-RUN)",
+      "outcome": "top-level elements=1; total nodes=21; proposed_classes=0; proposed_variables=0; coverage native=59.3% class=59.3% custom_css=40.7% dropped=0.0%"
+    },
+    {
+      "step": "widget-type histogram (DRY-RUN tree)",
+      "outcome": "{\"e-flexbox\":7,\"e-div-block\":1,\"e-heading\":4,\"e-paragraph\":4,\"e-button\":2,\"e-image\":3}"
+    },
+    {
+      "step": "ASSERT native-not-dump",
+      "outcome": "native widgets seen=[e-div-block, e-heading, e-paragraph, e-button, e-image]; html-dump widgets present=false; native_not_dump=true"
+    },
+    {
+      "step": "widget→text sample",
+      "outcome": "e-heading[h1]: \"Launch your product in record time\"  |  e-paragraph[p]: \"A complete starter kit for modern marketing team\"  |  e-button: \"Start free trial\"  |  e-button: \"Book a demo\"  |  e-heading[h3]: \"Drag & drop builder\"  |  e-paragraph[p]: \"Compose pages visually with real, editable nativ\"  |  e-heading[h3]: \"Native performance\"  |  e-paragraph[p]: \"Output is clean, atomic markup that loads fast a\"  |  e-heading[h3]: \"On-brand by default\"  |  e-paragraph[p]: \"Global classes and variables keep every page con\""
+    },
+    {
+      "step": "convert.html_to_page (COMMIT)",
+      "outcome": "committed=true; id=477; preview_url=http://localhost:8899/v1-convert-demo-launch-in-record-time/?preview=true; css_primed=true; coverage native=59.3% class=59.3% custom_css=40.7% dropped=0.0% → COVERED(native+custom_css)=100.0%; diff.changes=21; gate_reasons=null"
+    },
+    {
+      "step": "ASSERT styled (public page + primed atomic CSS)",
+      "outcome": "rendered_styled=true\n    text: headline in HTML=true, lead paragraph in HTML=true, button text in HTML=true, feature card title in HTML=true\n    css: primed CSS files present=true, primed CSS non-empty=true, class selector present in CSS=true, CSS declarations present=true\n    css files: [\"local-477-frontend-desktop.css\",\"local-477-frontend-mobile.css\",\"local-477-frontend-tablet.css\"]"
+    },
+    {
+      "step": "convert.fidelity_check (BONUS)",
+      "outcome": "skipped/errored: tools/call elementor.convert.fidelity_check returned isError: | Element-tree validation failed (21 errors)."
+    }
+  ]
+}

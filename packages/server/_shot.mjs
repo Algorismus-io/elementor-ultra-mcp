@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+const [,, url, out, widthArg] = process.argv;
+const width = parseInt(widthArg || '1440', 10);
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width, height: 1000 }, deviceScaleFactor: 1 });
+await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 }).catch((e)=>console.error('goto:',e.message));
+await page.waitForTimeout(800);
+await page.screenshot({ path: out, fullPage: true });
+await browser.close();
+console.log('shot saved', out);

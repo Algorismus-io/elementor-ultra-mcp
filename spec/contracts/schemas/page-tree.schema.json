@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elementor-ultra-mcp/spec/contracts/schemas/page-tree.schema.json",
+  "title": "Page Tree (full document element tree + read/write envelope)",
+  "description": "FROZEN shape of an Elementor document's element tree as the MCP reads and writes it. The wire form of _elementor_data is a JSON ARRAY of top-level ElementNodes (RESEARCH.md §2.1). Reads add a base_hash optimistic-lock token (md5 of the stored _elementor_data string) and a generation probe. TS type names: PageTree, PageTreeRead, PageTreeWrite (WP-F03). Persistence ALWAYS goes through Document::save(['elements','settings']) via the companion plugin (WP-P02); NEVER raw-write _elementor_data.",
+
+  "$defs": {
+    "ElementsArray": {
+      "type": "array",
+      "description": "Ordered array of top-level element nodes (the raw _elementor_data payload).",
+      "items": { "$ref": "element-node.schema.json#/$defs/ElementNode" }
+    },
+
+    "Generation": {
+      "type": "string",
+      "description": "Authoring generation of the tree (or the per-node default). 'v4' = atomic primary; 'v3' = classic fallback. New pages default to v4 when atomic is active, else v3 (probe via elementor.site.capabilities).",
+      "enum": ["v4", "v3", "mixed"]
+    },
+
+    "PageSettings": {
+      "type": "object",
+      "description": "Document/page settings (_elementor_page_settings). Free-form assoc map; partial updates use GET-merge-PUT in the plugin until save_settings merge semantics are confirmed (S4 / WP-S04).",
+      "additionalProperties": true
+    },
+
+    "PageTreeRead": {
+      "type": "object",
+      "description": "Returned by elementor.page.get_structure. base_hash is the optimistic-lock token to echo back on writes.",
+      "required": ["post_id", "elements", "base_hash"],
+      "properties": {
+        "post_id": { "type": "integer" },
+        "elements": { "$ref": "#/$defs/ElementsArray" },
+        "settings": { "$ref": "#/$defs/PageSettings" },
+        "generation": { "$ref": "#/$defs/Generation" },
+        "base_hash": {
+          "type": "string",
+          "description": "md5(_elementor_data) at read time. Echo back as base_hash on edit/replace_tree to detect lost updates. NOTE: base_hash does NOT reflect a pending autosave — also check autosave-status (RESEARCH.md §7).",
+          "pattern": "^[a-f0-9]{32}$"
+        },
+        "used_ids": {
+          "type": "array",
+          "description": "Optional: the set of element ids in use (for client-side dedupe before insert).",
+          "items": { "$ref": "element-node.schema.json#/$defs/ElementId" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "PageTreeWrite": {
+      "type": "object",
+      "description": "Input to elementor.page.replace_tree / page.build. base_hash REQUIRED for replace_tree (optimistic lock); op_id enables idempotent replay. generation selects atomic vs classic emission.",
+      "required": ["elements"],
+      "properties": {
+        "post_id": { "type": "integer", "description": "Omit for page.build (creates new); required for replace_tree." },
+        "elements": { "$ref": "#/$defs/ElementsArray" },
+        "settings": { "$ref": "#/$defs/PageSettings" },
+        "generation": { "$ref": "#/$defs/Generation" },
+        "base_hash": {
+          "type": "string",
+          "description": "Required for in-place tree replacement; the write fails with AUTOSAVE_CONFLICT/CONCURRENCY error if stale.",
+          "pattern": "^[a-f0-9]{32}$"
+        },
+        "op_id": {
+          "type": "string",
+          "description": "Idempotency key threaded TS->PHP->Document::save(). On replay the plugin detects + no-ops.",
+          "minLength": 1
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Override lock-held / newer-autosave guards (RESEARCH.md §7). Default false."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "$ref": "#/$defs/PageTreeRead"
+}

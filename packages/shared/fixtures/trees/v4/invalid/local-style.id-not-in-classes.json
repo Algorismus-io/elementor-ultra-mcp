@@ -1,0 +1,56 @@
+{
+  "$fixture": 1,
+  "id": "local-style.id-not-in-classes",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Detached local style — styles-map id is NOT mirrored into the element's classes (R4/§5.1)",
+  "_comment": "Seed bootstrap INVALID fixture (WP-F06, 14-fixtures-harness.md §1 trees/v4/invalid, §4). All props are correctly-typed envelopes (so the tree passes element-node/style-variant schema validation), but the local-style id `e-hd00005-cc33dd4` is present in the `styles` map yet ABSENT from settings.classes.value — the style would silently DETACH and never render (11-authoring-contract.md §5.1, R4). This is the ONE structural rule the TS pre-filter decides authoritatively (checkR4 → LOCAL_STYLE_UNLINKED), so prefilter.verdict:reject and the meta-invariant reject⇒expect.valid:false holds. The companion validator also surfaces LOCAL_STYLE_UNLINKED.",
+  "expect": {
+    "valid": false,
+    "errors": ["LOCAL_STYLE_UNLINKED"]
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tree": [
+    {
+      "id": "hd00005",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Detached style" },
+            "children": []
+          }
+        }
+      },
+      "styles": {
+        "e-hd00005-cc33dd4": {
+          "id": "e-hd00005-cc33dd4",
+          "type": "class",
+          "label": "detached",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "color": { "$$type": "color", "value": "rgb(200, 0, 0)" }
+              }
+            }
+          ]
+        }
+      },
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": {
+    "verdict": "reject"
+  }
+}

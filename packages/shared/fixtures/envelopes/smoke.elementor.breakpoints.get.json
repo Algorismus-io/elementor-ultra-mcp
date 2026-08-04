@@ -1,0 +1,14 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.breakpoints.get",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.breakpoints.get tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #10, §1.1). breakpoints.get is READ-ONLY (readOnlyHint/idempotentHint; proxied-to-REST GET elementor-ultra/v1/breakpoints) — active breakpoints with direction(min/max)+width. Breakpoints exist on free Elementor (no Pro, no atomic gate), so this runs UNCONDITIONALLY with no `requires`. MINIMAL valid input per §1.1: the inputSchema is the empty object {} ⇒ `arguments` is {}. The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {breakpoints[], default_direction}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "tool": "elementor.breakpoints.get",
+  "arguments": {}
+}

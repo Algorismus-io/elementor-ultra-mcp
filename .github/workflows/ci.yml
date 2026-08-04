@@ -1,0 +1,210 @@
+# WP-F07 — CI pipeline (LOCKED job order, `14-fixtures-harness.md §10`).
+#
+# Stage 1 (every push, NO WordPress, fast, fail-fast): pnpm install --frozen-lockfile, then in
+# parallel: lint, format:check, build, PHPCS, fixtures:validate, test:unit (which includes the WP-F04
+# catalog-snapshot conformance test), the WP-F02 REST drift check, and the @modelcontextprotocol 2.x
+# SDK guard.
+# Stage 2 (PR + main, wp-env): composer test:php, pnpm test:contract, pnpm test:smoke — each on a
+# free-only leg and a Pro leg (matrix). The schema-drift job lives in its own workflow (drift.yml) and
+# is wired as a REQUIRED check.
+#
+# F07 owns CI only: it calls the contract-named scripts (`§10`) and NEVER edits the runners
+# (`packages/**`, `plugin/**`) owned by WP-F06/Q##.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Cancel superseded runs of the same ref to save minutes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ----------------------------------------------------------------------------------------------
+  # Stage 1 — no-WordPress fast gates (every push). Each calls the reusable Node workflow so the
+  # toolchain setup is DRY; failures are isolated per gate.
+  # ----------------------------------------------------------------------------------------------
+  lint:
+    name: 'stage1: lint'
+    uses: ./.github/workflows/_setup-node.yml
+    with:
+      name: lint
+      run: pnpm lint
+
+  format:
+    name: 'stage1: format:check'
+    uses: ./.github/workflows/_setup-node.yml
+    with:
+      name: format:check
+      run: pnpm format:check
+
+  build:
+    name: 'stage1: build'
+    uses: ./.github/workflows/_setup-node.yml
+    with:
+      name: build
+      run: pnpm build
+
+  fixtures-validate:
+    name: 'stage1: fixtures:validate'
+    uses: ./.github/workflows/_setup-node.yml
+    with:
+      name: fixtures:validate
+      run: pnpm fixtures:validate
+
+  test-unit:
+    name: 'stage1: test:unit (+catalog snapshot)'
+    uses: ./.github/workflows/_setup-node.yml
+    with:
+      name: test:unit
+      # vitest unit suites incl. the WP-F04 catalog-snapshot conformance test + the WP-F03/F05
+      # zod-vs-JSON-Schema agreement + the pre-filter subset meta-test (§4).
+      run: pnpm test:unit
+
+  rest-drift:
+    name: 'stage1: REST drift (WP-F02)'
+    uses: ./.github/workflows/_setup-node.yml
+    with:
+      name: rest-drift
+      # WP-F02's OpenAPI <-> route-registry drift guard (the YAML is the source of truth).
+      run: node scripts/gen-openapi-types.mjs
+
+  schema-sync:
+    name: 'stage1: schema mirror sync (WP-F03)'
+    uses: ./.github/workflows/_setup-node.yml
+    with:
+      name: schema-sync
+      # WP-F03's guard: the runtime schema mirror is byte-identical to the frozen spec source.
+      run: node scripts/sync-schemas.mjs
+
+  sdk-guard:
+    name: 'stage1: SDK 2.x guard'
+    uses: ./.github/workflows/_setup-node.yml
+    with:
+      name: sdk-guard
+      install: false
+      # Parse the committed lockfile; fail on any @modelcontextprotocol 2.x or an off-^1.29 sdk pin.
+      # Self-test the guard first so a broken guard can never silently pass.
+      run: node scripts/ci/check-sdk-version.mjs --self-test && node scripts/ci/check-sdk-version.mjs
+
+  phpcs:
+    name: 'stage1: PHPCS'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP + Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer
+          coverage: none
+
+      # The PHP companion's Composer/PHPCS config is owned by WP-P01; this job is GUARDED so it is a
+      # graceful no-op until that lands (no composer.json => skip, exit 0) — `15-engineering-standards.md §3.1`.
+      - name: Run PHPCS (guarded)
+        run: |
+          set -euo pipefail
+          if [ -f plugin/elementor-ultra-mcp/composer.json ]; then
+            composer install --no-interaction --working-dir=plugin/elementor-ultra-mcp
+            composer phpcs --working-dir=plugin/elementor-ultra-mcp
+          else
+            echo "::notice::plugin composer.json absent (WP-P01 pending) — skipping PHPCS."
+          fi
+
+  commit-hygiene:
+    name: 'stage1: commit trailer (advisory)'
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
+    # Advisory: report missing co-author trailers / wp-<id> scopes but never block the build.
+    continue-on-error: true
+    steps:
+      - name: Checkout (full history for the PR range)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check commit trailers
+        run: node scripts/ci/check-co-author-trailer.mjs --base origin/${{ github.base_ref }} --head ${{ github.sha }}
+
+  # ----------------------------------------------------------------------------------------------
+  # Stage 2 — wp-env suites (PR + main). Gated on ALL Stage-1 gates passing so we never spend a
+  # Docker boot on a build that already failed lint/build/SDK (LOCKED order, §10).
+  # ----------------------------------------------------------------------------------------------
+  php:
+    name: 'stage2: composer test:php'
+    needs:
+      [lint, format, build, fixtures-validate, test-unit, rest-drift, schema-sync, sdk-guard, phpcs]
+    strategy:
+      fail-fast: false
+      matrix:
+        # Free-only leg (Pro fixtures skip) + Pro leg (Pro fixtures run when the Pro secret exists).
+        leg: [free, pro]
+    uses: ./.github/workflows/_setup-wp-env.yml
+    with:
+      name: composer test:php (${{ matrix.leg }})
+      pro: ${{ matrix.leg == 'pro' }}
+      # PHPUnit runs inside the wp-env `tests-cli` container (has Composer + the test DB), from the
+      # bind-mounted plugin dir. `composer test:php` is the contract-named script (§10), owned by WP-F06.
+      run: pnpm wp-env run tests-cli --env-cwd=wp-content/plugins/elementor-ultra-mcp composer test:php
+    secrets:
+      ELEMENTOR_PRO_ZIP_B64: ${{ secrets.ELEMENTOR_PRO_ZIP_B64 }}
+
+  contract:
+    name: 'stage2: pnpm test:contract'
+    needs:
+      [lint, format, build, fixtures-validate, test-unit, rest-drift, schema-sync, sdk-guard, phpcs]
+    strategy:
+      fail-fast: false
+      matrix:
+        leg: [free, pro]
+    uses: ./.github/workflows/_setup-wp-env.yml
+    with:
+      name: test:contract (${{ matrix.leg }})
+      pro: ${{ matrix.leg == 'pro' }}
+      run: pnpm test:contract
+    secrets:
+      ELEMENTOR_PRO_ZIP_B64: ${{ secrets.ELEMENTOR_PRO_ZIP_B64 }}
+
+  # Contract 17 §4 — the conversion regression corpus (W2/W3): convert test.html + test-landing.html
+  # against wp-env through the fresh dist, run the verification loop (V1 divergences, V2 layout
+  # audits at 1440/390, V3 pixel score) + the named checks pinned to past field bugs (ghost buttons
+  # transparent, SVG wrappers sized, accent <em> colored, in-text hrefs, 390 scrollWidth, prime
+  # green). ADDITIVE job — the LOCKED stage-1/stage-2 jobs above are untouched. Free leg only (the
+  # corpus must stay green on a free install); needs Chromium for the loop's Playwright renders.
+  convert-corpus:
+    name: 'stage2: pnpm test:convert-corpus'
+    needs:
+      [lint, format, build, fixtures-validate, test-unit, rest-drift, schema-sync, sdk-guard, phpcs]
+    uses: ./.github/workflows/_setup-wp-env.yml
+    with:
+      name: test:convert-corpus
+      build: true
+      run: pnpm --filter @elementor-ultra/server exec playwright install --with-deps chromium && pnpm test:convert-corpus
+    secrets:
+      ELEMENTOR_PRO_ZIP_B64: ${{ secrets.ELEMENTOR_PRO_ZIP_B64 }}
+
+  smoke:
+    name: 'stage2: pnpm test:smoke'
+    needs:
+      [lint, format, build, fixtures-validate, test-unit, rest-drift, schema-sync, sdk-guard, phpcs]
+    strategy:
+      fail-fast: false
+      matrix:
+        leg: [free, pro]
+    uses: ./.github/workflows/_setup-wp-env.yml
+    with:
+      name: test:smoke (${{ matrix.leg }})
+      pro: ${{ matrix.leg == 'pro' }}
+      build: true
+      run: pnpm test:smoke
+    secrets:
+      ELEMENTOR_PRO_ZIP_B64: ${{ secrets.ELEMENTOR_PRO_ZIP_B64 }}

@@ -1,0 +1,56 @@
+{
+  "$fixture": 1,
+  "id": "local-style.label-too-short",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Local style with a 1-char label (PHP rejects: class_name_too_short → ATOMIC_STYLES_INVALID)",
+  "_comment": "Seed [R8] TYPED-ENVELOPE regression (WP-F06). Every prop here is a correctly-typed envelope and the local-style id is mirrored into classes (R4/§5.1), so the tree is STRUCTURALLY well-formed (passes element-node/style-variant schema validation). BUT the local-style `label` is \"l\" — below the min length the live Style_Parser enforces (spike-verified \"label: class_name_too_short\", SUMMARY.md R8), so PHP dry_run throws \"Styles validation failed for style ...\" → ATOMIC_STYLES_INVALID (has-atomic-base.php:97, 12-error-taxonomy.md §3.1). prefilter.verdict:defer — label length is not in the TS structural subset (it defers style validity to PHP, §4); defer on an invalid fixture is permitted by the meta-invariant.",
+  "expect": {
+    "valid": false,
+    "errors": ["ATOMIC_STYLES_INVALID"]
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tree": [
+    {
+      "id": "hd00004",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": ["e-hd00004-aa11bb2"] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "title": {
+          "$$type": "html-v3",
+          "value": {
+            "content": { "$$type": "string", "value": "Short label" },
+            "children": []
+          }
+        }
+      },
+      "styles": {
+        "e-hd00004-aa11bb2": {
+          "id": "e-hd00004-aa11bb2",
+          "type": "class",
+          "label": "l",
+          "variants": [
+            {
+              "meta": { "breakpoint": "desktop", "state": null },
+              "props": {
+                "color": { "$$type": "color", "value": "rgb(10, 20, 30)" }
+              }
+            }
+          ]
+        }
+      },
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

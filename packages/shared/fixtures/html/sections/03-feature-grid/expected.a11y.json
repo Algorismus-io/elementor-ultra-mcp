@@ -1,0 +1,7 @@
+{
+  "$comment": "WP-H12 — expected a11y findings for 03-feature-grid. DELIBERATE heading-hierarchy warning: the section heading is <h2> (.features__title) but the six card headings jump to <h4> (.feature__title), SKIPPING the <h3> level. The converter SHOULD emit one heading-hierarchy 'warning' per skipped-level heading (WP-H10 §2: skipped level -> severity:'warning'). element_id is minted at runtime, so matching is by rule+severity+locator (the source CSS-ish selector of the offending node) per 14-fixtures-harness §7 ('compare structurally, not by literal id'). The SVG icons carry aria-hidden + focusable=false so they raise no image-alt finding (decorative). Match semantics for the WP-H10 suite: a finding is satisfied if the report contains an a11y item with the same rule + severity whose node resolves to the given locator; the set of expected locators must be covered.",
+  "match_by": ["rule", "severity", "locator"],
+  "findings": [
+    { "rule": "heading-hierarchy", "severity": "warning", "locator": "h4.feature__title", "from_level": 2, "to_level": 4, "message": "Heading level skipped: h2 followed by h4 (expected h3)." }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.design.classes.upsert",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.design.classes.upsert tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #14, §1.4). design.classes.upsert is MUTATING (class M; diff-PUT; proxied-to-REST PUT elementor-ultra/v1/design/classes) and REQUIRES the UPDATE_CLASS cap (S05/C4 — permission_callback=current_user_can(elementor_global_classes_update_class); missing ⇒ 403). The smoke admin user HAS the cap (S05 verified), but a non-admin/atomic-off install must SKIP — so requires.experiments gates v4 classes (e_classes) and the driver additionally skips when site.capabilities.can_update_class is false (capability gating, §8). It does NOT touch a page document — it adds ONE throwaway global class via `added` (a label-namespaced 'ultra-mcp-smoke' class with a minimal default variant); the upsert is budget-aware (≤1000) and the driver can leave it (idempotent on label) or the design-system teardown reconciles. MINIMAL valid input per §1.4: both {added?, modified?} optional; we provide a single minimal GlobalClassObject in `added` (id/type:'class'/label/variants[] with an empty-prop default variant — props left {} so PHP never rejects, S01/[R8]). The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {ok, order[], modifiedLabels?, total_count}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_classes"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.design.classes.upsert",
+  "arguments": {
+    "added": [
+      {
+        "id": "g-ultra-mcp-smoke",
+        "type": "class",
+        "label": "ultra-mcp-smoke",
+        "variants": [
+          {
+            "meta": { "breakpoint": null, "state": null },
+            "props": {}
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "$fixture": 1,
+  "id": "form.atomic-eform",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Pro atomic `e-form` element — typed-envelope form-name/actions-after-submit/email + e-form-input/textarea/submit-button children",
+  "_comment": "WP-R03 VALID atomic Pro-forms fixture (SUPPLEMENT §B.1/§B.2). The `e-form` element (registered under elements_manager, NOT widgets) carries typed envelopes: form-name {$$type:string}, actions-after-submit {$$type:string-array}, email {$$type:email} (SUPPLEMENT §B.1 email prop-type — message defaults to [all-fields]). Children are atomic widgets e-form-input (type enum text/email/number/tel/password) with {$$type:boolean} required, e-form-textarea ({$$type:number} rows), and e-form-submit-button whose `text` is html-v3 authored in the {content:{$$type:string}} form per §B.2. VERIFIED valid:true via Validator::dry_run on Elementor Pro 4.1.0 with e_pro_atomic_form active. requires.pro:true + requires.experiments:[e_pro_atomic_form] (skipped, not failed, when the experiment is off — the build route then falls back to v3). prefilter.verdict:defer.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_pro_atomic_form"],
+    "pro": true,
+    "min_elementor": "4.1.1"
+  },
+  "tree": [
+    {
+      "id": "e0f0r0m",
+      "elType": "e-form",
+      "settings": {
+        "form-name": {
+          "$$type": "string",
+          "value": "Contact Us"
+        },
+        "actions-after-submit": {
+          "$$type": "string-array",
+          "value": [
+            {
+              "$$type": "string",
+              "value": "email"
+            }
+          ]
+        },
+        "email": {
+          "$$type": "email",
+          "value": {
+            "to": {
+              "$$type": "string",
+              "value": "owner@example.com"
+            },
+            "subject": {
+              "$$type": "string",
+              "value": "New message"
+            },
+            "message": {
+              "$$type": "string",
+              "value": "[all-fields]"
+            }
+          }
+        }
+      },
+      "elements": [
+        {
+          "id": "inp00001",
+          "elType": "widget",
+          "widgetType": "e-form-input",
+          "settings": {
+            "type": {
+              "$$type": "string",
+              "value": "text"
+            },
+            "placeholder": {
+              "$$type": "string",
+              "value": "Your name"
+            },
+            "required": {
+              "$$type": "boolean",
+              "value": true
+            }
+          },
+          "elements": []
+        },
+        {
+          "id": "inp00002",
+          "elType": "widget",
+          "widgetType": "e-form-input",
+          "settings": {
+            "type": {
+              "$$type": "string",
+              "value": "email"
+            },
+            "placeholder": {
+              "$$type": "string",
+              "value": "you@example.com"
+            },
+            "required": {
+              "$$type": "boolean",
+              "value": true
+            }
+          },
+          "elements": []
+        },
+        {
+          "id": "txt00003",
+          "elType": "widget",
+          "widgetType": "e-form-textarea",
+          "settings": {
+            "placeholder": {
+              "$$type": "string",
+              "value": "How can we help?"
+            },
+            "rows": {
+              "$$type": "number",
+              "value": 6
+            }
+          },
+          "elements": []
+        },
+        {
+          "id": "sub00004",
+          "elType": "widget",
+          "widgetType": "e-form-submit-button",
+          "settings": {
+            "text": {
+              "$$type": "html-v3",
+              "value": {
+                "content": {
+                  "$$type": "string",
+                  "value": "Send"
+                }
+              }
+            }
+          },
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "settings": {},
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

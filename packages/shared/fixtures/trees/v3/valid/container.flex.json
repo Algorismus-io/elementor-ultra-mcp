@@ -1,0 +1,34 @@
+{
+  "$fixture": 1,
+  "id": "container.flex",
+  "kind": "tree",
+  "generation": "v3",
+  "title": "V3 classic flex container wrapping a classic heading — flat settings, control-driven CSS",
+  "_comment": "WP-Q01 V3 VALID fixture (Detailed-Req #5; 11-authoring-contract.md §2.3 classic). A classic `container` (flex_direction/flex_gap/content_width flat controls; flex_gap is a Base_Multiple slider OBJECT) wrapping a classic heading — tests classic nesting. No typed envelopes/styles map. requires.experiments EMPTY → runs on free-only/atomic-off. VERIFIED valid:true via Validator::dry_run on Elementor 4.1.1. prefilter.verdict:defer (classic flat settings, §4).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": [], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "v3ct001",
+      "elType": "container",
+      "settings": {
+        "flex_direction": "row",
+        "flex_gap": { "unit": "px", "size": 16, "column": "16", "row": "16" },
+        "content_width": "boxed"
+      },
+      "elements": [
+        {
+          "id": "v3ct002",
+          "elType": "widget",
+          "widgetType": "heading",
+          "settings": {
+            "title": "Inside the container",
+            "header_size": "h2"
+          },
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

@@ -1,0 +1,30 @@
+# CODEOWNERS — WP-F07 (`15-engineering-standards.md §5.5`: contracts are append-only within a wave;
+# a contract change is its own foundation WP and must re-freeze before dependents build).
+#
+# Listing a path here makes a review from the owner REQUIRED before a PR touching that path can merge
+# (when "Require review from Code Owners" branch protection is on). This is the human gate that keeps
+# the FROZEN contracts and the schema-drift baseline from being edited casually by a feature WP.
+#
+# Replace @elementor-ultra/maintainers with the real org team/owner handle when the repo is hosted.
+
+# Frozen contracts — the source of truth for every seam (REST, authoring, tools, errors, fixtures,
+# engineering standards). Changing these is a deliberate, reviewed re-freeze.
+/spec/contracts/                @elementor-ultra/maintainers
+/spec/contracts/**              @elementor-ultra/maintainers
+
+# Shared JSON Schemas (the runtime mirror fixtures validate against, WP-F03).
+/packages/shared/schemas/       @elementor-ultra/maintainers
+/packages/shared/schemas/**     @elementor-ultra/maintainers
+
+# Schema-drift BASELINE (the §5 drift guard's committed snapshot). A change here means an intentional
+# Elementor version bump — review the diff (added/removed/changed props) deliberately.
+/packages/shared/fixtures/schemas/      @elementor-ultra/maintainers
+/packages/shared/fixtures/schemas/**    @elementor-ultra/maintainers
+
+# The TS pre-filter — its hardcoded enum/required expectations must stay in lock-step with the drift
+# baseline (§5). PRs touching it trigger the REQUIRED schema-drift check (drift.yml).
+/packages/server/src/authoring/prefilter.ts   @elementor-ultra/maintainers
+
+# CI config itself (this WP-F07 surface) — keep job order + the required-check wiring reviewed.
+/.github/                       @elementor-ultra/maintainers
+/.github/**                     @elementor-ultra/maintainers

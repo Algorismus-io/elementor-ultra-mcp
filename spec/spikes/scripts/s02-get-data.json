@@ -1,0 +1,207 @@
+{
+    "content": [
+        {
+            "id": "387bb9ec",
+            "elType": "e-div-block",
+            "settings": {
+                "classes": {
+                    "$$type": "classes",
+                    "value": [
+                        "s02card"
+                    ]
+                }
+            },
+            "elements": [
+                {
+                    "id": "484fe81b",
+                    "elType": "widget",
+                    "settings": {
+                        "classes": {
+                            "$$type": "classes",
+                            "value": [
+                                "e-484fe81b-8f4e290"
+                            ]
+                        },
+                        "tag": {
+                            "$$type": "string",
+                            "value": "h2"
+                        },
+                        "title": {
+                            "$$type": "html-v3",
+                            "value": {
+                                "content": {
+                                    "$$type": "string",
+                                    "value": "S02 Atomic Card"
+                                },
+                                "children": []
+                            }
+                        }
+                    },
+                    "elements": [],
+                    "widgetType": "e-heading",
+                    "styles": {
+                        "e-484fe81b-8f4e290": {
+                            "id": "e-484fe81b-8f4e290",
+                            "type": "class",
+                            "label": "headlocal",
+                            "variants": [
+                                {
+                                    "meta": {
+                                        "breakpoint": "desktop",
+                                        "state": null
+                                    },
+                                    "props": {
+                                        "font-size": {
+                                            "$$type": "size",
+                                            "value": {
+                                                "size": 36,
+                                                "unit": "px"
+                                            }
+                                        },
+                                        "color": {
+                                            "$$type": "color",
+                                            "value": "rgb(255, 200, 0)"
+                                        }
+                                    },
+                                    "custom_css": null
+                                }
+                            ]
+                        }
+                    },
+                    "interactions": [],
+                    "editor_settings": [],
+                    "version": "0.0"
+                },
+                {
+                    "id": "59a21fd3",
+                    "elType": "widget",
+                    "settings": {
+                        "classes": {
+                            "$$type": "classes",
+                            "value": [
+                                "e-59a21fd3-5bd1388"
+                            ]
+                        },
+                        "text": {
+                            "$$type": "html-v3",
+                            "value": {
+                                "content": {
+                                    "$$type": "string",
+                                    "value": "S02 Button"
+                                },
+                                "children": []
+                            }
+                        }
+                    },
+                    "elements": [],
+                    "widgetType": "e-button",
+                    "styles": {
+                        "e-59a21fd3-5bd1388": {
+                            "id": "e-59a21fd3-5bd1388",
+                            "type": "class",
+                            "label": "btnlocal",
+                            "variants": [
+                                {
+                                    "meta": {
+                                        "breakpoint": "desktop",
+                                        "state": null
+                                    },
+                                    "props": {
+                                        "color": {
+                                            "$$type": "color",
+                                            "value": "rgb(0, 0, 0)"
+                                        },
+                                        "background": {
+                                            "$$type": "background",
+                                            "value": {
+                                                "color": {
+                                                    "$$type": "color",
+                                                    "value": "rgb(0, 220, 130)"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "custom_css": null
+                                }
+                            ]
+                        }
+                    },
+                    "interactions": [],
+                    "editor_settings": [],
+                    "version": "0.0"
+                }
+            ],
+            "isInner": false,
+            "styles": [],
+            "interactions": [],
+            "editor_settings": [],
+            "version": "0.0"
+        }
+    ],
+    "page_settings": [],
+    "global_classes": {
+        "items": {
+            "s02card": {
+                "id": "s02card",
+                "label": "s02card",
+                "type": "class",
+                "variants": [
+                    {
+                        "meta": {
+                            "breakpoint": "desktop",
+                            "state": null
+                        },
+                        "props": {
+                            "padding": {
+                                "$$type": "dimensions",
+                                "value": {
+                                    "block-start": {
+                                        "$$type": "size",
+                                        "value": {
+                                            "size": 20,
+                                            "unit": "px"
+                                        }
+                                    },
+                                    "block-end": {
+                                        "$$type": "size",
+                                        "value": {
+                                            "size": 20,
+                                            "unit": "px"
+                                        }
+                                    },
+                                    "inline-start": {
+                                        "$$type": "size",
+                                        "value": {
+                                            "size": 28,
+                                            "unit": "px"
+                                        }
+                                    },
+                                    "inline-end": {
+                                        "$$type": "size",
+                                        "value": {
+                                            "size": 28,
+                                            "unit": "px"
+                                        }
+                                    }
+                                }
+                            },
+                            "background": {
+                                "$$type": "background",
+                                "value": {
+                                    "color": {
+                                        "$$type": "color",
+                                        "value": "rgb(12, 34, 56)"
+                                    }
+                                }
+                            }
+                        },
+                        "custom_css": null
+                    }
+                ]
+            }
+        },
+        "order": [
+            "s02card"
+        ]
+    }
+}

@@ -1,0 +1,256 @@
+{
+  "$comment": "WP-F05 — FROZEN error-code catalog as the single machine-readable source of truth shared by the TS enum (packages/shared/src/errors/codes.ts ERROR_CODES), the PHP constants (Elementor\\Ultra\\Error_Codes), and the cross-language equality test (WP-F06/F07). Authority: spec/contracts/12-error-taxonomy.md §3 (metadata) + §6 (frozen list). 31 codes (29 original + SETTINGS_INVALID/RENDER_FAILED appended by contract 18 §7-AI S1/S2); per-code http_status/retryable/surface/rpc_code/soft transcribed verbatim from §3.1-§3.5. surface is 'protocol'|'isError'; rpc_code is non-null ONLY when surface=='protocol'.",
+  "version": 2,
+  "codes": [
+    "VALIDATION_FAILED",
+    "SCHEMA_INVALID_PARAMS",
+    "ATOMIC_SETTINGS_INVALID",
+    "ATOMIC_STYLES_INVALID",
+    "UNKNOWN_WIDGET_TYPE",
+    "DUPLICATE_ELEMENT_ID",
+    "LOCAL_STYLE_UNLINKED",
+    "IMAGE_SRC_XOR_VIOLATION",
+    "HTML_V3_STRIPPED",
+    "SETTINGS_INVALID",
+    "LOCK_HELD",
+    "AUTOSAVE_CONFLICT",
+    "CONCURRENCY_STALE_HASH",
+    "IDEMPOTENT_REPLAY",
+    "BUDGET_EXCEEDED",
+    "DUPLICATED_LABEL",
+    "INVALID_ORDER",
+    "WATERMARK_STALE",
+    "CAPABILITY_MISSING",
+    "EXPERIMENT_INACTIVE",
+    "AUTH_FAILED",
+    "PRO_REQUIRED",
+    "WOO_CONTEXT_INVALID",
+    "NOT_FOUND",
+    "NOT_EDITABLE",
+    "CSS_PRIME_FAILED",
+    "RENDER_FAILED",
+    "IMPORT_REMAP_FAILED",
+    "RATE_LIMITED",
+    "UPSTREAM_ERROR",
+    "INTERNAL_ERROR"
+  ],
+  "meta": {
+    "VALIDATION_FAILED": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "SCHEMA_INVALID_PARAMS": {
+      "http_status": 400,
+      "retryable": false,
+      "surface": "protocol",
+      "rpc_code": -32602,
+      "soft": false
+    },
+    "ATOMIC_SETTINGS_INVALID": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "ATOMIC_STYLES_INVALID": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "UNKNOWN_WIDGET_TYPE": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "DUPLICATE_ELEMENT_ID": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "LOCAL_STYLE_UNLINKED": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "IMAGE_SRC_XOR_VIOLATION": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "HTML_V3_STRIPPED": {
+      "http_status": 200,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": true
+    },
+    "SETTINGS_INVALID": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "LOCK_HELD": {
+      "http_status": 409,
+      "retryable": true,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "AUTOSAVE_CONFLICT": {
+      "http_status": 409,
+      "retryable": true,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "CONCURRENCY_STALE_HASH": {
+      "http_status": 409,
+      "retryable": true,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "IDEMPOTENT_REPLAY": {
+      "http_status": 200,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": true
+    },
+    "BUDGET_EXCEEDED": {
+      "http_status": 400,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "DUPLICATED_LABEL": {
+      "http_status": 200,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": true
+    },
+    "INVALID_ORDER": {
+      "http_status": 400,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "WATERMARK_STALE": {
+      "http_status": 409,
+      "retryable": true,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "CAPABILITY_MISSING": {
+      "http_status": 403,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "EXPERIMENT_INACTIVE": {
+      "http_status": 409,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "AUTH_FAILED": {
+      "http_status": 401,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "PRO_REQUIRED": {
+      "http_status": 409,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "WOO_CONTEXT_INVALID": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "NOT_FOUND": {
+      "http_status": 404,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "NOT_EDITABLE": {
+      "http_status": 403,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "CSS_PRIME_FAILED": {
+      "http_status": 500,
+      "retryable": true,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "RENDER_FAILED": {
+      "http_status": 200,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": true
+    },
+    "IMPORT_REMAP_FAILED": {
+      "http_status": 422,
+      "retryable": false,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "RATE_LIMITED": {
+      "http_status": 429,
+      "retryable": true,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "UPSTREAM_ERROR": {
+      "http_status": 502,
+      "retryable": true,
+      "surface": "isError",
+      "rpc_code": null,
+      "soft": false
+    },
+    "INTERNAL_ERROR": {
+      "http_status": 500,
+      "retryable": false,
+      "surface": "protocol",
+      "rpc_code": -32603,
+      "soft": false
+    }
+  }
+}

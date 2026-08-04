@@ -1,0 +1,16 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.pages.list",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.pages.list tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #3, §1.1). pages.list is READ-ONLY (readOnlyHint/idempotentHint; proxied-to-REST GET elementor-ultra/v1/documents; paginated §0.6). Runs UNCONDITIONALLY: no `requires` gate, no disposable draft. MINIMAL valid input per §1.1: every field is optional/defaulted ({status?, post_type?} + §0.6 {limit?, cursor?, fields?}); we set a small `limit` so the smoke list stays bounded and fast. The §8 suite asserts no protocol error (-326xx) and a result matching the paginated outputSchema {items[], next_cursor, total}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "tool": "elementor.pages.list",
+  "arguments": {
+    "limit": 5
+  }
+}

@@ -1,0 +1,464 @@
+{
+  "align-content": {
+    "enum": ["center", "start", "end", "space-between", "space-around", "space-evenly"],
+    "key": "string",
+    "kind": "string"
+  },
+  "align-items": {
+    "enum": [
+      "normal",
+      "stretch",
+      "center",
+      "start",
+      "end",
+      "flex-start",
+      "flex-end",
+      "self-start",
+      "self-end",
+      "anchor-center"
+    ],
+    "key": "string",
+    "kind": "string"
+  },
+  "align-self": {
+    "enum": [
+      "auto",
+      "normal",
+      "center",
+      "start",
+      "end",
+      "self-start",
+      "self-end",
+      "flex-start",
+      "flex-end",
+      "anchor-center",
+      "baseline",
+      "first baseline",
+      "last baseline",
+      "stretch"
+    ],
+    "key": "string",
+    "kind": "string"
+  },
+  "all": {
+    "enum": ["initial", "inherit", "unset", "revert", "revert-layer"],
+    "key": "string",
+    "kind": "string"
+  },
+  "appearance": {
+    "enum": ["none", "auto"],
+    "key": "string",
+    "kind": "string"
+  },
+  "aspect-ratio": {
+    "key": "string",
+    "kind": "string"
+  },
+  "backdrop-filter": {
+    "key": "backdrop-filter",
+    "kind": "array"
+  },
+  "background": {
+    "key": "background",
+    "kind": "object"
+  },
+  "border-color": {
+    "key": "color",
+    "kind": "string"
+  },
+  "border-radius": {
+    "key": "union",
+    "kind": "union",
+    "members": ["border-radius", "size"],
+    "units": ["px", "em", "rem", "vw", "vh", "ch", "%", "custom"]
+  },
+  "border-style": {
+    "enum": [
+      "none",
+      "hidden",
+      "dotted",
+      "dashed",
+      "solid",
+      "double",
+      "groove",
+      "ridge",
+      "inset",
+      "outset"
+    ],
+    "key": "string",
+    "kind": "string"
+  },
+  "border-width": {
+    "key": "union",
+    "kind": "union",
+    "members": ["border-width", "size"],
+    "units": ["px", "em", "rem", "vw", "vh", "ch", "%", "custom"]
+  },
+  "box-shadow": {
+    "key": "box-shadow",
+    "kind": "array"
+  },
+  "clip-path": {
+    "key": "string",
+    "kind": "string"
+  },
+  "color": {
+    "key": "color",
+    "kind": "string"
+  },
+  "column-count": {
+    "key": "number",
+    "kind": "number"
+  },
+  "column-gap": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "content": {
+    "key": "string",
+    "kind": "string"
+  },
+  "cursor": {
+    "enum": ["pointer"],
+    "key": "string",
+    "kind": "string"
+  },
+  "direction": {
+    "enum": ["ltr", "rtl"],
+    "key": "string",
+    "kind": "string"
+  },
+  "display": {
+    "enum": [
+      "block",
+      "inline",
+      "inline-block",
+      "flex",
+      "inline-flex",
+      "grid",
+      "inline-grid",
+      "flow-root",
+      "none",
+      "contents"
+    ],
+    "key": "string",
+    "kind": "string"
+  },
+  "filter": {
+    "key": "filter",
+    "kind": "array"
+  },
+  "flex": {
+    "key": "flex",
+    "kind": "object"
+  },
+  "flex-direction": {
+    "enum": ["row", "row-reverse", "column", "column-reverse"],
+    "key": "string",
+    "kind": "string"
+  },
+  "flex-wrap": {
+    "enum": ["wrap", "nowrap", "wrap-reverse"],
+    "key": "string",
+    "kind": "string"
+  },
+  "font-family": {
+    "key": "string",
+    "kind": "string"
+  },
+  "font-size": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "em", "rem", "vw", "vh", "ch", "%", "custom"]
+  },
+  "font-style": {
+    "enum": ["normal", "italic", "oblique"],
+    "key": "string",
+    "kind": "string"
+  },
+  "font-weight": {
+    "enum": [
+      "100",
+      "200",
+      "300",
+      "400",
+      "500",
+      "600",
+      "700",
+      "800",
+      "900",
+      "normal",
+      "bold",
+      "bolder",
+      "lighter"
+    ],
+    "key": "string",
+    "kind": "string"
+  },
+  "gap": {
+    "key": "union",
+    "kind": "union",
+    "members": ["layout-direction", "size"],
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "custom"]
+  },
+  "grid-auto-flow": {
+    "enum": ["row", "column", "row dense", "column dense"],
+    "key": "string",
+    "kind": "string"
+  },
+  "grid-column": {
+    "key": "span",
+    "kind": "number"
+  },
+  "grid-row": {
+    "key": "span",
+    "kind": "number"
+  },
+  "grid-template-columns": {
+    "key": "string",
+    "kind": "string"
+  },
+  "grid-template-rows": {
+    "key": "string",
+    "kind": "string"
+  },
+  "height": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "inset-block-end": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "inset-block-start": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "inset-inline-end": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "inset-inline-start": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "justify-content": {
+    "enum": [
+      "center",
+      "start",
+      "end",
+      "flex-start",
+      "flex-end",
+      "left",
+      "right",
+      "normal",
+      "space-between",
+      "space-around",
+      "space-evenly",
+      "stretch"
+    ],
+    "key": "string",
+    "kind": "string"
+  },
+  "justify-items": {
+    "enum": [
+      "normal",
+      "stretch",
+      "center",
+      "start",
+      "end",
+      "flex-start",
+      "flex-end",
+      "left",
+      "right",
+      "anchor-center"
+    ],
+    "key": "string",
+    "kind": "string"
+  },
+  "letter-spacing": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "em", "rem", "vw", "vh", "ch", "%", "custom"]
+  },
+  "line-height": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "em", "rem", "vw", "vh", "ch", "%", "custom"]
+  },
+  "margin": {
+    "key": "union",
+    "kind": "union",
+    "members": ["dimensions", "size"],
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "max-height": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "max-width": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "min-height": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "min-width": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "mix-blend-mode": {
+    "enum": [
+      "normal",
+      "multiply",
+      "screen",
+      "overlay",
+      "darken",
+      "lighten",
+      "color-dodge",
+      "saturation",
+      "color",
+      "difference",
+      "exclusion",
+      "hue",
+      "luminosity",
+      "soft-light",
+      "hard-light",
+      "color-burn"
+    ],
+    "key": "string",
+    "kind": "string"
+  },
+  "object-fit": {
+    "enum": ["fill", "cover", "contain", "none", "scale-down"],
+    "key": "string",
+    "kind": "string"
+  },
+  "object-position": {
+    "enum": [
+      "center center",
+      "center left",
+      "center right",
+      "top center",
+      "top left",
+      "top right",
+      "bottom center",
+      "bottom left",
+      "bottom right"
+    ],
+    "key": "union",
+    "kind": "union",
+    "members": ["string", "object-position"]
+  },
+  "opacity": {
+    "key": "size",
+    "kind": "object",
+    "units": ["%", "custom"]
+  },
+  "order": {
+    "key": "number",
+    "kind": "number"
+  },
+  "outline-color": {
+    "key": "color",
+    "kind": "string"
+  },
+  "outline-offset": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "em", "rem", "vw", "vh", "ch", "%", "custom"]
+  },
+  "outline-style": {
+    "enum": [
+      "none",
+      "hidden",
+      "dotted",
+      "dashed",
+      "solid",
+      "double",
+      "groove",
+      "ridge",
+      "inset",
+      "outset"
+    ],
+    "key": "string",
+    "kind": "string"
+  },
+  "outline-width": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "em", "rem", "vw", "vh", "ch", "%", "custom"]
+  },
+  "overflow": {
+    "enum": ["visible", "hidden", "auto"],
+    "key": "string",
+    "kind": "string"
+  },
+  "padding": {
+    "key": "union",
+    "kind": "union",
+    "members": ["dimensions", "size"],
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "custom"]
+  },
+  "position": {
+    "enum": ["static", "relative", "absolute", "fixed", "sticky"],
+    "key": "string",
+    "kind": "string"
+  },
+  "scroll-margin-top": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "em", "rem", "vw", "vh", "ch", "custom"]
+  },
+  "stroke": {
+    "key": "stroke",
+    "kind": "object"
+  },
+  "text-align": {
+    "enum": ["start", "center", "end", "justify"],
+    "key": "string",
+    "kind": "string"
+  },
+  "text-decoration": {
+    "key": "string",
+    "kind": "string"
+  },
+  "text-transform": {
+    "enum": ["none", "capitalize", "uppercase", "lowercase"],
+    "key": "string",
+    "kind": "string"
+  },
+  "transform": {
+    "key": "transform",
+    "kind": "object"
+  },
+  "transition": {
+    "key": "transition",
+    "kind": "array"
+  },
+  "width": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "%", "em", "rem", "vw", "vh", "ch", "auto", "custom"]
+  },
+  "word-spacing": {
+    "key": "size",
+    "kind": "object",
+    "units": ["px", "em", "rem", "vw", "vh", "ch", "%", "custom"]
+  },
+  "z-index": {
+    "key": "number",
+    "kind": "number"
+  }
+}

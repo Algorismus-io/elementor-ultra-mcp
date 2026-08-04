@@ -1,0 +1,69 @@
+{
+  "$fixture": 1,
+  "id": "form.classic-3field",
+  "kind": "tree",
+  "generation": "v3",
+  "title": "Pro classic `form` widget — 3 fields (text/email required + textarea) + email action, mirroring SUPPLEMENT §A.3",
+  "_comment": "WP-R03 VALID Pro-forms fixture (SUPPLEMENT §A.3 worked example). Classic V3 `form` widget: 3 form_fields each with a unique repeater `_id` AND a unique sanitized `custom_id`; `required` is the STRING \"true\" (the SWITCHER return_value 'true' — the #1 forms gotcha, NOT a bool); `placeholder` only on placeholder-eligible types; `rows` on the textarea. submit_actions:['email'] with the email controls flat (email_to/email_subject/email_content [all-fields]/email_reply_to=field custom_id). VERIFIED valid:true via Validator::dry_run on Elementor Pro 4.1.0. requires.pro:true (skipped, not failed, on free-only installs). prefilter.verdict:defer (§4 — the TS pre-filter structurally accepts a classic widget; field/action semantics are deferred to PHP).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": [],
+    "pro": true,
+    "min_elementor": "4.1.1"
+  },
+  "tree": [
+    {
+      "id": "f0a1b2c",
+      "elType": "widget",
+      "widgetType": "form",
+      "settings": {
+        "form_name": "Contact Us",
+        "button_text": "Send",
+        "form_fields": [
+          {
+            "_id": "fld0001",
+            "custom_id": "name",
+            "field_type": "text",
+            "field_label": "Name",
+            "required": "true",
+            "placeholder": "Your name",
+            "width": "100"
+          },
+          {
+            "_id": "fld0002",
+            "custom_id": "email",
+            "field_type": "email",
+            "field_label": "Email",
+            "required": "true",
+            "placeholder": "you@example.com",
+            "width": "100"
+          },
+          {
+            "_id": "fld0003",
+            "custom_id": "message",
+            "field_type": "textarea",
+            "field_label": "Message",
+            "placeholder": "How can we help?",
+            "rows": 6,
+            "width": "100"
+          }
+        ],
+        "submit_actions": ["email"],
+        "email_to": "owner@example.com",
+        "email_subject": "New message from \"My Site\"",
+        "email_content": "[all-fields]",
+        "email_reply_to": "email",
+        "form_metadata": ["date", "time", "page_url", "remote_ip"],
+        "email_content_type": "html"
+      },
+      "elements": []
+    }
+  ],
+  "settings": {},
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

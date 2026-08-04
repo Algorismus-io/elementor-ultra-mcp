@@ -1,0 +1,127 @@
+.cta {
+  padding: 80px 24px;
+  background: #0b1120;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.cta__panel {
+  position: relative;
+  overflow: hidden;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 72px 40px;
+  border-radius: 28px;
+  background: linear-gradient(120deg, #4338ca 0%, #6d28d9 50%, #db2777 100%);
+  text-align: center;
+}
+
+.cta__badge {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  z-index: 2;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #1f2933;
+  background: #fbbf24;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.cta__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.cta__blob--1 {
+  width: 320px;
+  height: 320px;
+  top: -120px;
+  left: -80px;
+  background: #f472b6;
+}
+
+.cta__blob--2 {
+  width: 260px;
+  height: 260px;
+  bottom: -100px;
+  right: -60px;
+  background: #38bdf8;
+}
+
+.cta__content {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+  color: #ffffff;
+  text-align: center;
+}
+
+.cta__title {
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+
+.cta__sub {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 32px;
+}
+
+.cta__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+
+.cta__btn {
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 14px 26px;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #4338ca;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cta__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+}
+
+.cta__icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  font-size: 24px;
+  color: #ffffff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: background-color 0.15s ease;
+}
+
+.cta__icon-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.cta__fine {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}

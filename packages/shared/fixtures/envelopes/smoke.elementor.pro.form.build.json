@@ -1,0 +1,42 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.pro.form.build",
+  "kind": "smoke",
+  "generation": "v3",
+  "title": "Inspector smoke payload — minimal valid input for the Pro elementor.pro.form.build tool",
+  "_comment": "WP-R09 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §1.8). elementor.pro.form.build is MUTATING (class M, side BOTH: TS shapes the ergonomic spec → POST elementor-ultra/v1/pro/form/build — the PHP Form_Mapper performs the authoritative widget mapping: type→field_type, id→custom_id, required→\"true\" the STRING, options→\"Label|value\\n…\", _id mint, submit_actions, action-setting expansion; it validates each action against actions_registrar->get() + the field-type filter and returns warnings[]). It is a NON-★ Pro tool, so the lean profile registers it DISABLED at boot; the smoke driver must enable it (tools.search 'elementor.pro.form') before invoking. Gated on `requires.pro:true` so a free-only install SKIPS rather than fails (the PHP route returns 501 PRO_REQUIRED otherwise → mapped to an isError, never a -326xx). MINIMAL valid input per §1.8: REQUIRED {container_id, post_id, fields, actions, base_hash}; one text field (required:true — the BOOLEAN; the PHP layer, not TS, converts to the string \"true\") + one email action (extra settings ride via .passthrough()). base_hash is a PLACEHOLDER 32-hex — the live driver supplies the real hash from page.get_structure (a stale hash → 409 CONCURRENCY_STALE_HASH, retryable). The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {element, diff, warnings, base_hash}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "pro": true,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.pro.form.build",
+  "arguments": {
+    "container_id": "smokefrm",
+    "post_id": 0,
+    "form_name": "Ultra MCP smoke form (pro.form.build)",
+    "button_text": "Send",
+    "fields": [
+      {
+        "type": "text",
+        "id": "full_name",
+        "label": "Full name",
+        "placeholder": "Your name",
+        "required": true,
+        "width": "100"
+      }
+    ],
+    "actions": [
+      {
+        "type": "email",
+        "email_to": "owner@example.com",
+        "email_subject": "New smoke submission",
+        "email_content": "[all-fields]"
+      }
+    ],
+    "base_hash": "00000000000000000000000000000000"
+  }
+}

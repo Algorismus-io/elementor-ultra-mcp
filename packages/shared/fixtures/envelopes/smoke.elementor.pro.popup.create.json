@@ -1,0 +1,26 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.pro.popup.create",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the Pro elementor.pro.popup.create tool",
+  "_comment": "WP-R08 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §1.8; 10-rest-api.md §8.4). elementor.pro.popup.create is MUTATING (class M, side proxied-to-REST: POST elementor-ultra/v1/pro/popup — PHP creates a Modules\\Popup\\Document and writes the three buckets _elementor_page_settings / _elementor_popup_display_settings / _elementor_conditions; see SUPPLEMENT §A.2). It is a NON-★ Pro tool, so the lean profile registers it DISABLED at boot; the smoke driver must enable it (tools.search 'elementor.pro.popup') before invoking. It CREATES a NEW popup document, so it does not touch any shared disposable draft; the driver trashes the created post_id in teardown. Gated on `requires.pro:true` so a free-only install SKIPS rather than fails (the PHP route returns 501 PRO_REQUIRED otherwise → mapped to an isError, never a -326xx). MINIMAL valid input per §1.8: REQUIRED {title}; status defaults to 'publish'; here we exercise display_settings.triggers with the §A.2 page_load toggle ('yes') + its page_load_delay sub-control (2s) and omit elements/layout_settings/conditions (all optional — omitting conditions defaults the popup to include/general site-wide per WP-R02). The §8 suite asserts no protocol error (-326xx) and a result matching the outputSchema {post_id, edit_url, conditions_stored}.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "pro": true,
+    "min_elementor": "4.1.1"
+  },
+  "tool": "elementor.pro.popup.create",
+  "arguments": {
+    "title": "Newsletter",
+    "display_settings": {
+      "triggers": {
+        "page_load": "yes",
+        "page_load_delay": 2
+      }
+    }
+  }
+}

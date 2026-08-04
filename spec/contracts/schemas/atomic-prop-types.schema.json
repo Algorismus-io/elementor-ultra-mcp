@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elementor-ultra-mcp/spec/contracts/schemas/atomic-prop-types.schema.json",
+  "title": "Atomic Prop-Type Catalog (V4 typed-envelope catalog)",
+  "description": "FROZEN catalog of V4 atomic typed-envelope ($$type/value) prop types. Grounded in SUPPLEMENT.md §B.1 and verified against elementor/modules/atomic-widgets/prop-types/. The PHP dry_run validator (WP-P03) is the AUTHORITATIVE validator; this schema is a STRUCTURAL pre-filter only — it intentionally under-constrains conditional/Union/Dependency-Manager validity (resolved PHP-side). The universal wire shape for every transformable value is {\"$$type\":<get_key()>,\"value\":<payload>,\"disabled\"?:true} per prop-types/concerns/has-generate.php:11-22. Two exceptions: (1) `classes` value is a BARE string array (no inner wrapping); (2) UNION members are emitted as the chosen member's own envelope (the union itself is never wrapped) per union-prop-type.php:74-96.",
+  "$comment": "TS type name for the generic envelope: TypedValue (WP-F03). Each named sub-shape below maps to a TS discriminated-union member keyed on the $$type literal.",
+
+  "$defs": {
+    "TypedValue": {
+      "type": "object",
+      "description": "The universal atomic typed envelope. $$type MUST equal the prop type's get_key(). Pre-filter accepts any string $$type; PHP dry_run rejects unregistered keys.",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "type": "string", "minLength": 1 },
+        "value": {},
+        "disabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "Size": {
+      "type": "object",
+      "description": "$$type:'size'. value object. unit enum is site/preset-dependent; PHP authoritative. 'auto' => size null; 'custom' => size is a string.",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "const": "size" },
+        "value": {
+          "type": "object",
+          "required": ["unit"],
+          "properties": {
+            "unit": { "type": "string", "examples": ["px","%","em","rem","vw","vh","ch","vmin","vmax","s","ms","deg","rad","grad","turn","auto","custom"] },
+            "size": { "type": ["number", "string", "null"] }
+          },
+          "additionalProperties": false
+        },
+        "disabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "Dimensions": {
+      "type": "object",
+      "description": "$$type:'dimensions'. Each side is a Size envelope. Logical (block/inline) edges, never physical.",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "const": "dimensions" },
+        "value": {
+          "type": "object",
+          "properties": {
+            "block-start": { "$ref": "#/$defs/Size" },
+            "inline-end": { "$ref": "#/$defs/Size" },
+            "block-end": { "$ref": "#/$defs/Size" },
+            "inline-start": { "$ref": "#/$defs/Size" }
+          },
+          "additionalProperties": false
+        },
+        "disabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "Classes": {
+      "type": "object",
+      "description": "$$type:'classes'. value is a BARE array of class-name strings (NO inner wrapping). Each name matches /^[a-z][a-z-_0-9]*$/i per classes-prop-type.php:22. Contains BOTH global-class ids (g-*) and local-style ids (e-<elementId>-<7hex>).",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "const": "classes" },
+        "value": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$" }
+        },
+        "disabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "Link": {
+      "type": "object",
+      "description": "$$type:'link'. destination is a Union(url|query); pre-filter accepts any TypedValue. tag enum ['a','button'] default 'a' per link-prop-type.php:38-50.",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "const": "link" },
+        "value": {
+          "type": "object",
+          "properties": {
+            "destination": { "$ref": "#/$defs/TypedValue" },
+            "isTargetBlank": {
+              "oneOf": [
+                { "type": "boolean" },
+                { "$ref": "#/$defs/TypedValue" }
+              ]
+            },
+            "tag": { "$ref": "#/$defs/TypedValue" }
+          },
+          "additionalProperties": true
+        },
+        "disabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "ImageSrc": {
+      "type": "object",
+      "description": "$$type:'image-src'. value carries id (image-attachment-id envelope) XOR url (url envelope) — NEVER both, NEVER neither, per image-src-prop-type.php:36-44 ($has_id xor $has_url). Prefer ID-only after media.sideload_url. alt optional. NOTE: JSON Schema cannot fully express the nested-envelope XOR cheaply; this pre-filter encodes the XOR at the top of value via oneOf on presence; PHP dry_run is authoritative.",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "const": "image-src" },
+        "value": {
+          "type": "object",
+          "properties": {
+            "id": { "$ref": "#/$defs/TypedValue", "description": "image-attachment-id envelope" },
+            "url": { "$ref": "#/$defs/TypedValue", "description": "url envelope" },
+            "alt": { "$ref": "#/$defs/TypedValue" }
+          },
+          "oneOf": [
+            { "required": ["id"], "not": { "required": ["url"] } },
+            { "required": ["url"], "not": { "required": ["id"] } }
+          ],
+          "additionalProperties": false
+        },
+        "disabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "Image": {
+      "type": "object",
+      "description": "$$type:'image'. src is an ImageSrc envelope (REQUIRED); size is a string envelope of an image-size key (init 'full').",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "const": "image" },
+        "value": {
+          "type": "object",
+          "required": ["src"],
+          "properties": {
+            "src": { "$ref": "#/$defs/ImageSrc" },
+            "size": { "$ref": "#/$defs/TypedValue" }
+          },
+          "additionalProperties": false
+        },
+        "disabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "HtmlV3": {
+      "type": "object",
+      "description": "$$type:'html-v3'. value object. content is null OR a WRAPPED string envelope {$$type:'string',value:str}. children is a PLAIN array (NO wrapping). The rendered inner HTML is wp_kses-filtered to the INLINE-ONLY allowlist [b,i,em,u,a,del,span,strong,sup,sub,s] per html-v3-prop-type.php:82,91 — all other tags (br, mark, code, small, lists, block elements) are SILENTLY STRIPPED. Block children MUST be promoted to sibling element nodes BEFORE emission.",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "const": "html-v3" },
+        "value": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "oneOf": [
+                { "type": "null" },
+                { "$ref": "#/$defs/TypedValue" }
+              ]
+            },
+            "children": { "type": "array" }
+          },
+          "additionalProperties": false
+        },
+        "disabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "GlobalVariableRef": {
+      "type": "object",
+      "description": "$$type one of global-color-variable | global-font-variable | global-size-variable. value is the variable id string (e-gv-*). All three types are FREE in 4.1.x (variables/hooks.php:48-51). Renders var(--<label>).",
+      "required": ["$$type", "value"],
+      "properties": {
+        "$$type": { "enum": ["global-color-variable", "global-font-variable", "global-size-variable"] },
+        "value": { "type": "string", "minLength": 1 },
+        "disabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "type": "object",
+  "$ref": "#/$defs/TypedValue"
+}

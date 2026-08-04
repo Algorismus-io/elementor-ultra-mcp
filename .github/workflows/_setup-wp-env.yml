@@ -1,0 +1,106 @@
+# WP-F07 — reusable wp-env job (Docker + wp-env boot + Composer, then a job-specific WP suite command).
+#
+# Boots `.wp-env.json` (Elementor 4.1.1 + Pro 4.1.0 + the companion plugin, all pinned —
+# `15-engineering-standards.md §7`) via `scripts/ci/wp-env-up.sh`, which also activates the required
+# V4 experiments (`e_atomic_elements`, `e_classes`, `e_variables`) so atomic-tree fixtures are not
+# skipped (`14-fixtures-harness.md §2/§3`). Then runs the caller's command — one of `composer test:php`,
+# `pnpm test:contract`, `pnpm test:drift`, `pnpm test:smoke` (Stage 2 of the LOCKED job order, §10).
+#
+# Pro is NOT redistributable: the Pro zip is provided via the `ELEMENTOR_PRO_ZIP_B64` secret (a
+# base64-encoded plugin zip) on the Pro matrix leg ONLY. When the secret is absent (forks / the
+# free-only leg) the leg runs WITHOUT Pro and `requires.pro` fixtures SKIP — the corpus must stay
+# green on a free-only install (`14-fixtures-harness.md §2`). This workflow NEVER edits product or
+# runner code; it only drives wp-env + the contract-named scripts (owned by WP-F06/Q##).
+name: _setup-wp-env
+
+on:
+  workflow_call:
+    inputs:
+      run:
+        description: 'WP suite command to run after wp-env is up (e.g. "pnpm test:drift").'
+        required: true
+        type: string
+      pro:
+        description: 'Activate Pro (Pro matrix leg). Free-only leg leaves Pro inactive.'
+        required: false
+        type: boolean
+        default: false
+      build:
+        description: 'Build the TS server before the command (needed for test:smoke).'
+        required: false
+        type: boolean
+        default: false
+      name:
+        description: 'Human label for the suite step.'
+        required: false
+        type: string
+        default: 'wp-env suite'
+    secrets:
+      ELEMENTOR_PRO_ZIP_B64:
+        description: 'base64-encoded Elementor Pro plugin zip (Pro leg only; not redistributable).'
+        required: false
+
+jobs:
+  wp-env:
+    name: ${{ inputs.name }}
+    runs-on: ubuntu-latest
+    env:
+      # App-Password env consumed by the contract/smoke runners + the drift fetch (Contract 13 §5.4).
+      # wp-env's default admin is admin/password on the dev instance; the runners (WP-F06/Q##) mint an
+      # App Password via wp-cli and export WP_APP_PASSWORD themselves — CI only fixes the URL + user.
+      WP_URL: http://localhost:8888
+      WP_USER: admin
+      # `secrets` is not allowed in step-level `if:`, so surface "is the Pro zip present?" as a
+      # job-level env (secrets ARE allowed here) and gate the provisioning step on env.HAS_PRO.
+      HAS_PRO: ${{ secrets.ELEMENTOR_PRO_ZIP_B64 != '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Pro is not redistributable: materialize the provided zip into ./plugins/elementor-pro so
+      # .wp-env.json picks it up. Absent secret => free-only leg (Pro fixtures skip). See §2.
+      - name: Provision Elementor Pro (Pro leg only)
+        if: ${{ inputs.pro && env.HAS_PRO == 'true' }}
+        run: |
+          set -euo pipefail
+          mkdir -p plugins/elementor-pro
+          printf '%s' "${{ secrets.ELEMENTOR_PRO_ZIP_B64 }}" | base64 -d > /tmp/elementor-pro.zip
+          unzip -q -o /tmp/elementor-pro.zip -d plugins/
+          echo "Elementor Pro provisioned from secret."
+
+      - name: Build server (for smoke)
+        if: ${{ inputs.build }}
+        run: pnpm build
+
+      # Cache the wp-env / Docker-derived WordPress + plugin downloads for faster boots.
+      - name: Cache wp-env home
+        uses: actions/cache@v4
+        with:
+          path: ~/.wp-env
+          key: wp-env-${{ runner.os }}-${{ hashFiles('.wp-env.json') }}
+          restore-keys: |
+            wp-env-${{ runner.os }}-
+
+      - name: Boot wp-env + activate experiments
+        env:
+          WP_ENV_PRO: ${{ inputs.pro && '1' || '0' }}
+        run: bash scripts/ci/wp-env-up.sh
+
+      - name: ${{ inputs.name }}
+        run: ${{ inputs.run }}
+
+      - name: Tear down wp-env
+        if: ${{ always() }}
+        run: pnpm wp-env stop || true

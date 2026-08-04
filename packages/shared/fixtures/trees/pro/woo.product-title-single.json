@@ -1,0 +1,33 @@
+{
+  "$fixture": 1,
+  "id": "woo.product-title-single",
+  "kind": "tree",
+  "generation": "v3",
+  "title": "WooCommerce single-product widget (woocommerce-product-title) inside a container — the SINGLE-context add-widget case",
+  "_comment": "WP-R06 Pro WooCommerce fixture (10-rest-api.md §8.8; SUPPLEMENT §A.5). A classic `woocommerce-product-title` widget (category woocommerce-elements-single → required_context 'single') nested under a flex container, as POST /pro/woo/add-widget would place it on a single-product theme-builder template. The Woo_Context_Validator classifies this widget 'single' and REQUIRES a single-product doc; placing it on a single-product doc → context_ok:true + inserted. requires.woocommerce note: WooCommerce + the Pro Woo module must be active OR this widget is unregistered (UNKNOWN_WIDGET_TYPE) → the runner SKIPS the fixture (graceful degradation; WooCommerce is NOT installed on the live dev site).",
+  "expect": { "valid": true, "errors": [] },
+  "requires": { "experiments": [], "pro": true, "min_elementor": "4.1.1" },
+  "_requires_note": "Also requires WooCommerce (the WC plugin) AND the Elementor Pro WooCommerce module to be active; SKIP when woo-not-active. The harness has no native `woocommerce` requires flag (Contract 14 §2), so this note + pro:true gate the fixture.",
+  "tree": [
+    {
+      "id": "woocnt1",
+      "elType": "container",
+      "settings": {
+        "flex_direction": "column",
+        "content_width": "boxed"
+      },
+      "elements": [
+        {
+          "id": "woopt01",
+          "elType": "widget",
+          "widgetType": "woocommerce-product-title",
+          "settings": {
+            "tag": "h1"
+          },
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

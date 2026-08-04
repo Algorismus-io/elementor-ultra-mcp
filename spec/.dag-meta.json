@@ -1,0 +1,284 @@
+{
+  "wp_total": 75,
+  "maxWave": 12,
+  "waveTable": [
+    {
+      "wave": 0,
+      "ids": [
+        "WP-F01"
+      ]
+    },
+    {
+      "wave": 1,
+      "ids": [
+        "WP-F02",
+        "WP-F03",
+        "WP-F05",
+        "WP-S01",
+        "WP-S02",
+        "WP-S04",
+        "WP-S05",
+        "WP-S06",
+        "WP-S07",
+        "WP-T02"
+      ]
+    },
+    {
+      "wave": 2,
+      "ids": [
+        "WP-F04",
+        "WP-F06",
+        "WP-P01",
+        "WP-S03"
+      ]
+    },
+    {
+      "wave": 3,
+      "ids": [
+        "WP-F07",
+        "WP-H01",
+        "WP-H12",
+        "WP-P02",
+        "WP-Q02",
+        "WP-T01"
+      ]
+    },
+    {
+      "wave": 4,
+      "ids": [
+        "WP-H02",
+        "WP-H03",
+        "WP-P03",
+        "WP-P05",
+        "WP-P07",
+        "WP-P10",
+        "WP-P14",
+        "WP-Q03",
+        "WP-Q08",
+        "WP-T04",
+        "WP-T12",
+        "WP-T13"
+      ]
+    },
+    {
+      "wave": 5,
+      "ids": [
+        "WP-H04",
+        "WP-P04",
+        "WP-P08",
+        "WP-Q01",
+        "WP-Q04",
+        "WP-Q05",
+        "WP-T03",
+        "WP-T08"
+      ]
+    },
+    {
+      "wave": 6,
+      "ids": [
+        "WP-H05",
+        "WP-P06",
+        "WP-P09",
+        "WP-P11",
+        "WP-P12",
+        "WP-P13",
+        "WP-P15",
+        "WP-P16",
+        "WP-Q06",
+        "WP-T05",
+        "WP-T06",
+        "WP-T11"
+      ]
+    },
+    {
+      "wave": 7,
+      "ids": [
+        "WP-H06",
+        "WP-Q07",
+        "WP-R01",
+        "WP-T07",
+        "WP-T09",
+        "WP-T10"
+      ]
+    },
+    {
+      "wave": 8,
+      "ids": [
+        "WP-H07",
+        "WP-R02",
+        "WP-R03",
+        "WP-R04",
+        "WP-R05",
+        "WP-R06",
+        "WP-R07"
+      ]
+    },
+    {
+      "wave": 9,
+      "ids": [
+        "WP-H08",
+        "WP-R08",
+        "WP-R09",
+        "WP-R10",
+        "WP-R11",
+        "WP-R12"
+      ]
+    },
+    {
+      "wave": 10,
+      "ids": [
+        "WP-H09"
+      ]
+    },
+    {
+      "wave": 11,
+      "ids": [
+        "WP-H10"
+      ]
+    },
+    {
+      "wave": 12,
+      "ids": [
+        "WP-H11"
+      ]
+    }
+  ],
+  "parallelGroups": [
+    "W0",
+    "W1",
+    "W10",
+    "W11",
+    "W12",
+    "W2",
+    "W3",
+    "W4",
+    "W5",
+    "W6",
+    "W7",
+    "W8",
+    "W9"
+  ],
+  "parallelGroupMembers": {
+    "W0": [
+      "WP-F01"
+    ],
+    "W1": [
+      "WP-F02",
+      "WP-F03",
+      "WP-F05",
+      "WP-S01",
+      "WP-S02",
+      "WP-S04",
+      "WP-S05",
+      "WP-S06",
+      "WP-S07",
+      "WP-T02"
+    ],
+    "W10": [
+      "WP-H09"
+    ],
+    "W11": [
+      "WP-H10"
+    ],
+    "W12": [
+      "WP-H11"
+    ],
+    "W2": [
+      "WP-F04",
+      "WP-F06",
+      "WP-P01",
+      "WP-S03"
+    ],
+    "W3": [
+      "WP-F07",
+      "WP-H01",
+      "WP-H12",
+      "WP-P02",
+      "WP-Q02",
+      "WP-T01"
+    ],
+    "W4": [
+      "WP-H02",
+      "WP-H03",
+      "WP-P03",
+      "WP-P05",
+      "WP-P07",
+      "WP-P10",
+      "WP-P14",
+      "WP-Q03",
+      "WP-Q08",
+      "WP-T04",
+      "WP-T12",
+      "WP-T13"
+    ],
+    "W5": [
+      "WP-H04",
+      "WP-P04",
+      "WP-P08",
+      "WP-Q01",
+      "WP-Q04",
+      "WP-Q05",
+      "WP-T03",
+      "WP-T08"
+    ],
+    "W6": [
+      "WP-H05",
+      "WP-P06",
+      "WP-P09",
+      "WP-P11",
+      "WP-P12",
+      "WP-P13",
+      "WP-P15",
+      "WP-P16",
+      "WP-Q06",
+      "WP-T05",
+      "WP-T06",
+      "WP-T11"
+    ],
+    "W7": [
+      "WP-H06",
+      "WP-Q07",
+      "WP-R01",
+      "WP-T07",
+      "WP-T09",
+      "WP-T10"
+    ],
+    "W8": [
+      "WP-H07",
+      "WP-R02",
+      "WP-R03",
+      "WP-R04",
+      "WP-R05",
+      "WP-R06",
+      "WP-R07"
+    ],
+    "W9": [
+      "WP-H08",
+      "WP-R08",
+      "WP-R09",
+      "WP-R10",
+      "WP-R11",
+      "WP-R12"
+    ]
+  },
+  "critical": [
+    "WP-F01",
+    "WP-F03",
+    "WP-F04",
+    "WP-H01",
+    "WP-H03",
+    "WP-H04",
+    "WP-H05",
+    "WP-H06",
+    "WP-H07",
+    "WP-H08",
+    "WP-H09",
+    "WP-H10",
+    "WP-H11"
+  ],
+  "criticalLen": 13,
+  "undefinedDeps": [],
+  "cycles": [],
+  "sameWaveConflicts": [],
+  "softOverlaps": []
+}

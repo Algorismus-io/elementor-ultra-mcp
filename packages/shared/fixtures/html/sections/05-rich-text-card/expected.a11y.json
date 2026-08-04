@@ -1,0 +1,7 @@
+{
+  "$comment": "WP-H12 — expected a11y findings for 05-rich-text-card. DELIBERATE missing-alt warning: the inline thumbnail <img class=note__thumb> has NO alt attribute, so the converter SHOULD emit a missing-alt 'warning' for the sideloaded image (WP-H10 §2). Heading hierarchy is clean (single <h2>, no skipped levels); links carry text. Matched by rule+severity+locator (element_id minted at runtime, 14-fixtures-harness §7).",
+  "match_by": ["rule", "severity", "locator"],
+  "findings": [
+    { "rule": "missing-alt", "severity": "warning", "locator": "img.note__thumb", "message": "Image has no alt attribute; sideloaded media is missing alt text." }
+  ]
+}

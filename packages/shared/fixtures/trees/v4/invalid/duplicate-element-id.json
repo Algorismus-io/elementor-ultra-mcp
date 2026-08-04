@@ -1,0 +1,47 @@
+{
+  "$fixture": 1,
+  "id": "duplicate-element-id",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Two atomic nodes share the element id 'dup0001' (collides on .elementor-element-dup0001) → DUPLICATE_ELEMENT_ID",
+  "_comment": "WP-Q01 INVALID fixture (one-per-failure-mode, Detailed-Req #4; 12-error-taxonomy.md §3.1 DUPLICATE_ELEMENT_ID). Two sibling atomic widgets both use id 'dup0001' — duplicate ids collide on the .elementor-element-<id> selector (R3; Elementor does NO server-side uniqueness check, so the agent must ids/remap). Each node is otherwise a valid typed-envelope tree ([R8]). VERIFIED valid:false {DUPLICATE_ELEMENT_ID} via Validator::dry_run on Elementor 4.1.1. prefilter.verdict:reject — R3 (id uniqueness across the tree) is one of the structural rules the TS pre-filter decides authoritatively, so it rejects; the F06 loader SKIPS the authoring-schema check for reject fixtures. meta-invariant reject⇒valid:false holds.",
+  "expect": { "valid": false, "errors": ["DUPLICATE_ELEMENT_ID"] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "dup0001",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "title": {
+          "$$type": "html-v3",
+          "value": { "content": { "$$type": "string", "value": "First" }, "children": [] }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    },
+    {
+      "id": "dup0001",
+      "elType": "widget",
+      "widgetType": "e-paragraph",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "p" },
+        "paragraph": {
+          "$$type": "html-v3",
+          "value": { "content": { "$$type": "string", "value": "Second" }, "children": [] }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "reject" }
+}

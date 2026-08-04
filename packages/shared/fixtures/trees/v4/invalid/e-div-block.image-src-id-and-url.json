@@ -1,0 +1,51 @@
+{
+  "$fixture": 1,
+  "id": "e-div-block.image-src-id-and-url",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "image-src carrying BOTH id and url (XOR violation) on an e-image inside an e-div-block",
+  "_comment": "WP-Q01 INVALID fixture (one-per-failure-mode, Detailed-Req #4; 12-error-taxonomy.md §3.1 IMAGE_SRC_XOR_VIOLATION). The nested e-image's image-src carries BOTH id AND url — image-src-prop-type.php:36-44 validates ($has_id xor $has_url), so this is a HARD R9/§3.2 violation. AUTHORITATIVE error SET from Validator::dry_run on Elementor 4.1.1 is BOTH codes: the structural R9 check emits IMAGE_SRC_XOR_VIOLATION (exact prop path) AND the Props_Parser ALSO rejects the malformed image-src and throws → ATOMIC_SETTINGS_INVALID (expect.errors is an order-independent SET, §3.2.d). prefilter.verdict:reject — the TS pre-filter decides R9 image-src XOR structurally (incl. inside an `image` wrapper), so it rejects; the F06 loader therefore SKIPS the authoring-schema check (reject fixtures, fixture-loader.ts:206-230), which is needed because the both-id-and-url image-src is deliberately schema-malformed. meta-invariant reject⇒valid:false holds.",
+  "expect": { "valid": false, "errors": ["IMAGE_SRC_XOR_VIOLATION", "ATOMIC_SETTINGS_INVALID"] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "dbimg01",
+      "elType": "e-div-block",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "div" }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": [
+        {
+          "id": "dbimg02",
+          "elType": "widget",
+          "widgetType": "e-image",
+          "settings": {
+            "classes": { "$$type": "classes", "value": [] },
+            "image": {
+              "$$type": "image",
+              "value": {
+                "src": {
+                  "$$type": "image-src",
+                  "value": {
+                    "id": { "$$type": "image-attachment-id", "value": 1 },
+                    "url": { "$$type": "url", "value": "https://example.com/photo.jpg" }
+                  }
+                },
+                "size": { "$$type": "string", "value": "full" }
+              }
+            }
+          },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "prefilter": { "verdict": "reject" }
+}

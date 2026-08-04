@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elementor-ultra-mcp/spec/contracts/schemas/diff.schema.json",
+  "title": "Structured Tree Diff + Dry-Run Result",
+  "description": "FROZEN structured diff returned by every edit/mutating tool and by the authoritative dry_run (RESEARCH.md §5 conventions, §7). A by-id diff classifies each touched node as added/removed/modified/moved, plus design-system side effects (classes/variables) and the coverage/fallback report for HTML conversion. TS type names: Diff, NodeChange, DryRunResult, CoverageReport (WP-F03). The dry_run validator (WP-P03) is AUTHORITATIVE: valid:false carries structured errors keyed by element id for agent self-correction.",
+
+  "$defs": {
+    "NodeChange": {
+      "type": "object",
+      "description": "A single node-level change. before/after carry the node snapshot for modified/added/removed. For 'moved', from_parent/to_parent + indices are populated.",
+      "required": ["id", "op"],
+      "properties": {
+        "id": { "$ref": "element-node.schema.json#/$defs/ElementId" },
+        "op": { "enum": ["added", "removed", "modified", "moved"] },
+        "elType": { "type": "string" },
+        "widgetType": { "type": "string" },
+        "before": { "description": "Prior node snapshot (omitted for added)." },
+        "after": { "description": "New node snapshot (omitted for removed)." },
+        "from_parent": { "$ref": "element-node.schema.json#/$defs/ElementId" },
+        "to_parent": { "$ref": "element-node.schema.json#/$defs/ElementId" },
+        "from_index": { "type": "integer" },
+        "to_index": { "type": "integer" },
+        "changed_paths": {
+          "type": "array",
+          "description": "For 'modified': dotted settings/styles paths that changed (e.g. 'settings.title', 'styles.e-x-y.variants[0].props.color').",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Diff": {
+      "type": "object",
+      "description": "Aggregate structured diff for a write/edit. new_ids = freshly minted ids; changed_ids = ids whose content changed; removed_ids = deleted. design_system captures class/variable side effects.",
+      "required": ["changes"],
+      "properties": {
+        "changes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/NodeChange" }
+        },
+        "new_ids": { "type": "array", "items": { "$ref": "element-node.schema.json#/$defs/ElementId" } },
+        "changed_ids": { "type": "array", "items": { "$ref": "element-node.schema.json#/$defs/ElementId" } },
+        "removed_ids": { "type": "array", "items": { "$ref": "element-node.schema.json#/$defs/ElementId" } },
+        "base_hash_before": { "type": "string", "pattern": "^[a-f0-9]{32}$" },
+        "base_hash_after": { "type": "string", "pattern": "^[a-f0-9]{32}$" },
+        "design_system": {
+          "type": "object",
+          "description": "Side effects on global classes/variables (diff-PUT + watermark ops).",
+          "properties": {
+            "classes_added": { "type": "array", "items": { "type": "string" } },
+            "classes_modified": { "type": "array", "items": { "type": "string" } },
+            "classes_deleted": { "type": "array", "items": { "type": "string" } },
+            "variables_added": { "type": "array", "items": { "type": "string" } },
+            "modified_labels": {
+              "type": "object",
+              "description": "DUPLICATED_LABEL auto-renames the agent must reconcile: <id> -> {modified:<newLabel>}.",
+              "additionalProperties": {
+                "type": "object",
+                "properties": { "modified": { "type": "string" } }
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "ValidationError": {
+      "type": "object",
+      "description": "One structured validation error from PHP dry_run. code is from the error taxonomy (12-error-taxonomy.md). element_id/style_id/prop locate the failure; message carries the appended parser errors (DO NOT string-match the throw message).",
+      "required": ["code", "message"],
+      "properties": {
+        "code": { "type": "string", "description": "Error taxonomy code, e.g. VALIDATION_FAILED, ATOMIC_SETTINGS_INVALID, ATOMIC_STYLES_INVALID, UNKNOWN_WIDGET_TYPE." },
+        "message": { "type": "string" },
+        "element_id": { "$ref": "element-node.schema.json#/$defs/ElementId" },
+        "style_id": { "type": "string" },
+        "prop": { "type": "string", "description": "Offending prop / control name when known." },
+        "retryable": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+
+    "CoverageReport": {
+      "type": "object",
+      "description": "HTML->native conversion report (RESEARCH.md §6.6/§6.8). Honest, per-section coverage; gates auto-commit.",
+      "properties": {
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "pct_native": { "type": "number" },
+            "pct_local_or_global_class": { "type": "number" },
+            "pct_custom_css": { "type": "number" },
+            "pct_dropped": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
+        "fallbacks": {
+          "type": "array",
+          "description": "Per-node fallback-ladder records.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "element_id": { "$ref": "element-node.schema.json#/$defs/ElementId" },
+              "tier": { "enum": ["native", "local_style", "global_class", "custom_css", "html_widget"] },
+              "reason": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "a11y": {
+          "type": "array",
+          "description": "Accessibility lint findings (heading hierarchy, empty interactive names, missing alt).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "element_id": { "$ref": "element-node.schema.json#/$defs/ElementId" },
+              "rule": { "type": "string" },
+              "severity": { "enum": ["warning", "blocker"] },
+              "message": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "stripped_text": {
+          "type": "array",
+          "description": "html-v3 inline-only allowlist strip findings (pre/post inner-markup diff).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "element_id": { "$ref": "element-node.schema.json#/$defs/ElementId" },
+              "stripped_tags": { "type": "array", "items": { "type": "string" } }
+            },
+            "additionalProperties": false
+          }
+        },
+        "visual_diff_score": {
+          "type": "number",
+          "description": "Optional pixelmatch diffPixels/total from convert.fidelity_check. Lower is better."
+        },
+        "behavior": {
+          "type": "object",
+          "description": "Behavior-conversion coverage (16-behavior-conversion.md §6). ADVISORY in v1: reported, never gates commit (the visual coverage gate is unchanged). OMITTED when zero behaviors were detected (§8 invariant 5: zero-behavior reports stay byte-identical to pre-contract-16 output). Invariant 1: every detected behavior carries a tier — tier counts sum to detected.length.",
+          "required": ["detected", "tiers", "score", "behavior_gate"],
+          "properties": {
+            "detected": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "A tiered DetectedBehavior (16 §1 frozen shape; tier is REQUIRED in the report — invariant 1).",
+                "required": ["kind", "confidence", "evidence", "nodeIds", "tier"],
+                "properties": {
+                  "kind": { "enum": ["tabs", "accordion", "carousel", "nav-toggle", "form", "entrance-animation", "hover-effect", "marquee", "countdown", "video-embed", "custom-js"] },
+                  "confidence": { "enum": ["high", "medium", "low"] },
+                  "evidence": { "type": "array", "items": { "type": "string" } },
+                  "nodeIds": { "type": "array", "items": { "type": "string" } },
+                  "tier": { "enum": [1, 2, 3, 4] },
+                  "reason": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            },
+            "tiers": {
+              "type": "object",
+              "description": "Per-tier behavior COUNTS: 1=native widget, 2=native interaction, 3=JS passthrough, 4=honest drop.",
+              "required": ["native", "interactions", "passthrough", "dropped"],
+              "properties": {
+                "native": { "type": "integer", "minimum": 0 },
+                "interactions": { "type": "integer", "minimum": 0 },
+                "passthrough": { "type": "integer", "minimum": 0 },
+                "dropped": { "type": "integer", "minimum": 0 }
+              },
+              "additionalProperties": false
+            },
+            "score": {
+              "type": "number",
+              "description": "(t1 + t2 + 0.5*t3) / detected_total; tier 4 contributes 0."
+            },
+            "behavior_gate": { "const": "advisory" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "DryRunResult": {
+      "type": "object",
+      "description": "Returned by elementor.page.dry_run (the authoritative validate+diff, no persist). valid gates commit.",
+      "required": ["valid"],
+      "properties": {
+        "valid": { "type": "boolean" },
+        "errors": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ValidationError" }
+        },
+        "diff": { "$ref": "#/$defs/Diff" },
+        "preview_url": { "type": "string", "description": "Optional get_wp_preview_url() for a visual preview (nonce post_preview_<id>)." },
+        "report": { "$ref": "#/$defs/CoverageReport" }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "$ref": "#/$defs/DryRunResult"
+}

@@ -1,0 +1,9 @@
+{
+  "$comment": "WP-H12 — expected S3-anchored coverage for 04-cta-banner (CoverageReport.coverage shape). WP-S03 REALISTIC band for the cta-banner analog (spike 05-cta-banner): native 84.2%, custom_css 15.8%, dropped 0%. custom_css tail = the three-stop linear-gradient panel background (typed Background_Prop_Type decomposition routed to fallback in the realistic band, S3 §4), the filter:blur decorative blobs, and the button hover transition/transform. position:absolute (badge + blobs) and text-align:center MAP to native (position enum includes absolute; text-align is logical -> native, S3 §4). NEVER a hardcoded 85% (15-eng-standards §4.6/§6). Within ±5.0pp tolerance.",
+  "coverage": {
+    "pct_native": 84.2,
+    "pct_local_or_global_class": 84.2,
+    "pct_custom_css": 15.8,
+    "pct_dropped": 0.0
+  }
+}

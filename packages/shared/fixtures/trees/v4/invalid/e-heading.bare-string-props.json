@@ -1,0 +1,36 @@
+{
+  "$fixture": 1,
+  "id": "e-heading.bare-string-props",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Atomic heading authored with BARE strings instead of typed envelopes (the [R8] failure class)",
+  "_comment": "Seed [R8]/TYPED-ENVELOPE regression (WP-F06). Spike-verified: the authoritative Elementor 4.1.1 validator REJECTS bare strings — a bare \"h1\" tag → `tag: invalid_value`, a bare title string → `title: invalid_value`. A tag MUST be {\"$$type\":\"string\",\"value\":\"h1\"} and a title MUST be the html-v3 envelope (11-authoring-contract.md §3, SUMMARY.md R8). PHP dry_run classifies the caught throw as ATOMIC_SETTINGS_INVALID. The TS pre-filter ALSO structurally rejects this (bare string is not a {$$type,value} envelope → VALIDATION_FAILED in checkSettingsEnvelopes), so prefilter.verdict:reject and the meta-invariant reject⇒expect.valid:false holds. This fixture FREEZES the typed-envelope rule so a regression that re-introduces bare strings is caught.",
+  "expect": {
+    "valid": false,
+    "errors": ["ATOMIC_SETTINGS_INVALID"]
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "tree": [
+    {
+      "id": "hd00003",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": "h1",
+        "title": "Bare title string"
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": {
+    "verdict": "reject"
+  }
+}

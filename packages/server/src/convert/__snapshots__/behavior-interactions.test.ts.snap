@@ -1,0 +1,63 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`S08 frozen shape > matches the frozen-shape snapshot 1`] = `
+{
+  "items": [
+    {
+      "$$type": "interaction-item",
+      "value": {
+        "animation": {
+          "$$type": "animation-preset-props",
+          "value": {
+            "config": {
+              "$$type": "config-v2",
+              "value": {
+                "easing": {
+                  "$$type": "string",
+                  "value": "easeIn",
+                },
+              },
+            },
+            "direction": {
+              "$$type": "string",
+              "value": "bottom",
+            },
+            "effect": {
+              "$$type": "string",
+              "value": "slide",
+            },
+            "timing_config": {
+              "$$type": "timing-config",
+              "value": {
+                "delay": {
+                  "$$type": "size",
+                  "value": {
+                    "size": 200,
+                    "unit": "ms",
+                  },
+                },
+                "duration": {
+                  "$$type": "size",
+                  "value": {
+                    "size": 800,
+                    "unit": "ms",
+                  },
+                },
+              },
+            },
+            "type": {
+              "$$type": "string",
+              "value": "in",
+            },
+          },
+        },
+        "trigger": {
+          "$$type": "string",
+          "value": "load",
+        },
+      },
+    },
+  ],
+  "version": 1,
+}
+`;

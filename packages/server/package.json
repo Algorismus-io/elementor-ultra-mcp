@@ -1,0 +1,47 @@
+{
+  "name": "@elementor-ultra/server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ULTRA Elementor MCP server (npx-distributable, @modelcontextprotocol/sdk ^1.29).",
+  "type": "module",
+  "bin": {
+    "elementor-ultra-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "lint": "eslint src",
+    "test:unit": "vitest run",
+    "clean": "rm -rf dist *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@elementor-ultra/shared": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.29",
+    "ajv": "^8.20.0",
+    "css-tree": "^3.2.1",
+    "pixelmatch": "^7.2.0",
+    "playwright": "^1.60.0",
+    "pngjs": "^7.0.0"
+  },
+  "peerDependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/css-tree": "^2.3.11",
+    "@types/node": "^22.7.0",
+    "@types/pngjs": "^6.0.5",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.3",
+    "zod": "^3.23.8"
+  },
+  "license": "MIT",
+  "author": "Algorismus <shahmir@algorismus.io> (https://algorismus.io)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itshahmir/elementor-ultra-mcp.git"
+  }
+}

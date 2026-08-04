@@ -1,0 +1,37 @@
+<!--
+  WP-H12 corpus section 05 — Rich-text card (block-in-text + stripped inline tags).
+  Real "article callout / changelog note" card. Exercises the html-v3 NORMALIZE path:
+  a <p> (.note__lead) whose inner markup contains NON-ALLOWLISTED inline tags
+  (<mark>, <code>, <br>) AND block children (a nested <div> + a <ul>) inside what the
+  source authored as flowing text. The html-v3 inline-only allowlist is
+  [b,i,em,u,a,del,span,strong,sup,sub,s]; <mark>, <code>, <br>, <div> are NOT inline-
+  allowed, so the normalizer must PROMOTE the block content to sibling nodes and the
+  stripped-text report must list the stripped tags (RESEARCH.md §6.6, SUPPLEMENT §B.1).
+  DELIBERATE a11y warning: the inline thumbnail <img> has NO alt attribute ->
+  missing-alt warning. Allowlisted inline (<strong>, <em>, <a>) survive in place.
+  S3 analog: spike 04-testimonial (block-in-text; native 82.8% realistic). This is a
+  NEW section S3 did not measure literally -> coverage flagged PROVISIONAL in manifest.
+-->
+<section class="note">
+  <article class="note__card">
+    <h2 class="note__title">What's new in v4</h2>
+
+    <p class="note__lead">
+      The converter now ships <strong>native atomic output</strong> with a much smaller
+      <code>custom_css</code> tail. We <mark>highlight</mark> every fallback so you always
+      know what changed.<br />
+      Read the <a href="/changelog">full changelog</a> for details.
+      <div class="note__inset">
+        <img class="note__thumb" src="images/changelog-thumb.png" />
+        <span class="note__inset-text">Coverage reporting is now per-section.</span>
+      </div>
+      <ul class="note__points">
+        <li>Honest, S3-anchored coverage numbers</li>
+        <li>Per-declaration fallback ladder</li>
+        <li>Accessibility lint on every build</li>
+      </ul>
+    </p>
+
+    <p class="note__footer">Updated <em>June 2026</em> · <a href="/docs">Read the docs</a></p>
+  </article>
+</section>

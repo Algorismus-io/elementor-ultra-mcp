@@ -1,0 +1,4 @@
+{
+  "$comment": "WP-H12 — expected a11y findings for 01-hero (CoverageReport.a11y[] shape, diff.schema.json + WP-H10 lint). This section is the CLEAN baseline: exactly one <h1>, no skipped heading levels, both CTA links carry text, and the <img> has alt text. Therefore the converter SHOULD report ZERO a11y findings. The WP-H10 corpus suite asserts report.a11y matches this empty set (14-fixtures-harness §6 step 3). Findings are matched by rule+severity+locator, NOT by minted element_id (ids minted at runtime — 14-fixtures-harness §7 'compare structurally').",
+  "findings": []
+}

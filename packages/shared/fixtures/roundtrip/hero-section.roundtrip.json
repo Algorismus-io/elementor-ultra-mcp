@@ -1,0 +1,117 @@
+{
+  "$fixture": 1,
+  "id": "hero-section.roundtrip",
+  "kind": "roundtrip",
+  "generation": "v4",
+  "title": "Round-trip identity — composite hero (e-div-block > e-heading + e-paragraph)",
+  "_comment": "WP-Q05 (14-fixtures-harness.md §7). Composite atomic subtree: an e-div-block container with two atomic children (heading + paragraph) and a non-empty `elements` array (kept by normalize). build → get_structure → normalize(both) → assert structural equality. Nested ids (container + both children) are re-minted on save (C2/R5) so the round-trip test compares ids structurally/positionally, never literally. The container carries a non-empty `tag` (string envelope) + an empty `classes` array; the auto-injected `_cssid` on EACH node is stripped by normalize so it never shows as a diff. Empty `styles`/`editor_settings`/`interactions` are dropped; the populated `elements` array survives. Run as ADMIN (content-sanitizer exempt). prefilter.verdict:defer (size/html-v3 props are non-trivial; PHP dry_run authoritative).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements"],
+    "pro": false,
+    "min_elementor": "4.1.1"
+  },
+  "input_tree": [
+    {
+      "id": "rthero1",
+      "elType": "e-div-block",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "section" }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": [
+        {
+          "id": "rthd001",
+          "elType": "widget",
+          "widgetType": "e-heading",
+          "settings": {
+            "classes": { "$$type": "classes", "value": [] },
+            "tag": { "$$type": "string", "value": "h1" },
+            "title": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Hero title" },
+                "children": []
+              }
+            }
+          },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        },
+        {
+          "id": "rtpg001",
+          "elType": "widget",
+          "widgetType": "e-paragraph",
+          "settings": {
+            "classes": { "$$type": "classes", "value": [] },
+            "paragraph": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Hero subtitle copy." },
+                "children": []
+              }
+            }
+          },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "normalized_expected": [
+    {
+      "id": "rthero1",
+      "elType": "e-div-block",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "section" }
+      },
+      "elements": [
+        {
+          "id": "rthd001",
+          "elType": "widget",
+          "widgetType": "e-heading",
+          "settings": {
+            "classes": { "$$type": "classes", "value": [] },
+            "tag": { "$$type": "string", "value": "h1" },
+            "title": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Hero title" },
+                "children": []
+              }
+            }
+          }
+        },
+        {
+          "id": "rtpg001",
+          "elType": "widget",
+          "widgetType": "e-paragraph",
+          "settings": {
+            "classes": { "$$type": "classes", "value": [] },
+            "paragraph": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Hero subtitle copy." },
+                "children": []
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

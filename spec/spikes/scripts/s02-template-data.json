@@ -1,0 +1,139 @@
+[
+    {
+        "id": "7115a769",
+        "elType": "e-div-block",
+        "settings": {
+            "classes": {
+                "$$type": "classes",
+                "value": [
+                    "s02card"
+                ]
+            }
+        },
+        "elements": [
+            {
+                "id": "39433d04",
+                "elType": "widget",
+                "settings": {
+                    "classes": {
+                        "$$type": "classes",
+                        "value": [
+                            "e-39433d04-b0768a2"
+                        ]
+                    },
+                    "tag": {
+                        "$$type": "string",
+                        "value": "h2"
+                    },
+                    "title": {
+                        "$$type": "html-v3",
+                        "value": {
+                            "content": {
+                                "$$type": "string",
+                                "value": "S02 Atomic Card"
+                            },
+                            "children": []
+                        }
+                    }
+                },
+                "elements": [],
+                "widgetType": "e-heading",
+                "styles": {
+                    "e-39433d04-b0768a2": {
+                        "id": "e-39433d04-b0768a2",
+                        "type": "class",
+                        "label": "headlocal",
+                        "variants": [
+                            {
+                                "meta": {
+                                    "breakpoint": "desktop",
+                                    "state": null
+                                },
+                                "props": {
+                                    "font-size": {
+                                        "$$type": "size",
+                                        "value": {
+                                            "size": 36,
+                                            "unit": "px"
+                                        }
+                                    },
+                                    "color": {
+                                        "$$type": "color",
+                                        "value": "rgb(255, 200, 0)"
+                                    }
+                                },
+                                "custom_css": null
+                            }
+                        ]
+                    }
+                },
+                "interactions": [],
+                "editor_settings": [],
+                "version": "0.0"
+            },
+            {
+                "id": "370f5a93",
+                "elType": "widget",
+                "settings": {
+                    "classes": {
+                        "$$type": "classes",
+                        "value": [
+                            "e-370f5a93-f7c335b"
+                        ]
+                    },
+                    "text": {
+                        "$$type": "html-v3",
+                        "value": {
+                            "content": {
+                                "$$type": "string",
+                                "value": "S02 Button"
+                            },
+                            "children": []
+                        }
+                    }
+                },
+                "elements": [],
+                "widgetType": "e-button",
+                "styles": {
+                    "e-370f5a93-f7c335b": {
+                        "id": "e-370f5a93-f7c335b",
+                        "type": "class",
+                        "label": "btnlocal",
+                        "variants": [
+                            {
+                                "meta": {
+                                    "breakpoint": "desktop",
+                                    "state": null
+                                },
+                                "props": {
+                                    "color": {
+                                        "$$type": "color",
+                                        "value": "rgb(0, 0, 0)"
+                                    },
+                                    "background": {
+                                        "$$type": "background",
+                                        "value": {
+                                            "color": {
+                                                "$$type": "color",
+                                                "value": "rgb(0, 220, 130)"
+                                            }
+                                        }
+                                    }
+                                },
+                                "custom_css": null
+                            }
+                        ]
+                    }
+                },
+                "interactions": [],
+                "editor_settings": [],
+                "version": "0.0"
+            }
+        ],
+        "isInner": false,
+        "styles": [],
+        "interactions": [],
+        "editor_settings": [],
+        "version": "0.0"
+    }
+]

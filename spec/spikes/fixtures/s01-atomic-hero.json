@@ -1,0 +1,91 @@
+{
+  "_comment": "WP-S01 canonical atomic hero fixture (V4). Frozen authoring shape verified against Elementor 4.1.1 + Pro 4.1.0. e-div-block > (e-heading + e-button). The heading carries ONE LOCAL style (in its `styles` map, referenced from `settings.classes.value`). The button carries ONE GLOBAL class `s01hero` (referenced from `settings.classes.value`; the class itself lives in the kit's global-classes repository, see global_class below). Prop envelopes are {\"$$type\",\"value\"}; heading.tag is a `string` envelope, heading.title/button.text are `html-v3` envelopes. Reusable by WP-Q01 (build) and WP-Q06 (render assertion).",
+  "global_class": {
+    "id": "s01hero",
+    "type": "class",
+    "label": "s01hero",
+    "variants": [
+      {
+        "meta": { "breakpoint": "desktop", "state": null },
+        "props": {
+          "background": {
+            "$$type": "background",
+            "value": { "color": { "$$type": "color", "value": "rgb(255, 0, 128)" } }
+          },
+          "padding": {
+            "$$type": "dimensions",
+            "value": {
+              "block-start": { "$$type": "size", "value": { "unit": "px", "size": 24 } },
+              "block-end": { "$$type": "size", "value": { "unit": "px", "size": 24 } },
+              "inline-start": { "$$type": "size", "value": { "unit": "px", "size": 32 } },
+              "inline-end": { "$$type": "size", "value": { "unit": "px", "size": 32 } }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "elements": [
+    {
+      "id": "s01div01",
+      "elType": "e-div-block",
+      "settings": { "classes": { "$$type": "classes", "value": [] } },
+      "styles": {},
+      "isInner": false,
+      "elements": [
+        {
+          "id": "s01head1",
+          "elType": "widget",
+          "widgetType": "e-heading",
+          "settings": {
+            "classes": { "$$type": "classes", "value": ["e-s01head1-local"] },
+            "tag": { "$$type": "string", "value": "h1" },
+            "title": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "S01 Atomic Hero" },
+                "children": []
+              }
+            }
+          },
+          "styles": {
+            "e-s01head1-local": {
+              "id": "e-s01head1-local",
+              "type": "class",
+              "label": "local",
+              "variants": [
+                {
+                  "meta": { "breakpoint": "desktop", "state": null },
+                  "props": {
+                    "color": { "$$type": "color", "value": "rgb(0, 128, 255)" },
+                    "font-size": { "$$type": "size", "value": { "unit": "px", "size": 48 } }
+                  }
+                }
+              ]
+            }
+          },
+          "elements": [],
+          "isInner": false
+        },
+        {
+          "id": "s01btn01",
+          "elType": "widget",
+          "widgetType": "e-button",
+          "settings": {
+            "classes": { "$$type": "classes", "value": ["s01hero"] },
+            "text": {
+              "$$type": "html-v3",
+              "value": {
+                "content": { "$$type": "string", "value": "Click me" },
+                "children": []
+              }
+            }
+          },
+          "styles": {},
+          "elements": [],
+          "isInner": false
+        }
+      ]
+    }
+  ]
+}

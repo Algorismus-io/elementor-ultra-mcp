@@ -1,0 +1,14 @@
+{
+  "$fixture": 1,
+  "id": "smoke.elementor.site.capabilities",
+  "kind": "smoke",
+  "generation": "v4",
+  "title": "Inspector smoke payload — minimal valid input for the lean ★ elementor.site.capabilities tool",
+  "_comment": "WP-Q03 — Inspector smoke (14-fixtures-harness.md §8; 13-tool-catalog.md §5.2 #2, §1.1). site.capabilities is READ-ONLY (readOnlyHint/idempotentHint; proxied-to-REST GET elementor-ultra/v1/site/capabilities). Runs UNCONDITIONALLY: it IS the precondition probe, so it carries no `requires` gate and must succeed on free-only/atomic-off installs. MINIMAL valid input per §1.1: the inputSchema is the empty object {} — so `arguments` is {} (the envelope's `arguments` key must still be present per the §2/smoke envelope). The §8 suite asserts no protocol error (-326xx) and a result matching the broad capabilities outputSchema (v4/atomic/pro/breakpoints/experiments/versions/...).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "tool": "elementor.site.capabilities",
+  "arguments": {}
+}

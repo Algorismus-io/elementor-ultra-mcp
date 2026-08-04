@@ -1,0 +1,67 @@
+# Plan B dev stack for the ULTRA Elementor MCP.
+# Lean, controlled alternative to wp-env: official prebuilt images (NO git clones),
+# a single DB with a healthcheck gate (no dual-env race), Elementor + Pro + the
+# companion plugin bind-mounted from the repo. Site: http://localhost:8890
+services:
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  wordpress:
+    image: wordpress:php8.2-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '8899:80'
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: '1'
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_ENVIRONMENT_TYPE', 'local');
+        define('SCRIPT_DEBUG', true);
+    volumes:
+      - wp-data:/var/www/html
+      - /Users/shahmir/projects/elementor-mcp/plugins/elementor:/var/www/html/wp-content/plugins/elementor
+      - /Users/shahmir/projects/elementor-mcp/plugins/elementor-pro:/var/www/html/wp-content/plugins/elementor-pro
+      - /Users/shahmir/projects/elementor-mcp/plugin/elementor-ultra-mcp:/var/www/html/wp-content/plugins/elementor-ultra-mcp
+      # Raise PHP limits past the image's compiled defaults (30s/8M/2M/128M) —
+      # the write pipeline (validate+backup+save+diff+CSS-prime) and base64
+      # media uploads blow those budgets on large pages.
+      - /Users/shahmir/projects/elementor-mcp/tools/wp-stack/php-overrides.ini:/usr/local/etc/php/conf.d/zz-ultra-overrides.ini:ro
+
+  wpcli:
+    image: wordpress:cli-php8.2
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp-data:/var/www/html
+      - /Users/shahmir/projects/elementor-mcp/plugins/elementor:/var/www/html/wp-content/plugins/elementor
+      - /Users/shahmir/projects/elementor-mcp/plugins/elementor-pro:/var/www/html/wp-content/plugins/elementor-pro
+      - /Users/shahmir/projects/elementor-mcp/plugin/elementor-ultra-mcp:/var/www/html/wp-content/plugins/elementor-ultra-mcp
+
+volumes:
+  db-data:
+  wp-data:

@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Turbo cache
+.turbo/
+
+# Extracted Elementor sources (reference only, not committed)
+plugins/
+
+# Local wp-env plugin zips (Elementor free + Pro, see README)
+.wp-env-plugins/
+
+# wp-env local override
+.wp-env.override.json
+
+# OS / editor cruft
+.DS_Store
+*.log
+
+# Private notes
+/private/
+
+# NOTE: plugin/elementor-ultra-mcp/ is intentionally NOT ignored — WP-P01 lands the
+# companion plugin there and it must be tracked + mounted by .wp-env.json.
+
+# Claude Code harness state (but the skill + workflows are tracked work products)
+.claude/*
+!.claude/skills/
+!.claude/workflows/
+
+# Local MCP client config (holds an app-password credential) — use .mcp.json.example as the template
+.mcp.json
+.env

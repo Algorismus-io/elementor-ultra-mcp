@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elementor-ultra-mcp/packages/shared/fixtures/envelope.schema.json",
+  "title": "Golden-fixture envelope",
+  "$comment": "WP-F06 — the LOCKED fixture file envelope (14-fixtures-harness.md §2). Every tree/design/html/roundtrip/smoke fixture is a single JSON object with this shape so the TS (fixture-loader.ts) and PHP (class-fixture-loader.php) runners interpret it IDENTICALLY. `expect.errors[]` are SCREAMING_SNAKE_CASE taxonomy codes (12-error-taxonomy.md §3/§6) — NEVER raw Elementor throw-message strings (the `errors` enum below enforces this; a bare throw string fails `fixtures:validate`). The embedded `tree[]` is validated SEPARATELY against the authoring schemas (element-node.schema.json) by `pnpm fixtures:validate`, not inline here, to keep this envelope self-contained.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$fixture", "id", "kind", "generation", "expect"],
+  "properties": {
+    "$fixture": {
+      "description": "Envelope version. Currently 1.",
+      "type": "integer",
+      "const": 1
+    },
+    "id": {
+      "description": "Unique fixture id; MUST equal the filename minus the .json extension (14-fixtures-harness.md §2).",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "kind": {
+      "description": "Fixture family (14-fixtures-harness.md §2).",
+      "type": "string",
+      "enum": ["tree", "design", "html", "roundtrip", "smoke"]
+    },
+    "generation": {
+      "description": "Authoring generation of the embedded tree (page-tree.schema.json#/$defs/Generation).",
+      "type": "string",
+      "enum": ["v4", "v3", "mixed"]
+    },
+    "title": {
+      "description": "Human-readable one-line description of what the fixture exercises.",
+      "type": "string"
+    },
+    "expect": {
+      "description": "The AUTHORITATIVE expectation. `valid` is the PHP dry_run verdict (§3); when valid:false, `errors` is the expected taxonomy-code SET (order-independent, §3 step 2d).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valid"],
+      "properties": {
+        "valid": {
+          "description": "PHP dry_run verdict for this fixture's tree+settings (§3 — the SINGLE SOURCE OF TRUTH).",
+          "type": "boolean"
+        },
+        "errors": {
+          "description": "When valid:false, the expected error CODES (NOT messages). SCREAMING_SNAKE_CASE taxonomy codes only (12-error-taxonomy.md §6). A bare Elementor throw-string here FAILS validation by design ([R8], §2).",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "VALIDATION_FAILED",
+              "SCHEMA_INVALID_PARAMS",
+              "ATOMIC_SETTINGS_INVALID",
+              "ATOMIC_STYLES_INVALID",
+              "UNKNOWN_WIDGET_TYPE",
+              "DUPLICATE_ELEMENT_ID",
+              "LOCAL_STYLE_UNLINKED",
+              "IMAGE_SRC_XOR_VIOLATION",
+              "HTML_V3_STRIPPED",
+              "LOCK_HELD",
+              "AUTOSAVE_CONFLICT",
+              "CONCURRENCY_STALE_HASH",
+              "IDEMPOTENT_REPLAY",
+              "BUDGET_EXCEEDED",
+              "DUPLICATED_LABEL",
+              "INVALID_ORDER",
+              "WATERMARK_STALE",
+              "CAPABILITY_MISSING",
+              "EXPERIMENT_INACTIVE",
+              "AUTH_FAILED",
+              "PRO_REQUIRED",
+              "WOO_CONTEXT_INVALID",
+              "NOT_FOUND",
+              "NOT_EDITABLE",
+              "CSS_PRIME_FAILED",
+              "IMPORT_REMAP_FAILED",
+              "RATE_LIMITED",
+              "UPSTREAM_ERROR",
+              "INTERNAL_ERROR"
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$comment": "Cross-check: a valid fixture carries no expected errors; an invalid fixture carries at least one.",
+          "if": { "properties": { "valid": { "const": false } } },
+          "then": { "properties": { "errors": { "minItems": 1 } }, "required": ["errors"] }
+        },
+        {
+          "if": { "properties": { "valid": { "const": true } } },
+          "then": { "properties": { "errors": { "maxItems": 0 } } }
+        }
+      ]
+    },
+    "requires": {
+      "description": "Capability gates (14-fixtures-harness.md §2). A fixture whose `requires` are unmet on the target install is SKIPPED (reported skipped, not failed) by BOTH loaders.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "experiments": {
+          "description": "Experiment slugs that MUST be active (12-error-taxonomy.md §3.4).",
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "pro": {
+          "description": "Whether Elementor Pro must be active for this fixture to run.",
+          "type": "boolean"
+        },
+        "min_elementor": {
+          "description": "Minimum Elementor version (semver-ish, e.g. \"4.1.1\").",
+          "type": "string"
+        }
+      }
+    },
+    "tree": {
+      "description": "Array of ElementNode (11-authoring-contract.md §1, element-node.schema.json). Present for kind:tree/roundtrip/smoke. Validated against the authoring schemas by `fixtures:validate`.",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "settings": {
+      "description": "Optional document/page settings (_elementor_page_settings).",
+      "type": "object"
+    },
+    "prefilter": {
+      "description": "TS pre-filter contract for THIS fixture (14-fixtures-harness.md §4). Asserted by prefilter-subset.test.ts.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verdict"],
+      "properties": {
+        "verdict": {
+          "description": "accept | reject | defer (§4). accept⇒expect.valid==true; reject⇒expect.valid==false (corpus meta-invariant).",
+          "type": "string",
+          "enum": ["accept", "reject", "defer"]
+        }
+      }
+    },
+    "input_tree": {
+      "description": "kind:roundtrip only — the tree to page.build (14-fixtures-harness.md §7). Array of ElementNode.",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "normalized_expected": {
+      "description": "kind:roundtrip only — the expected normalized tree after build→get_structure→normalize (§7).",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "tool": {
+      "description": "kind:smoke only — the FULL lean ★ tool name this payload exercises (13-tool-catalog.md §5.2), e.g. \"elementor.page.dry_run\".",
+      "type": "string"
+    },
+    "arguments": {
+      "description": "kind:smoke only — the minimal valid input payload for the named tool (Inspector smoke, §8).",
+      "type": "object"
+    },
+    "merge_regression": {
+      "description": "Optional settings-merge regression block ([S04/C3/R3]). When present, the dry-run/settings suite seeds `seed`, applies `patch`, and asserts `survives`/`updates` hold after update_settings (deep merge), proving the controller did not bare-save (REPLACE).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seed", "patch", "survives", "updates"],
+      "properties": {
+        "seed": {
+          "description": "≥3 settings of different types including ≥1 nested map (e.g. background_color, background_background, nested padding).",
+          "type": "object"
+        },
+        "patch": {
+          "description": "Patch updating exactly ONE top-level key and ONE nested sub-key, omitting the rest.",
+          "type": "object"
+        },
+        "survives": {
+          "description": "Dotted paths (e.g. \"padding.left\") whose values MUST be unchanged after the patch.",
+          "type": "object"
+        },
+        "updates": {
+          "description": "Dotted paths whose values MUST equal the patched values after the patch.",
+          "type": "object"
+        }
+      }
+    },
+    "_comment": {
+      "description": "Free-form authoring note (ignored by both loaders).",
+      "type": "string"
+    }
+  }
+}
