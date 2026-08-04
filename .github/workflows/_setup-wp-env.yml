@@ -80,6 +80,24 @@ jobs:
           unzip -q -o /tmp/elementor-pro.zip -d plugins/
           echo "Elementor Pro provisioned from secret."
 
+      # Free Elementor is fetched from wordpress.org (pinned) — the ./plugins dirs are
+      # LOCAL-DEV bind mounts and are not part of the public repo. When Pro was not
+      # provisioned (free leg / missing secret), override .wp-env.json so wp-env does not
+      # fail on the absent ./plugins/elementor-pro path.
+      - name: Provision Elementor (free, pinned)
+        run: |
+          set -euo pipefail
+          if [ ! -d plugins/elementor ]; then
+            mkdir -p plugins
+            curl -fsSL -o /tmp/elementor.zip "https://downloads.wordpress.org/plugin/elementor.4.2.1.zip"
+            unzip -q /tmp/elementor.zip -d plugins/
+            echo "Elementor 4.2.1 provisioned from wordpress.org."
+          fi
+          if [ ! -d plugins/elementor-pro ]; then
+            printf '{"plugins":["./plugins/elementor"]}' > .wp-env.override.json
+            echo "Free leg: .wp-env.override.json written (no elementor-pro)."
+          fi
+
       - name: Build server (for smoke)
         if: ${{ inputs.build }}
         run: pnpm build
