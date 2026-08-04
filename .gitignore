@@ -41,3 +41,9 @@ plugins/
 # generated npx bundle (reproducible via scripts/build-npm-server.mjs)
 packages/server/npm/index.mjs
 packages/server/npm/*.tgz
+
+# Playground dev stack runtime (installed CLI + provisioned site + minted creds)
+dev/playground/node_modules/
+dev/playground/.wordpress/
+dev/playground/.out/
+dev/playground/package-lock.json

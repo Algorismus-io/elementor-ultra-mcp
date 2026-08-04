@@ -1,0 +1,10 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "login": false,
+  "steps": [
+    { "step": "defineWpConfigConsts", "consts": { "WP_ENVIRONMENT_TYPE": "local", "WP_DEBUG": true } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "elementor" } },
+    { "step": "activatePlugin", "pluginPath": "elementor-ultra-mcp/elementor-ultra-mcp.php" },
+    { "step": "runPHP", "code": "<?php require '/ultra/provision.php';" }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "elementor-ultra-playground-dev",
+  "private": true,
+  "description": "Docker-free local WordPress (Playground/PHP-WASM) for Elementor Ultra dev. Run: node setup-playground.mjs",
+  "type": "module",
+  "dependencies": { "@wp-playground/cli": "latest" }
+}
