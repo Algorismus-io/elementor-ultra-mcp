@@ -41,3 +41,7 @@ REVIEW-DIGEST.md
 # scratch screenshot helper
 packages/server/_shot.mjs
 packages/server/_*.mjs
+
+# convert-corpus fixtures — byte-exact inputs, never reformat
+test.html
+test-landing.html
