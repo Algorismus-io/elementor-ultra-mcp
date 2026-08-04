@@ -109,7 +109,7 @@ trait Pagination {
 			$page        = array_values( $items );
 			$next        = $next_cursor;
 		} else {
-			$page = array_slice( array_values( $items ), $offset, $limit );
+			$page     = array_slice( array_values( $items ), $offset, $limit );
 			$has_more = ( $offset + $limit ) < count( $items );
 			$next     = $has_more ? $this->encode_cursor( $offset + $limit ) : null;
 		}

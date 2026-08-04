@@ -721,6 +721,29 @@ paths:
         '200': { $ref: '#/components/responses/Success' }
         '403': { $ref: '#/components/responses/Forbidden' }
 
+  /design/fonts:
+    get:
+      summary: List installed font faces (font manager + custom-font CPT)
+      operationId: listInstalledFonts
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /design/fonts/upload-zip:
+    post:
+      summary: Upload a zip of font files and install the faces (server-side read, no base64 round-trip)
+      operationId: uploadFontZip
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [data]
+              properties:
+                data: { type: string, description: 'base64 zip payload' }
+                family: { type: string }
+                op_id: { $ref: '#/components/schemas/OpId' }
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
   /design/fonts/install:
     post:
       summary: Install a non-catalog font face (contract 18 §7-AI S4)

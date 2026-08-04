@@ -43,7 +43,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: pnpm
+          # pnpm store only exists when the job installs; an empty cache path fails the post step
+          cache: ${{ inputs.install && 'pnpm' || '' }}
 
       - name: Install dependencies
         if: ${{ inputs.install }}
