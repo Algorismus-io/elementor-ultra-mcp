@@ -154,7 +154,7 @@ jobs:
       pro: ${{ matrix.leg == 'pro' }}
       # PHPUnit runs inside the wp-env `tests-cli` container (has Composer + the test DB), from the
       # bind-mounted plugin dir. `composer test:php` is the contract-named script (§10), owned by WP-F06.
-      run: pnpm wp-env run tests-cli --env-cwd=wp-content/plugins/elementor-ultra-mcp composer test:php
+      run: pnpm wp-env run tests-cli --env-cwd=wp-content/plugins/elementor-ultra-mcp composer install --no-interaction --quiet && pnpm wp-env run tests-cli --env-cwd=wp-content/plugins/elementor-ultra-mcp composer test:php
     secrets:
       ELEMENTOR_PRO_ZIP_B64: ${{ secrets.ELEMENTOR_PRO_ZIP_B64 }}
 

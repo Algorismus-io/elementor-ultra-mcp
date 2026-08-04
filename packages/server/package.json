@@ -18,7 +18,7 @@
     "test:unit": "vitest run",
     "clean": "rm -rf dist *.tsbuildinfo",
     "test:smoke": "vitest run src/test-harness/smoke.test.ts",
-    "test:contract": "vitest run src/test-harness/dry-run-roundtrip.contract.ts src/test-harness/roundtrip-identity.contract.ts src/test-harness/render-assertion.contract.ts src/test-harness/e2e-agency-site.contract.ts"
+    "test:contract": "vitest run -c vitest.contract.config.ts"
   },
   "dependencies": {
     "@elementor-ultra/shared": "workspace:*",

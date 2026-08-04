@@ -93,6 +93,9 @@ pnpm wp-env run cli wp plugin get elementor-pro --field=version 2>/dev/null || t
 
 log 'wp-env is ready for the contract / drift / smoke suites.'
 
+# /wp-json/* 404s under wp-env's default plain permalinks — set a pretty structure first.
+pnpm wp-env run cli wp rewrite structure '/%postname%/' --hard >/dev/null 2>&1 || true
+
 # ── CI: export live-auth env so the smoke/contract steps run LIVE instead of self-skipping ──
 if [ -n "${GITHUB_ENV:-}" ]; then
   APP_PASS="$(pnpm wp-env run cli wp user application-password create admin ci-live --porcelain 2>/dev/null | tail -1 | tr -d '\r')"
