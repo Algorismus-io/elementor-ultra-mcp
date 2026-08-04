@@ -92,3 +92,18 @@ pnpm wp-env run cli wp plugin get elementor --field=version 2>/dev/null || true
 pnpm wp-env run cli wp plugin get elementor-pro --field=version 2>/dev/null || true
 
 log 'wp-env is ready for the contract / drift / smoke suites.'
+
+# ── CI: export live-auth env so the smoke/contract steps run LIVE instead of self-skipping ──
+if [ -n "${GITHUB_ENV:-}" ]; then
+  APP_PASS="$(pnpm wp-env run cli wp user application-password create admin ci-live --porcelain 2>/dev/null | tail -1 | tr -d '\r')"
+  if [ -n "${APP_PASS}" ]; then
+    {
+      echo "WP_URL=http://localhost:8888"
+      echo "WP_USER=admin"
+      echo "WP_APP_PASSWORD=${APP_PASS}"
+    } >> "${GITHUB_ENV}"
+    log "CI: App-Password minted and exported (smoke/contract will run live)."
+  else
+    log "WARN: App-Password mint failed — smoke/contract will self-skip."
+  fi
+fi

@@ -18,7 +18,9 @@
     "fixtures:snapshot-schemas": "node scripts/fixtures-snapshot-schemas.mjs",
     "wp-env": "wp-env",
     "wp-env:start": "wp-env start",
-    "wp-env:stop": "wp-env stop"
+    "wp-env:stop": "wp-env stop",
+    "test:smoke": "pnpm --filter @elementor-ultra/server test:smoke",
+    "test:contract": "pnpm --filter @elementor-ultra/server test:contract"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

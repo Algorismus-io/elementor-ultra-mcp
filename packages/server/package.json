@@ -16,7 +16,9 @@
     "build": "tsc -b",
     "lint": "eslint src",
     "test:unit": "vitest run",
-    "clean": "rm -rf dist *.tsbuildinfo"
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "test:smoke": "vitest run src/test-harness/smoke.test.ts",
+    "test:contract": "vitest run src/test-harness/dry-run-roundtrip.contract.ts src/test-harness/roundtrip-identity.contract.ts src/test-harness/render-assertion.contract.ts src/test-harness/e2e-agency-site.contract.ts"
   },
   "dependencies": {
     "@elementor-ultra/shared": "workspace:*",

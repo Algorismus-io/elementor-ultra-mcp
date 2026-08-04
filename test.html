@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wpos.ai — the point of sale that runs the back office for you</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --paper: #F4F5F1;
+            --paper-2: #ECEEE7;
+            --card: #FCFCFA;
+            --ink: #122019;
+            --ink-soft: #2C3A33;
+            --muted: #5C6B62;
+            --emerald: #0C6B4A;
+            --emerald-deep: #083f2c;
+            --signal: #00C46A;
+            --gold: #D99A33;
+            --gold-soft: #F0D6A0;
+            --line: rgba(18, 32, 25, 0.12);
+            --line-strong: rgba(18, 32, 25, 0.22);
+            --shadow: 0 24px 60px -28px rgba(8, 40, 28, 0.45);
+            --shadow-sm: 0 10px 28px -16px rgba(8, 40, 28, 0.4);
+            --r: 14px;
+            --maxw: 1120px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            font-size: 17px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: "Bricolage Grotesque", "Inter", sans-serif;
+            font-weight: 700;
+            line-height: 1.02;
+            letter-spacing: -0.02em;
+            margin: 0;
+            color: var(--ink);
+        }
+
+        p {
+            margin: 0;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .mono {
+            font-family: "JetBrains Mono", monospace;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .wrap {
+            max-width: var(--maxw);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .eyebrow {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--emerald);
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin: 0;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 18px;
+            height: 1px;
+            background: var(--gold);
+            display: inline-block;
+        }
+
+        /* ---------- perforated receipt divider ---------- */
+        .perf {
+            border: 0;
+            border-top: 2px dotted var(--line-strong);
+            margin: 0;
+            height: 0;
+        }
+
+        /* ---------- buttons ---------- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            font-size: 15.5px;
+            padding: 13px 22px;
+            border-radius: 11px;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--emerald);
+            color: #fff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: var(--emerald-deep);
+            transform: translateY(-2px);
+            box-shadow: 0 18px 34px -16px rgba(8, 40, 28, .55);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--ink);
+            border-color: var(--line-strong);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--ink);
+            transform: translateY(-2px);
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--ink);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-gold:hover {
+            background: #c9882a;
+            transform: translateY(-2px);
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        a:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        /* ---------- nav ---------- */
+        header.nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(244, 245, 241, 0.82);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            transition: border-color .25s ease, background .25s ease;
+        }
+
+        header.nav.scrolled {
+            border-color: var(--line);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 66px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-family: "Bricolage Grotesque";
+            font-weight: 700;
+            font-size: 21px;
+            letter-spacing: -0.03em;
+        }
+
+        .brand .mark {
+            width: 30px;
+            height: 30px;
+            flex: none;
+            display: block;
+        }
+
+        .brand .dot {
+            color: var(--gold);
+            font-family: "JetBrains Mono";
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            color: var(--ink-soft);
+            font-weight: 500;
+            transition: color .15s;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-cta .btn {
+            padding: 9px 17px;
+            font-size: 14.5px;
+        }
+
+        .menu-link {
+            display: none;
+        }
+
+        @media(max-width:860px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-cta .ghost-hide {
+                display: none;
+            }
+        }
+
+        /* ---------- hero ---------- */
+        .hero {
+            position: relative;
+            padding: 74px 0 30px;
+        }
+
+        .hero-glow {
+            position: absolute;
+            z-index: 0;
+            width: 620px;
+            height: 620px;
+            right: -160px;
+            top: -120px;
+            background: radial-gradient(circle, rgba(12, 107, 74, 0.16), transparent 62%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 56px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5.6vw, 4.3rem);
+            max-width: 13ch;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--emerald);
+            position: relative;
+        }
+
+        .hero .lede {
+            margin-top: 24px;
+            font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+            color: var(--ink-soft);
+            max-width: 42ch;
+        }
+
+        .hero-actions {
+            margin-top: 34px;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .hero-trust {
+            margin-top: 26px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 22px;
+            font-size: 13.5px;
+            color: var(--muted);
+        }
+
+        .hero-trust span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-trust span::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--signal);
+        }
+
+        /* ---------- terminal (signature) ---------- */
+        .terminal {
+            background: linear-gradient(180deg, #16271f, #102019);
+            border-radius: 22px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .term-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 8px 14px;
+        }
+
+        .term-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #cfe0d6;
+            font-family: "JetBrains Mono";
+            font-size: 12.5px;
+        }
+
+        .pulse {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--signal);
+            box-shadow: 0 0 0 0 rgba(0, 196, 106, .7);
+            animation: pulse 2.2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 196, 106, .6);
+            }
+
+            70% {
+                box-shadow: 0 0 0 7px rgba(0, 196, 106, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 196, 106, 0);
+            }
+        }
+
+        .term-bar .right {
+            font-family: "JetBrains Mono";
+            font-size: 12.5px;
+            color: #7e948a;
+        }
+
+        .receipt {
+            background: var(--card);
+            border-radius: 12px 12px 0 0;
+            padding: 22px 22px 16px;
+            position: relative;
+        }
+
+        .receipt-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px dashed var(--line-strong);
+            padding-bottom: 13px;
+            margin-bottom: 4px;
+        }
+
+        .receipt-head .shop {
+            font-family: "Bricolage Grotesque";
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .receipt-head .meta {
+            font-family: "JetBrains Mono";
+            font-size: 11.5px;
+            color: var(--muted);
+        }
+
+        .line {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 11px 0;
+            font-family: "JetBrains Mono";
+            font-size: 14px;
+            border-bottom: 1px dotted var(--line);
+            opacity: 0;
+            transform: translateY(7px);
+        }
+
+        .line.show {
+            opacity: 1;
+            transform: none;
+            transition: opacity .4s ease, transform .4s ease;
+        }
+
+        .line .name {
+            color: var(--ink-soft);
+        }
+
+        .line .qty {
+            color: var(--muted);
+            font-size: 12px;
+            margin-left: 7px;
+        }
+
+        .line .price {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 2px solid var(--ink);
+        }
+
+        .total-row .lbl {
+            font-family: "Bricolage Grotesque";
+            font-weight: 700;
+            font-size: 17px;
+        }
+
+        .total-row .amt {
+            font-family: "JetBrains Mono";
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        /* scalloped torn bottom */
+        .receipt-edge {
+            height: 16px;
+            background: var(--card);
+            margin-top: -1px;
+            -webkit-mask: radial-gradient(circle 8px at 14px 16px, #0000 8px, #000 8.5px) repeat-x;
+            -webkit-mask-size: 28px 16px;
+            mask: radial-gradient(circle 8px at 14px 16px, #0000 8px, #000 8.5px) repeat-x;
+            mask-size: 28px 16px;
+        }
+
+        .ai-chip {
+            margin-top: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(0, 196, 106, 0.10);
+            border: 1px solid rgba(0, 196, 106, 0.3);
+            border-radius: 13px;
+            padding: 13px 14px;
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        .ai-chip.show {
+            opacity: 1;
+            transform: none;
+            transition: opacity .5s ease, transform .5s ease;
+        }
+
+        .ai-chip .spark {
+            flex: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: var(--emerald);
+            display: grid;
+            place-items: center;
+        }
+
+        .ai-chip .txt {
+            color: #dff3e8;
+            font-size: 13.5px;
+            line-height: 1.45;
+        }
+
+        .ai-chip .txt b {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .ai-chip .approve {
+            margin-top: 9px;
+            display: inline-block;
+            font-family: "JetBrains Mono";
+            font-size: 11.5px;
+            background: var(--signal);
+            color: #06281a;
+            font-weight: 700;
+            padding: 5px 11px;
+            border-radius: 7px;
+            cursor: pointer;
+            border: 0;
+            letter-spacing: 0.02em;
+        }
+
+        .ai-chip .approve:hover {
+            background: #00d977;
+        }
+
+        @media(max-width:860px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero {
+                padding: 48px 0 18px;
+            }
+
+            .terminal {
+                max-width: 430px;
+                margin: 0 auto;
+            }
+        }
+
+        /* ---------- trust strip ---------- */
+        .strip {
+            padding: 26px 0;
+        }
+
+        .strip-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .strip .lab {
+            font-family: "JetBrains Mono";
+            font-size: 11.5px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .strip .logos {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-family: "Bricolage Grotesque";
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--ink-soft);
+            opacity: .62;
+        }
+
+        /* ---------- sections ---------- */
+        section {
+            position: relative;
+        }
+
+        .sec {
+            padding: 84px 0;
+        }
+
+        .sec-head {
+            max-width: 60ch;
+        }
+
+        .sec-head h2 {
+            font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+            margin-top: 16px;
+        }
+
+        .sec-head p {
+            margin-top: 16px;
+            color: var(--ink-soft);
+            font-size: 1.08rem;
+        }
+
+        /* features */
+        .features {
+            background: var(--paper-2);
+        }
+
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-top: 46px;
+        }
+
+        .feat {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            padding: 26px;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .feat:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feat .ico {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            background: var(--ink);
+            display: grid;
+            place-items: center;
+            margin-bottom: 18px;
+        }
+
+        .feat h3 {
+            font-size: 1.32rem;
+        }
+
+        .feat p {
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 0.98rem;
+        }
+
+        .feat .tag {
+            margin-top: 14px;
+            display: inline-block;
+            font-family: "JetBrains Mono";
+            font-size: 11px;
+            color: var(--emerald);
+            background: rgba(12, 107, 74, .08);
+            padding: 4px 9px;
+            border-radius: 6px;
+            letter-spacing: .04em;
+        }
+
+        @media(max-width:760px) {
+            .feat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* how it works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-top: 46px;
+        }
+
+        .step {
+            padding: 24px 20px;
+            border-top: 2px solid var(--ink);
+            position: relative;
+        }
+
+        .step .num {
+            font-family: "JetBrains Mono";
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--gold);
+            letter-spacing: .1em;
+        }
+
+        .step h3 {
+            font-size: 1.22rem;
+            margin-top: 16px;
+        }
+
+        .step p {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        @media(max-width:860px) {
+            .steps {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width:520px) {
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* dark band */
+        .band {
+            background: var(--ink);
+            color: #e7efe9;
+        }
+
+        .band .wrap {
+            padding-top: 78px;
+            padding-bottom: 78px;
+        }
+
+        .band h2 {
+            color: #fff;
+            font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+            max-width: 18ch;
+        }
+
+        .band .eyebrow {
+            color: var(--gold-soft);
+        }
+
+        .band .eyebrow::before {
+            background: var(--gold);
+        }
+
+        .band p.sub {
+            color: #a9bcb1;
+            margin-top: 18px;
+            max-width: 46ch;
+        }
+
+        .band-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, .14);
+            padding-top: 34px;
+        }
+
+        .stat .n {
+            font-family: "JetBrains Mono";
+            font-weight: 700;
+            font-size: clamp(2rem, 4vw, 2.7rem);
+            color: var(--signal);
+            letter-spacing: -.02em;
+        }
+
+        .stat .d {
+            margin-top: 8px;
+            color: #a9bcb1;
+            font-size: 0.95rem;
+        }
+
+        @media(max-width:620px) {
+            .band-stats {
+                grid-template-columns: 1fr;
+                gap: 26px;
+            }
+        }
+
+        /* pricing */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 46px;
+            align-items: stretch;
+        }
+
+        .plan {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 30px 26px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .plan:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .plan.featured {
+            border-color: var(--emerald);
+            box-shadow: 0 18px 44px -24px rgba(12, 107, 74, .5);
+        }
+
+        .plan .ribbon {
+            position: absolute;
+            top: -12px;
+            right: 22px;
+            background: var(--gold);
+            color: var(--ink);
+            font-family: "JetBrains Mono";
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            padding: 5px 11px;
+            border-radius: 7px;
+            text-transform: uppercase;
+        }
+
+        .plan .pname {
+            font-family: "Bricolage Grotesque";
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .plan .pdesc {
+            color: var(--muted);
+            font-size: 0.92rem;
+            margin-top: 6px;
+            min-height: 38px;
+        }
+
+        .plan .pcost {
+            margin: 18px 0 4px;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .plan .pcost .amt {
+            font-family: "Bricolage Grotesque";
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: -.03em;
+        }
+
+        .plan .pcost .per {
+            font-family: "JetBrains Mono";
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .plan ul {
+            list-style: none;
+            padding: 0;
+            margin: 22px 0 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .plan li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 0.95rem;
+            color: var(--ink-soft);
+        }
+
+        .plan li svg {
+            flex: none;
+            margin-top: 3px;
+        }
+
+        .plan .btn {
+            margin-top: auto;
+            width: 100%;
+        }
+
+        @media(max-width:820px) {
+            .price-grid {
+                grid-template-columns: 1fr;
+                max-width: 420px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* quote */
+        .quote {
+            background: var(--paper-2);
+        }
+
+        .quote blockquote {
+            margin: 0;
+            max-width: 24ch;
+            font-family: "Bricolage Grotesque";
+            font-weight: 600;
+            font-size: clamp(1.6rem, 3.4vw, 2.5rem);
+            line-height: 1.16;
+            letter-spacing: -.02em;
+        }
+
+        .quote blockquote .hl {
+            color: var(--emerald);
+        }
+
+        .quote .by {
+            margin-top: 26px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .quote .av {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--emerald);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-family: "Bricolage Grotesque";
+            font-weight: 700;
+        }
+
+        .quote .by .nm {
+            font-weight: 600;
+        }
+
+        .quote .by .rl {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        /* final cta */
+        .cta-final {
+            padding: 90px 0;
+            text-align: center;
+        }
+
+        .cta-final h2 {
+            font-size: clamp(2rem, 4.4vw, 3.2rem);
+            max-width: 16ch;
+            margin: 0 auto;
+        }
+
+        .cta-final p {
+            margin: 20px auto 0;
+            color: var(--ink-soft);
+            max-width: 44ch;
+            font-size: 1.08rem;
+        }
+
+        .cta-final .hero-actions {
+            justify-content: center;
+            margin-top: 34px;
+        }
+
+        /* footer */
+        footer {
+            background: var(--ink);
+            color: #bcccc2;
+            padding: 54px 0 30px;
+        }
+
+        .foot-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+            padding-bottom: 34px;
+            border-bottom: 1px solid rgba(255, 255, 255, .12);
+        }
+
+        .foot-brand {
+            max-width: 30ch;
+        }
+
+        .foot-brand .brand {
+            color: #fff;
+        }
+
+        .foot-brand p {
+            margin-top: 14px;
+            font-size: 0.95rem;
+            color: #8fa298;
+        }
+
+        .foot-cols {
+            display: flex;
+            gap: 56px;
+            flex-wrap: wrap;
+        }
+
+        .foot-col h4 {
+            font-family: "JetBrains Mono";
+            font-weight: 500;
+            font-size: 11.5px;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            color: #7e948a;
+            margin-bottom: 14px;
+        }
+
+        .foot-col a {
+            display: block;
+            font-size: 0.95rem;
+            color: #bcccc2;
+            padding: 5px 0;
+            transition: color .15s;
+        }
+
+        .foot-col a:hover {
+            color: #fff;
+        }
+
+        .foot-bot {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+            font-size: 0.85rem;
+            color: #7e948a;
+            font-family: "JetBrains Mono";
+        }
+
+        /* reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal,
+            .line,
+            .ai-chip {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <header class="nav" id="nav">
+        <div class="wrap nav-inner">
+            <a class="brand" href="#top" aria-label="wpos.ai home">
+                <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <rect x="2" y="2" width="28" height="28" rx="8" fill="#0C6B4A" />
+                    <rect x="8" y="8" width="16" height="9" rx="2" fill="#F4F5F1" />
+                    <rect x="10.5" y="11" width="11" height="1.6" rx="0.8" fill="#0C6B4A" />
+                    <rect x="10.5" y="13.6" width="7" height="1.4" rx="0.7" fill="#9bc4b3" />
+                    <circle cx="11.5" cy="22.5" r="2" fill="#D99A33" />
+                    <rect x="16" y="21.3" width="8" height="2.4" rx="1.2" fill="#cfe0d6" />
+                </svg>
+                <span>wpos<span class="dot">.ai</span></span>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="#features">Features</a>
+                <a href="#how">How it works</a>
+                <a href="#pricing">Pricing</a>
+            </nav>
+            <div class="nav-cta">
+                <a href="#" class="btn btn-ghost ghost-hide">Sign in</a>
+                <a href="#cta" class="btn btn-primary">Start free</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="top">
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-glow" aria-hidden="true"></div>
+            <div class="wrap hero-grid">
+                <div class="hero-copy">
+                    <p class="eyebrow">AI point of sale</p>
+                    <h1 style="margin-top:18px">The counter that <em>runs the back office</em> for you.</h1>
+                    <p class="lede">wpos.ai rings up every sale, tracks every item in real time, and quietly forecasts
+                        what to reorder — so the line keeps moving and the stockroom never surprises you.</p>
+                    <div class="hero-actions">
+                        <a href="#cta" class="btn btn-primary">Start free — no card needed</a>
+                        <a href="#how" class="btn btn-ghost">See a live demo</a>
+                    </div>
+                    <div class="hero-trust">
+                        <span>Set up in an afternoon</span>
+                        <span>Works fully offline</span>
+                        <span>Any device, any card reader</span>
+                    </div>
+                </div>
+
+                <!-- SIGNATURE: live terminal -->
+                <div class="terminal" id="terminal" aria-label="Live point-of-sale demo">
+                    <div class="term-bar">
+                        <span class="left"><span class="pulse"></span> Counter 1 · live</span>
+                        <span class="right">Maple &amp; Crumb · 14:32</span>
+                    </div>
+                    <div class="receipt">
+                        <div class="receipt-head">
+                            <span class="shop">Sale #4471</span>
+                            <span class="meta">card · ending 2208</span>
+                        </div>
+                        <div class="lines" id="lines">
+                            <div class="line"><span><span class="name">Flat white</span></span><span
+                                    class="price">$3.80</span></div>
+                            <div class="line"><span><span class="name">Almond croissant</span><span
+                                        class="qty">×2</span></span><span class="price">$7.00</span></div>
+                            <div class="line"><span><span class="name">House blend 250g</span></span><span
+                                    class="price">$12.50</span></div>
+                        </div>
+                        <div class="total-row">
+                            <span class="lbl">Total</span>
+                            <span class="amt mono" id="total">$0.00</span>
+                        </div>
+                        <div class="ai-chip" id="aichip">
+                            <span class="spark" aria-hidden="true">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2l2.2 6.2L20 10l-5.8 1.8L12 18l-2.2-6.2L4 10l5.8-1.8L12 2z"
+                                        fill="#fff" />
+                                </svg>
+                            </span>
+                            <span class="txt"><b>Almond croissants are selling fast.</b> At this pace you'll be out by
+                                Thursday 2pm. Want a reorder drafted?
+                                <br><button class="approve" id="approveBtn">Approve reorder →</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="receipt-edge" aria-hidden="true"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="wrap">
+            <hr class="perf" />
+        </div>
+
+        <!-- TRUST -->
+        <section class="strip">
+            <div class="wrap strip-inner">
+                <span class="lab">Trusted across the counter</span>
+                <div class="logos">
+                    <span>Maple &amp; Crumb</span>
+                    <span>North Lane Grocer</span>
+                    <span>Tilt Coffee</span>
+                    <span>Saffron Kitchen</span>
+                    <span>The Daily Pour</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section class="sec features reveal" id="features">
+            <div class="wrap">
+                <div class="sec-head">
+                    <p class="eyebrow">What it does</p>
+                    <h2>One screen for the sale. A whole team behind it.</h2>
+                    <p>Everything a busy counter needs up front, with an AI working the numbers in the back so you don't
+                        have to.</p>
+                </div>
+                <div class="feat-grid">
+                    <article class="feat">
+                        <div class="ico">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="4" width="18" height="13" rx="2" stroke="#fff" stroke-width="1.7" />
+                                <path d="M3 9h18" stroke="#fff" stroke-width="1.7" />
+                                <path d="M7 21h10" stroke="#fff" stroke-width="1.7" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h3>Checkout that keeps up</h3>
+                        <p>Ring up sales in seconds, split payments, take card, cash or wallet, and never drop a
+                            transaction when the wifi does.</p>
+                        <span class="tag">offline-first</span>
+                    </article>
+                    <article class="feat">
+                        <div class="ico">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 7l9-4 9 4-9 4-9-4z" stroke="#fff" stroke-width="1.7"
+                                    stroke-linejoin="round" />
+                                <path d="M3 7v10l9 4 9-4V7" stroke="#fff" stroke-width="1.7" stroke-linejoin="round" />
+                                <path d="M12 11v10" stroke="#fff" stroke-width="1.7" />
+                            </svg>
+                        </div>
+                        <h3>Inventory that counts itself</h3>
+                        <p>Every sale updates stock the instant it happens. wpos.ai flags low items before the shelf
+                            goes empty — no spreadsheet, no Sunday counts.</p>
+                        <span class="tag">real-time</span>
+                    </article>
+                    <article class="feat">
+                        <div class="ico">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 17l5-5 4 4 8-9" stroke="#fff" stroke-width="1.7" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M16 7h4v4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3>Reorders, predicted</h3>
+                        <p>It learns your sell-through by day, weather and season, then drafts purchase orders you
+                            approve with one tap. Stock arrives before you'd have noticed it was low.</p>
+                        <span class="tag">forecasting</span>
+                    </article>
+                    <article class="feat">
+                        <div class="ico">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="4" width="18" height="14" rx="3" stroke="#fff" stroke-width="1.7" />
+                                <path d="M8 21l4-3" stroke="#fff" stroke-width="1.7" stroke-linecap="round" />
+                                <path d="M7.5 9.5h9M7.5 13h5" stroke="#fff" stroke-width="1.7" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h3>Ask your numbers anything</h3>
+                        <p>Type it like you'd say it. “What sold best on rainy Saturdays?” “Which items have the
+                            thinnest margin?” Get the answer, not a dashboard to decode.</p>
+                        <span class="tag">plain-language reports</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="sec reveal" id="how">
+            <div class="wrap">
+                <div class="sec-head">
+                    <p class="eyebrow">From box to busy counter</p>
+                    <h2>Live by lunch.</h2>
+                    <p>Four steps, in order. No installs, no consultant, no migration weekend.</p>
+                </div>
+                <div class="steps">
+                    <div class="step"><span class="num">01 — Connect</span>
+                        <h3>Bring your products</h3>
+                        <p>Import a list or scan items in. wpos.ai tidies names, prices and categories as you go.</p>
+                    </div>
+                    <div class="step"><span class="num">02 — Sell</span>
+                        <h3>Open the till</h3>
+                        <p>Ring up your first sale on a phone, tablet or terminal. It works the second you press start.
+                        </p>
+                    </div>
+                    <div class="step"><span class="num">03 — Learn</span>
+                        <h3>It watches and learns</h3>
+                        <p>Every transaction teaches it your rhythm — peak hours, fast movers, slow shelves.</p>
+                    </div>
+                    <div class="step"><span class="num">04 — Grow</span>
+                        <h3>Approve and act</h3>
+                        <p>Tap to confirm reorders, read its plain-language nudges, and watch your margins firm up.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DARK BAND -->
+        <section class="band reveal">
+            <div class="wrap">
+                <p class="eyebrow">The quiet part</p>
+                <h2>Sharp at the counter. Sharper on the books.</h2>
+                <p class="sub">The register your staff loves is the same one that closes the gap between what you sell
+                    and what you should have ordered.</p>
+                <div class="band-stats">
+                    <div class="stat">
+                        <div class="n mono">~11s</div>
+                        <div class="d">Average time to ring up a full order.</div>
+                    </div>
+                    <div class="stat">
+                        <div class="n mono">96%</div>
+                        <div class="d">Of reorder drafts owners approve as-is.</div>
+                    </div>
+                    <div class="stat">
+                        <div class="n mono">100%</div>
+                        <div class="d">Of sales captured, online or off.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRICING -->
+        <section class="sec features reveal" id="pricing">
+            <div class="wrap">
+                <div class="sec-head">
+                    <p class="eyebrow">Pricing</p>
+                    <h2>Pay for one counter, not a platform.</h2>
+                    <p>Start free, add registers as you grow. No setup fees, no terminal lock-in, cancel any month.</p>
+                </div>
+                <div class="price-grid">
+                    <div class="plan">
+                        <div class="pname">Counter</div>
+                        <div class="pdesc">For a single till finding its feet.</div>
+                        <div class="pcost"><span class="amt">$0</span><span class="per">/ month</span></div>
+                        <ul>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> 1 register, unlimited products</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> Card, cash &amp; wallet checkout</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> Live inventory &amp; daily reports</li>
+                        </ul>
+                        <a href="#cta" class="btn btn-ghost">Start free</a>
+                    </div>
+                    <div class="plan featured">
+                        <span class="ribbon">Most popular</span>
+                        <div class="pname">Shop</div>
+                        <div class="pdesc">For a busy floor that needs the AI working.</div>
+                        <div class="pcost"><span class="amt">$79</span><span class="per">/ month</span></div>
+                        <ul>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> Up to 5 registers</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> AI reorder drafts &amp; forecasts</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> Ask-your-numbers reporting</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> Full offline mode</li>
+                        </ul>
+                        <a href="#cta" class="btn btn-primary">Start 14-day trial</a>
+                    </div>
+                    <div class="plan">
+                        <div class="pname">Chain</div>
+                        <div class="pdesc">For several locations under one roof.</div>
+                        <div class="pcost"><span class="amt">Let's talk</span></div>
+                        <ul>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> Unlimited registers &amp; sites</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> Cross-location stock balancing</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12l4 4 10-10" stroke="#0C6B4A" stroke-width="2.2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg> API access &amp; a named contact</li>
+                        </ul>
+                        <a href="#cta" class="btn btn-ghost">Book a call</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUOTE -->
+        <section class="sec quote reveal">
+            <div class="wrap">
+                <blockquote>“I stopped doing stock counts. <span class="hl">It just tells me what to order</span>, and
+                    it's right.”</blockquote>
+                <div class="by">
+                    <span class="av">RA</span>
+                    <div>
+                        <div class="nm">Rabia Anwar</div>
+                        <div class="rl">Owner, Maple &amp; Crumb bakery</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA -->
+        <section class="cta-final reveal" id="cta">
+            <div class="wrap">
+                <h2>Put the smart counter to work.</h2>
+                <p>Open your till today. wpos.ai handles the counting, the forecasting and the reordering while you
+                    serve the next customer.</p>
+                <div class="hero-actions">
+                    <a href="#" class="btn btn-primary">Start free — no card needed</a>
+                    <a href="#" class="btn btn-gold">Book a 15-min demo</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="wrap">
+            <div class="foot-top">
+                <div class="foot-brand">
+                    <span class="brand">
+                        <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" width="28" height="28">
+                            <rect x="2" y="2" width="28" height="28" rx="8" fill="#0C6B4A" />
+                            <rect x="8" y="8" width="16" height="9" rx="2" fill="#F4F5F1" />
+                            <rect x="10.5" y="11" width="11" height="1.6" rx="0.8" fill="#0C6B4A" />
+                            <circle cx="11.5" cy="22.5" r="2" fill="#D99A33" />
+                            <rect x="16" y="21.3" width="8" height="2.4" rx="1.2" fill="#cfe0d6" />
+                        </svg>
+                        <span>wpos<span style="color:var(--gold);font-family:'JetBrains Mono'">.ai</span></span>
+                    </span>
+                    <p>The AI point of sale for shops, cafés and kitchens. Sell up front, let the numbers run
+                        themselves.</p>
+                </div>
+                <div class="foot-cols">
+                    <div class="foot-col">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#pricing">Pricing</a>
+                        <a href="#how">How it works</a>
+                        <a href="#">Hardware</a>
+                    </div>
+                    <div class="foot-col">
+                        <h4>Company</h4>
+                        <a href="#">About</a>
+                        <a href="#">Customers</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Contact</a>
+                    </div>
+                    <div class="foot-col">
+                        <h4>Support</h4>
+                        <a href="#">Help centre</a>
+                        <a href="#">Status</a>
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                    </div>
+                </div>
+            </div>
+            <div class="foot-bot">
+                <span>© 2026 wpos.ai</span>
+                <span>Made for the counter.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // nav border on scroll
+            var nav = document.getElementById('nav');
+            window.addEventListener('scroll', function () {
+                nav.classList.toggle('scrolled', window.scrollY > 8);
+            });
+
+            // scroll reveal
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+                });
+            }, { threshold: 0.12 });
+            document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+            // terminal animation
+            var lines = Array.prototype.slice.call(document.querySelectorAll('#lines .line'));
+            var totalEl = document.getElementById('total');
+            var chip = document.getElementById('aichip');
+            var TARGET = 23.30;
+
+            function countUp(to, ms) {
+                var start = performance.now();
+                function frame(now) {
+                    var p = Math.min((now - start) / ms, 1);
+                    var eased = 1 - Math.pow(1 - p, 3);
+                    totalEl.textContent = '$' + (to * eased).toFixed(2);
+                    if (p < 1) requestAnimationFrame(frame);
+                    else totalEl.textContent = '$' + to.toFixed(2);
+                }
+                requestAnimationFrame(frame);
+            }
+
+            function runDemo() {
+                if (reduce) {
+                    lines.forEach(function (l) { l.classList.add('show'); });
+                    totalEl.textContent = '$' + TARGET.toFixed(2);
+                    chip.classList.add('show');
+                    return;
+                }
+                lines.forEach(function (l, i) {
+                    setTimeout(function () { l.classList.add('show'); }, 400 + i * 520);
+                });
+                setTimeout(function () { countUp(TARGET, 900); }, 400 + lines.length * 520);
+                setTimeout(function () { chip.classList.add('show'); }, 400 + lines.length * 520 + 1100);
+            }
+
+            // start when terminal scrolls into view (or immediately if already visible)
+            var term = document.getElementById('terminal');
+            var started = false;
+            var tio = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting && !started) { started = true; runDemo(); tio.disconnect(); }
+                });
+            }, { threshold: 0.4 });
+            tio.observe(term);
+
+            // approve interaction
+            var btn = document.getElementById('approveBtn');
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    btn.textContent = '✓ Reorder drafted';
+                    btn.style.background = '#0C6B4A';
+                    btn.style.color = '#fff';
+                });
+            }
+        })();
+    </script>
+</body>
+
+</html>
