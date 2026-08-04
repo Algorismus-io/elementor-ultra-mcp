@@ -36,10 +36,10 @@ compiler whose deploys ride this plugin's REST seam.
         "WP_URL": "https://your-site.com",
         "WP_USER": "admin",
         "WP_APP_PASSWORD": "xxxx xxxx xxxx xxxx xxxx xxxx",
-        "ULTRA_TOOLS": "full"
-      }
-    }
-  }
+        "ULTRA_TOOLS": "full",
+      },
+    },
+  },
 }
 ```
 

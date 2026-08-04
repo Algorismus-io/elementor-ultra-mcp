@@ -225,9 +225,7 @@ describe('S08 frozen shape', () => {
     });
     expect(res.report).toHaveLength(1);
     expect(res.report[0]?.tier).toBe(2);
-    expect(res.authored).toEqual([
-      { element_id: 'abc1234', source_path: 'body>div', items: 1 },
-    ]);
+    expect(res.authored).toEqual([{ element_id: 'abc1234', source_path: 'body>div', items: 1 }]);
   });
 
   it('never emits the sanitizer-dropped key spellings (interaction_id / animation-config / time-size)', () => {
@@ -515,10 +513,7 @@ describe('triggers', () => {
   });
 
   it('data-aos attr → scrollIn (free trigger — no Pro needed)', () => {
-    const node = entranceNode(
-      { opacity: { from: 0, to: 1 } },
-      { attrs: { 'data-aos': 'fade' } },
-    );
+    const node = entranceNode({ opacity: { from: 0, to: 1 } }, { attrs: { 'data-aos': 'fade' } });
     expect(triggerOf(node, ctx({ capabilities: caps({ pro: false }) }))).toBe('scrollIn');
   });
 
@@ -839,9 +834,13 @@ describe('gating + resolution', () => {
 describe('honesty invariants', () => {
   it('invariant 1: count(candidates) == count(report) and every entry carries a tier', () => {
     const a = entranceNode({ opacity: { from: 0, to: 1 } });
-    const b = hoverNode({ transform: 'matrix(1.1, 0, 0, 1.1, 0, 0)' }, {}, {
-      source_path: 'body>section',
-    });
+    const b = hoverNode(
+      { transform: 'matrix(1.1, 0, 0, 1.1, 0, 0)' },
+      {},
+      {
+        source_path: 'body>section',
+      },
+    );
     b.behaviors = [behavior('hover-effect', 'body>section')];
     const c = irNode({ source_path: 'body>footer' });
     c.behaviors = [behavior('entrance-animation', 'body>footer')]; // no intent → tier 4
@@ -965,9 +964,7 @@ describe('postSaveAssert', () => {
   });
 
   it('accepts the decoded-object read-back form and finds nested elements', () => {
-    const nested = containerEl('root111', [
-      readBackEl('abc1234', { version: 1, items: [{}, {}] }),
-    ]);
+    const nested = containerEl('root111', [readBackEl('abc1234', { version: 1, items: [{}, {}] })]);
     const checks = postSaveAssert(
       [{ element_id: 'abc1234', source_path: 'body>div', items: 2 }],
       [nested],
@@ -992,7 +989,7 @@ describe('postSaveAssert', () => {
     ]);
     // Simulate the sanitizer wiping it.
     const wiped = structuredClone(res.elements);
-    ((wiped[0] as ElementNode) as { interactions?: unknown }).interactions = '[]';
+    (wiped[0] as ElementNode as { interactions?: unknown }).interactions = '[]';
     expect(postSaveAssert(res.authored, wiped)[0]?.status).toBe('dropped_by_sanitizer');
   });
 });
@@ -1022,7 +1019,17 @@ describe('P3-c: only interaction-bearing nodes carry an interactions payload', (
     const other = widgetEl('bbb2222');
     (other as { interactions?: unknown }).interactions = JSON.stringify({
       version: 1,
-      items: [buildInteractionItem({ trigger: 'load', effect: 'fade', type: 'in', direction: '', durationMs: 300, delayMs: 0, easing: null })],
+      items: [
+        buildInteractionItem({
+          trigger: 'load',
+          effect: 'fade',
+          type: 'in',
+          direction: '',
+          durationMs: 300,
+          delayMs: 0,
+          easing: null,
+        }),
+      ],
     });
     const tree = [containerEl('root111', [widgetEl('abc1234'), other])];
     const node = entranceNode({ opacity: { from: 0, to: 1 } });

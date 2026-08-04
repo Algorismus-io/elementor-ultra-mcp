@@ -32,7 +32,18 @@
         "elType": {
           "type": "string",
           "description": "Atomic container element type. Verified set from modules/atomic-widgets/elements/.",
-          "enum": ["e-div-block", "e-flexbox", "e-tabs", "e-tabs-menu", "e-tab", "e-tabs-content-area", "e-tab-content", "e-form", "e-form-success-message", "e-form-error-message"]
+          "enum": [
+            "e-div-block",
+            "e-flexbox",
+            "e-tabs",
+            "e-tabs-menu",
+            "e-tab",
+            "e-tabs-content-area",
+            "e-tab-content",
+            "e-form",
+            "e-form-success-message",
+            "e-form-error-message"
+          ]
         },
         "version": { "type": "string", "description": "Atomic node version stamp, e.g. '0.0'." },
         "settings": {
@@ -53,7 +64,10 @@
           "type": "array",
           "description": "Animation/behavior interactions. Envelope confirmed; full item schema UNVERIFIED (RESEARCH.md §10 OQ#10). Default []."
         },
-        "origin_id": { "type": "string", "description": "Optional provenance id (template origin)." },
+        "origin_id": {
+          "type": "string",
+          "description": "Optional provenance id (template origin)."
+        },
         "isInner": { "type": "boolean" },
         "isLocked": { "type": "boolean" },
         "elements": {
@@ -76,9 +90,25 @@
           "type": "string",
           "description": "Atomic widget type. Verified set from modules/atomic-widgets/elements/ + Pro atomic forms (gated on e_pro_atomic_form).",
           "enum": [
-            "e-heading", "e-paragraph", "e-image", "e-button", "e-svg", "e-youtube", "e-divider", "e-self-hosted-video",
+            "e-heading",
+            "e-paragraph",
+            "e-image",
+            "e-button",
+            "e-svg",
+            "e-youtube",
+            "e-divider",
+            "e-self-hosted-video",
             "e-tab-content",
-            "e-form-input", "e-form-textarea", "e-form-checkbox", "e-form-radio-button", "e-form-select", "e-form-date-picker", "e-form-time-picker", "e-form-file-upload", "e-form-label", "e-form-submit-button"
+            "e-form-input",
+            "e-form-textarea",
+            "e-form-checkbox",
+            "e-form-radio-button",
+            "e-form-select",
+            "e-form-date-picker",
+            "e-form-time-picker",
+            "e-form-file-upload",
+            "e-form-label",
+            "e-form-submit-button"
           ]
         },
         "version": { "type": "string" },
@@ -161,7 +191,18 @@
       "if": {
         "properties": {
           "elType": {
-            "enum": ["e-div-block", "e-flexbox", "e-tabs", "e-tabs-menu", "e-tab", "e-tabs-content-area", "e-tab-content", "e-form", "e-form-success-message", "e-form-error-message"]
+            "enum": [
+              "e-div-block",
+              "e-flexbox",
+              "e-tabs",
+              "e-tabs-menu",
+              "e-tab",
+              "e-tabs-content-area",
+              "e-tab-content",
+              "e-form",
+              "e-form-success-message",
+              "e-form-error-message"
+            ]
           }
         },
         "required": ["elType"]

@@ -51,7 +51,10 @@
       "description": "Input to elementor.page.replace_tree / page.build. base_hash REQUIRED for replace_tree (optimistic lock); op_id enables idempotent replay. generation selects atomic vs classic emission.",
       "required": ["elements"],
       "properties": {
-        "post_id": { "type": "integer", "description": "Omit for page.build (creates new); required for replace_tree." },
+        "post_id": {
+          "type": "integer",
+          "description": "Omit for page.build (creates new); required for replace_tree."
+        },
         "elements": { "$ref": "#/$defs/ElementsArray" },
         "settings": { "$ref": "#/$defs/PageSettings" },
         "generation": { "$ref": "#/$defs/Generation" },

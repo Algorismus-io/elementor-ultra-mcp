@@ -439,7 +439,10 @@ export async function convertHtmlToPageHandler(
     }
     const d0 = result.diff as { changes?: unknown[] } | undefined;
     if (d0 && Array.isArray(d0.changes) && d0.changes.length > CHANGE_SAMPLE) {
-      structured['diff'] = { ...(structured['diff'] as Record<string, unknown>), changes: d0.changes.slice(0, CHANGE_SAMPLE) };
+      structured['diff'] = {
+        ...(structured['diff'] as Record<string, unknown>),
+        changes: d0.changes.slice(0, CHANGE_SAMPLE),
+      };
     }
 
     return okResult(structured, summarizeHtmlToPage(result));
@@ -452,15 +455,14 @@ export async function convertHtmlToPageHandler(
  * the single best breakpoint). `ratio` is a DIFFERENCE (lower=better); we report `match% = 1−ratio`
  * for every breakpoint AND name the WORST one explicitly so it can never be omitted.
  */
-function pixelFidelityText(
-  v: import('../convert/pipeline.js').ConvertVerification,
-): string {
+function pixelFidelityText(v: import('../convert/pipeline.js').ConvertVerification): string {
   const scored = (v.pixel_scores ?? []).filter(
     (p): p is { breakpoint: string; ratio: number } => typeof p.ratio === 'number',
   );
   if (scored.length === 0) return '';
   const parts = scored.map(
-    (p) => `${p.breakpoint} ${((1 - p.ratio) * 100).toFixed(1)}% match (diff ${(p.ratio * 100).toFixed(1)}%)`,
+    (p) =>
+      `${p.breakpoint} ${((1 - p.ratio) * 100).toFixed(1)}% match (diff ${(p.ratio * 100).toFixed(1)}%)`,
   );
   const worst = scored.reduce((a, b) => (b.ratio > a.ratio ? b : a), scored[0]!);
   return (

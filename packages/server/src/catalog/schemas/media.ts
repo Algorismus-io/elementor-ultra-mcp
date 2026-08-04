@@ -47,7 +47,9 @@ export const mediaUploadInput = {
   filename: z
     .string()
     .optional()
-    .describe('Destination filename. Required with data; defaults to the file_path basename when omitted.'),
+    .describe(
+      'Destination filename. Required with data; defaults to the file_path basename when omitted.',
+    ),
   alt: z.string().optional(),
 } as const;
 

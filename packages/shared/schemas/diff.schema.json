@@ -38,9 +38,18 @@
           "type": "array",
           "items": { "$ref": "#/$defs/NodeChange" }
         },
-        "new_ids": { "type": "array", "items": { "$ref": "element-node.schema.json#/$defs/ElementId" } },
-        "changed_ids": { "type": "array", "items": { "$ref": "element-node.schema.json#/$defs/ElementId" } },
-        "removed_ids": { "type": "array", "items": { "$ref": "element-node.schema.json#/$defs/ElementId" } },
+        "new_ids": {
+          "type": "array",
+          "items": { "$ref": "element-node.schema.json#/$defs/ElementId" }
+        },
+        "changed_ids": {
+          "type": "array",
+          "items": { "$ref": "element-node.schema.json#/$defs/ElementId" }
+        },
+        "removed_ids": {
+          "type": "array",
+          "items": { "$ref": "element-node.schema.json#/$defs/ElementId" }
+        },
         "base_hash_before": { "type": "string", "pattern": "^[a-f0-9]{32}$" },
         "base_hash_after": { "type": "string", "pattern": "^[a-f0-9]{32}$" },
         "design_system": {
@@ -71,7 +80,10 @@
       "description": "One structured validation error from PHP dry_run. code is from the error taxonomy (12-error-taxonomy.md). element_id/style_id/prop locate the failure; message carries the appended parser errors (DO NOT string-match the throw message).",
       "required": ["code", "message"],
       "properties": {
-        "code": { "type": "string", "description": "Error taxonomy code, e.g. VALIDATION_FAILED, ATOMIC_SETTINGS_INVALID, ATOMIC_STYLES_INVALID, UNKNOWN_WIDGET_TYPE." },
+        "code": {
+          "type": "string",
+          "description": "Error taxonomy code, e.g. VALIDATION_FAILED, ATOMIC_SETTINGS_INVALID, ATOMIC_STYLES_INVALID, UNKNOWN_WIDGET_TYPE."
+        },
         "message": { "type": "string" },
         "element_id": { "$ref": "element-node.schema.json#/$defs/ElementId" },
         "style_id": { "type": "string" },
@@ -102,7 +114,9 @@
             "type": "object",
             "properties": {
               "element_id": { "$ref": "element-node.schema.json#/$defs/ElementId" },
-              "tier": { "enum": ["native", "local_style", "global_class", "custom_css", "html_widget"] },
+              "tier": {
+                "enum": ["native", "local_style", "global_class", "custom_css", "html_widget"]
+              },
               "reason": { "type": "string" }
             },
             "additionalProperties": false
@@ -150,7 +164,21 @@
                 "description": "A tiered DetectedBehavior (16 §1 frozen shape; tier is REQUIRED in the report — invariant 1).",
                 "required": ["kind", "confidence", "evidence", "nodeIds", "tier"],
                 "properties": {
-                  "kind": { "enum": ["tabs", "accordion", "carousel", "nav-toggle", "form", "entrance-animation", "hover-effect", "marquee", "countdown", "video-embed", "custom-js"] },
+                  "kind": {
+                    "enum": [
+                      "tabs",
+                      "accordion",
+                      "carousel",
+                      "nav-toggle",
+                      "form",
+                      "entrance-animation",
+                      "hover-effect",
+                      "marquee",
+                      "countdown",
+                      "video-embed",
+                      "custom-js"
+                    ]
+                  },
                   "confidence": { "enum": ["high", "medium", "low"] },
                   "evidence": { "type": "array", "items": { "type": "string" } },
                   "nodeIds": { "type": "array", "items": { "type": "string" } },
@@ -195,7 +223,10 @@
           "items": { "$ref": "#/$defs/ValidationError" }
         },
         "diff": { "$ref": "#/$defs/Diff" },
-        "preview_url": { "type": "string", "description": "Optional get_wp_preview_url() for a visual preview (nonce post_preview_<id>)." },
+        "preview_url": {
+          "type": "string",
+          "description": "Optional get_wp_preview_url() for a visual preview (nonce post_preview_<id>)."
+        },
         "report": { "$ref": "#/$defs/CoverageReport" }
       },
       "additionalProperties": false

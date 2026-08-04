@@ -549,9 +549,7 @@ export function detectBehaviors(ir: IrNode[]): DetectedBehavior[] {
         kind: 'tabs',
         confidence: 'high',
         evidence,
-        nodeIds: [
-          ...new Set([node.source_path, ...sig.tablists, ...sig.tabs, ...sig.panels]),
-        ],
+        nodeIds: [...new Set([node.source_path, ...sig.tablists, ...sig.tabs, ...sig.panels])],
       });
       claim('tabs', node);
     }

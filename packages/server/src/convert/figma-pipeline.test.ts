@@ -426,7 +426,10 @@ describe('figmaToPage — commit:false preview through the SHARED persist path',
       nodes: Record<string, { document: { children: Array<{ children?: unknown[] }> } }>;
     };
     const frame = raw.nodes[NODE_ID]?.document as unknown as {
-      children: Array<{ id: string; children?: Array<{ id: string; style?: { fontSize?: number } }> }>;
+      children: Array<{
+        id: string;
+        children?: Array<{ id: string; style?: { fontSize?: number } }>;
+      }>;
     };
     const findHeading = (n: { id: string; children?: unknown[] }): unknown => {
       if (n.id === '400:7517') return n;
@@ -443,7 +446,7 @@ describe('figmaToPage — commit:false preview through the SHARED persist path',
     expect(heading).toBeDefined();
     const twin = JSON.parse(JSON.stringify(heading)) as { id: string };
     twin.id = '400:9999';
-    frame.children.push(twin as never);
+    frame.children.push(twin);
     await writeFile(path.join(workDir, FIGMA_ARTIFACTS.raw), JSON.stringify(raw), 'utf8');
 
     const { port } = fakeFigmaPort();
@@ -451,7 +454,13 @@ describe('figmaToPage — commit:false preview through the SHARED persist path',
     const decline = vi.fn().mockResolvedValue(false);
 
     const result = await figmaToPage(
-      { file_key: FILE_KEY, node_id: NODE_ID, commit: true, coverage_gate: 0, options: { work_dir: workDir } },
+      {
+        file_key: FILE_KEY,
+        node_id: NODE_ID,
+        commit: true,
+        coverage_gate: 0,
+        options: { work_dir: workDir },
+      },
       asPorts(ports),
       decline,
     );

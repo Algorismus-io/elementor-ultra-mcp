@@ -774,10 +774,10 @@ export async function pageUpdateSettingsHandler(
     // (commit:true) — it runs the pixel/layout gate and reverts to draft on failure — or be done by
     // a human in wp-admin. update_settings changes page SETTINGS, never publication state to a live
     // status, so the bypass is closed at the seam.
-    const settings = (args.settings ?? {}) as Record<string, unknown>;
+    const settings = args.settings ?? {};
     const nextStatus =
       typeof settings['post_status'] === 'string'
-        ? (settings['post_status'] as string).toLowerCase()
+        ? settings['post_status'].toLowerCase()
         : undefined;
     if (nextStatus === 'publish' || nextStatus === 'private' || nextStatus === 'future') {
       return declinedResult(
@@ -1205,8 +1205,7 @@ export function attachPageHandlers(registry: ToolRegistry): void {
       pageExportTemplateHandler(args as PageExportTemplateArgs, ctx),
     [PAGE_LIST_BACKUPS]: (args, ctx) => pageListBackupsHandler(args as PageListBackupsArgs, ctx),
     [PAGE_ROLLBACK]: (args, ctx) => pageRollbackHandler(args as PageRollbackArgs, ctx),
-    [PAGE_VERIFY_RENDER]: (args, ctx) =>
-      pageVerifyRenderHandler(args as PageVerifyRenderArgs, ctx),
+    [PAGE_VERIFY_RENDER]: (args, ctx) => pageVerifyRenderHandler(args as PageVerifyRenderArgs, ctx),
   };
   for (const [name, handler] of Object.entries(handlers)) {
     // The registry's ToolHandler is the loose `(args) => unknown`; the runtime signature carries `ctx`.

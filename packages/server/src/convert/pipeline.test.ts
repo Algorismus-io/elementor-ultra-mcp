@@ -2293,9 +2293,7 @@ describe('contract 18 §7 — TextRun.color + source-id carry through the pipeli
       }
       if (typeof value === 'object' && value !== null) {
         const rec = value as Record<string, unknown>;
-        const cc = rec['custom_css'] as
-          | { raw?: unknown; value?: { raw?: unknown } }
-          | undefined;
+        const cc = rec['custom_css'] as { raw?: unknown; value?: { raw?: unknown } } | undefined;
         const raw = cc?.raw ?? cc?.value?.raw;
         if (typeof raw === 'string' && raw !== '') {
           raws.push(Buffer.from(raw, 'base64').toString('utf8'));
@@ -2333,7 +2331,7 @@ describe('contract 18 §7 — TextRun.color + source-id carry through the pipeli
     expect(json).toContain('pricing');
 
     // #8 — the per-run accent color rides a nested custom_css rule (NEVER a style attr).
-    const css = decodedCustomCss(build.result.elements as unknown[]);
+    const css = decodedCustomCss(build.result.elements);
     expect(css).toContain('& em{color:rgb(255, 0, 0);}');
     expect(json).not.toContain('style=');
 

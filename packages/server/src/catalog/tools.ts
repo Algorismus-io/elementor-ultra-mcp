@@ -688,7 +688,7 @@ export const TOOL_DESCRIPTORS: readonly ToolDescriptor[] = [
     name: 'elementor.design.fonts.upload_zip',
     title: 'Upload font ZIP to WP Font Library',
     description:
-      'Extract a ZIP of font files (OTF/TTF/WOFF/WOFF2) and install every face into the WP Font Library. Reads font family names and weights automatically from each file\'s OTF/TTF name table — no manual metadata needed. Accepts file_path (local path to ZIP on the server filesystem) or zip_data (base64-encoded ZIP). Returns the list of installed faces and any skipped files.',
+      "Extract a ZIP of font files (OTF/TTF/WOFF/WOFF2) and install every face into the WP Font Library. Reads font family names and weights automatically from each file's OTF/TTF name table — no manual metadata needed. Accepts file_path (local path to ZIP on the server filesystem) or zip_data (base64-encoded ZIP). Returns the list of installed faces and any skipped files.",
     inputSchema: design.designFontsUploadZipInput,
     outputSchema: design.designFontsUploadZipOutput,
     annotations: { idempotentHint: false },

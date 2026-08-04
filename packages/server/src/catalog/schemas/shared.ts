@@ -222,7 +222,10 @@ export const pageSettingsInputSchema = z.preprocess(
     const template = settings['template'];
     if (
       template !== undefined &&
-      !(typeof template === 'string' && (PAGE_TEMPLATE_VALUES as readonly string[]).includes(template))
+      !(
+        typeof template === 'string' &&
+        (PAGE_TEMPLATE_VALUES as readonly string[]).includes(template)
+      )
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -240,13 +243,17 @@ export const pageSettingsInputSchema = z.preprocess(
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['hide_title'],
-        message: "settings.hide_title must be a boolean (or the legacy 'yes'/'' switcher strings) (SETTINGS_INVALID).",
+        message:
+          "settings.hide_title must be a boolean (or the legacy 'yes'/'' switcher strings) (SETTINGS_INVALID).",
       });
     }
     const postStatus = settings['post_status'];
     if (
       postStatus !== undefined &&
-      !(typeof postStatus === 'string' && (POST_STATUS_VALUES as readonly string[]).includes(postStatus))
+      !(
+        typeof postStatus === 'string' &&
+        (POST_STATUS_VALUES as readonly string[]).includes(postStatus)
+      )
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,

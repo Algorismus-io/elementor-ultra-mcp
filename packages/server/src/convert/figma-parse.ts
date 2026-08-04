@@ -171,7 +171,7 @@ function extractTopNodes(nodeJson: unknown): FrameEntry[] {
 
   const doc = rec['document'];
   if (isRawNode(doc)) return descendToFrames(doc);
-  if (isRawNode(nodeJson)) return descendToFrames(nodeJson as FigmaRawNode);
+  if (isRawNode(nodeJson)) return descendToFrames(nodeJson);
 
   // The Composio execute envelope: `{data: {…}}` / `{raw_data: {…}}` around any shape above
   // (`raw_data` first — when populated it is the raw API response; `data` may be simplified).
@@ -194,7 +194,9 @@ function descendToFrames(node: FigmaRawNode): FrameEntry[] {
     return (node.children ?? []).flatMap((child) => descendToFrames(child));
   }
   if (node.type === 'CANVAS') {
-    return (node.children ?? []).filter((child) => isRawNode(child)).map((child) => ({ node: child }));
+    return (node.children ?? [])
+      .filter((child) => isRawNode(child))
+      .map((child) => ({ node: child }));
   }
   return [{ node }];
 }
@@ -252,7 +254,9 @@ function cssColor(c: FigmaColor, extraOpacity = 1): string {
   const g = Math.round(c.g * 255);
   const b = Math.round(c.b * 255);
   const a = Math.round(c.a * extraOpacity * 1000) / 1000;
-  return a >= 1 ? `rgb(${String(r)}, ${String(g)}, ${String(b)})` : `rgba(${String(r)}, ${String(g)}, ${String(b)}, ${String(a)})`;
+  return a >= 1
+    ? `rgb(${String(r)}, ${String(g)}, ${String(b)})`
+    : `rgba(${String(r)}, ${String(g)}, ${String(b)}, ${String(a)})`;
 }
 
 /** The TOP (last visible) paint of a fill/stroke list, optionally filtered by type. */
@@ -266,7 +270,10 @@ function gradientCss(paint: FigmaPaint): string | null {
   const stops = paint.gradientStops;
   if (stops === undefined || stops.length === 0) return null;
   const stopCss = stops
-    .map((s) => `${cssColor(s.color, paint.opacity ?? 1)} ${String(Math.round(s.position * 10000) / 100)}%`)
+    .map(
+      (s) =>
+        `${cssColor(s.color, paint.opacity ?? 1)} ${String(Math.round(s.position * 10000) / 100)}%`,
+    )
     .join(', ');
   if (paint.type === 'GRADIENT_LINEAR') {
     const h = paint.gradientHandlePositions ?? [];
@@ -517,7 +524,8 @@ function childSizingStyles(node: FigmaRawNode, parent: FigmaRawNode | undefined)
       computed['min-width'] = '0';
     }
   }
-  if ((horizontalPrimary && fillV) || (!horizontalPrimary && fillH)) computed['align-self'] = 'stretch';
+  if ((horizontalPrimary && fillV) || (!horizontalPrimary && fillH))
+    computed['align-self'] = 'stretch';
   if (node.layoutAlign === 'STRETCH' && computed['align-self'] === undefined) {
     computed['align-self'] = 'stretch';
   }
@@ -543,7 +551,10 @@ function textAlignCss(value: string | undefined): string | undefined {
 }
 
 /** A type style → computed typography props (+ `color` from the style/node fills). */
-function textStyles(style: FigmaTypeStyle | undefined, nodeFills: FigmaPaint[] | undefined): ComputedStyleSet {
+function textStyles(
+  style: FigmaTypeStyle | undefined,
+  nodeFills: FigmaPaint[] | undefined,
+): ComputedStyleSet {
   const computed: ComputedStyleSet = {};
   if (style === undefined) return computed;
   if (style.fontFamily !== undefined) computed['font-family'] = style.fontFamily;
@@ -873,7 +884,10 @@ function applyInteractions(ctx: ParseCtx, raw: FigmaRawNode, node: IrNode): void
             );
             continue;
           }
-          const delta = styleDelta(hoverComparableStyles(raw, ctx.mode), hoverComparableStyles(dest, ctx.mode));
+          const delta = styleDelta(
+            hoverComparableStyles(raw, ctx.mode),
+            hoverComparableStyles(dest, ctx.mode),
+          );
           const hoverOverrides: ComputedStyleSet = {};
           for (const [prop, value] of Object.entries(delta)) {
             if (value !== '') hoverOverrides[prop] = value;
@@ -891,7 +905,10 @@ function applyInteractions(ctx: ParseCtx, raw: FigmaRawNode, node: IrNode): void
           const behavior: DetectedBehavior = {
             kind: 'hover-effect',
             confidence: 'high',
-            evidence: [`figma:trigger=${trigger}`, `figma:action=${actionLabel}→${action.destinationId}`],
+            evidence: [
+              `figma:trigger=${trigger}`,
+              `figma:action=${actionLabel}→${action.destinationId}`,
+            ],
             nodeIds: [node.source_path],
           };
           node.behaviors = [...(node.behaviors ?? []), behavior];
@@ -917,7 +934,10 @@ function applyInteractions(ctx: ParseCtx, raw: FigmaRawNode, node: IrNode): void
         const behavior: DetectedBehavior = {
           kind: 'entrance-animation',
           confidence: 'medium',
-          evidence: [`figma:trigger=${trigger}`, `figma:transition=${action.transition.type ?? '?'}`],
+          evidence: [
+            `figma:trigger=${trigger}`,
+            `figma:transition=${action.transition.type ?? '?'}`,
+          ],
           nodeIds: [node.source_path],
         };
         node.behaviors = [...(node.behaviors ?? []), behavior];
@@ -1071,7 +1091,9 @@ function flattenNode(
     // proportionally via the browser's natural aspect-ratio preservation (fixed px height stretches).
     height: 'auto',
     // Center decorative dividers in their flex container.
-    ...(isSmallOrnament ? { 'align-self': 'center', 'margin-left': 'auto', 'margin-right': 'auto' } : {}),
+    ...(isSmallOrnament
+      ? { 'align-self': 'center', 'margin-left': 'auto', 'margin-right': 'auto' }
+      : {}),
   });
   node.media = media;
   node.attrs['data-figma-flatten'] = reason;
@@ -1084,7 +1106,13 @@ function buttonNode(ctx: ParseCtx, raw: FigmaRawNode): IrNode {
   let runs: TextRun[] = [];
 
   const mergeVisual = (n: FigmaRawNode): void => {
-    Object.assign(computed, fillStyles(n).computed, strokeStyles(n), effectStyles(n, ctx.mode), radiusStyles(n));
+    Object.assign(
+      computed,
+      fillStyles(n).computed,
+      strokeStyles(n),
+      effectStyles(n, ctx.mode),
+      radiusStyles(n),
+    );
     if (isAutoLayout(n)) {
       computed['padding-top'] = px(n.paddingTop ?? 0);
       computed['padding-right'] = px(n.paddingRight ?? 0);
@@ -1096,7 +1124,9 @@ function buttonNode(ctx: ParseCtx, raw: FigmaRawNode): IrNode {
   const walk = (n: FigmaRawNode): void => {
     if (!isVisible(n)) return;
     if (n.type === 'TEXT') {
-      const { runs: r, families } = figmaTextRuns(n, (code, message) => warnCtx(ctx, n.id, code, message));
+      const { runs: r, families } = figmaTextRuns(n, (code, message) =>
+        warnCtx(ctx, n.id, code, message),
+      );
       runs = [...runs, ...r];
       for (const f of families) registerFamily(ctx, f);
       // Typography from the FIRST text leaf only (a button has one label by composition).
@@ -1125,7 +1155,9 @@ function buttonNode(ctx: ParseCtx, raw: FigmaRawNode): IrNode {
   const click = findClickAction(raw);
   if (click !== undefined) {
     node.attrs['href'] =
-      click.kind === 'url' ? click.url : `#figma-${click.destination.replace(/[^A-Za-z0-9_-]/g, '-')}`;
+      click.kind === 'url'
+        ? click.url
+        : `#figma-${click.destination.replace(/[^A-Za-z0-9_-]/g, '-')}`;
   }
   applyInteractions(ctx, raw, node);
 
@@ -1211,7 +1243,9 @@ function visitNode(
       computed['margin-right'] = 'auto';
     }
     const node = irNode(ctx, raw, tag, tag.startsWith('h') ? 'heading' : 'text', computed);
-    const { runs, families } = figmaTextRuns(raw, (code, message) => warnCtx(ctx, raw.id, code, message));
+    const { runs, families } = figmaTextRuns(raw, (code, message) =>
+      warnCtx(ctx, raw.id, code, message),
+    );
     node.textRuns = runs;
     for (const f of families) registerFamily(ctx, f);
     applyInteractions(ctx, raw, node);
@@ -1366,7 +1400,10 @@ function frameIdentity(node: FigmaRawNode): { base: string; bp: 'desktop' | 'tab
   const name = node.name ?? '';
   const m = BP_SUFFIX_RE.exec(name);
   if (m !== null) {
-    return { base: (m[1] as string).trim().toLowerCase(), bp: (m[2] as string).toLowerCase() as 'desktop' | 'tablet' | 'mobile' };
+    return {
+      base: (m[1] as string).trim().toLowerCase(),
+      bp: (m[2] as string).toLowerCase() as 'desktop' | 'tablet' | 'mobile',
+    };
   }
   return { base: name.trim().toLowerCase(), bp: widthBucket(rawBox(node).width) };
 }
@@ -1449,7 +1486,7 @@ function applyVariantOverrides(
       }
       if (matched === -1 && pKids.length === vKids.length) {
         const positional = vKids.indexOf(vk);
-        if (!used.has(positional) && (pKids[positional])?.type === vk.type) {
+        if (!used.has(positional) && pKids[positional]?.type === vk.type) {
           matched = positional;
         }
       }
@@ -1485,7 +1522,10 @@ function synthesizeResponsive(roots: IrNode[]): void {
       node.children.length >= 2 &&
       node.box.width > 700
     ) {
-      node.responsive['mobile'] = { ...(node.responsive['mobile'] ?? {}), 'flex-direction': 'column' };
+      node.responsive['mobile'] = {
+        ...(node.responsive['mobile'] ?? {}),
+        'flex-direction': 'column',
+      };
     }
     if (/^h[1-3]$/.test(node.tag)) {
       const size = Number.parseFloat(node.computed['font-size'] ?? '');
@@ -1505,9 +1545,20 @@ function synthesizeResponsive(roots: IrNode[]): void {
 
 /** Placement props carried from a collapsed wrapper onto the child that takes its slot. */
 const WRAPPER_PLACEMENT_KEYS = [
-  'position', 'top', 'left', 'right', 'bottom',
-  'margin-top', 'margin-right', 'margin-bottom', 'margin-left',
-  'align-self', 'flex-grow', 'flex-basis', 'order', 'z-index',
+  'position',
+  'top',
+  'left',
+  'right',
+  'bottom',
+  'margin-top',
+  'margin-right',
+  'margin-bottom',
+  'margin-left',
+  'align-self',
+  'flex-grow',
+  'flex-basis',
+  'order',
+  'z-index',
 ] as const;
 
 /**
@@ -1534,7 +1585,8 @@ function isCollapsibleWrapper(w: IrNode): boolean {
     c['border-width'] !== undefined ||
     c['overflow'] === 'hidden' ||
     c['overflow-x'] === 'hidden'
-  ) return false;
+  )
+    return false;
   const wb = w.box;
   const cb = w.children[0]!.box;
   const tol = 2;
@@ -1626,7 +1678,8 @@ function centerAbsoluteSectionContent(root: IrNode, frameWidth: number): void {
     if (content.length === 0) continue;
     section.computed['position'] = 'relative';
     const minHeight =
-      section.computed['min-height'] ?? (section.box.height > 0 ? px(section.box.height) : undefined);
+      section.computed['min-height'] ??
+      (section.box.height > 0 ? px(section.box.height) : undefined);
     const wrapper: IrNode = {
       source_path: `${section.source_path}:center`,
       tag: 'div',
@@ -1666,7 +1719,10 @@ export interface FigmaAccountingAudit {
  * Contract 18 F1: every Figma node lands in exactly one of `native | flattened | dropped+reason`.
  * Flattened subtrees count their root AND every `covers` descendant as flattened.
  */
-export function auditFigmaAccounting(sourceIds: string[], report: FigmaReport): FigmaAccountingAudit {
+export function auditFigmaAccounting(
+  sourceIds: string[],
+  report: FigmaReport,
+): FigmaAccountingAudit {
   const seen = new Map<string, number>();
   const bump = (id: string): void => {
     seen.set(id, (seen.get(id) ?? 0) + 1);
@@ -1680,7 +1736,12 @@ export function auditFigmaAccounting(sourceIds: string[], report: FigmaReport): 
 
   const missing = sourceIds.filter((id) => !seen.has(id));
   const duplicated = sourceIds.filter((id) => (seen.get(id) ?? 0) > 1);
-  return { ok: missing.length === 0 && duplicated.length === 0, missing, duplicated, total: sourceIds.length };
+  return {
+    ok: missing.length === 0 && duplicated.length === 0,
+    missing,
+    duplicated,
+    total: sourceIds.length,
+  };
 }
 
 /* ─────────────────────────── figmaParse (the stage entrypoint) ──────────────────────────────── */
@@ -1704,12 +1765,17 @@ export function figmaParse(nodeJson: unknown, opts: FigmaParseOptions = {}): Fig
   if (opts.node_id !== undefined) {
     primary = entries.find((e) => e.node.id === opts.node_id);
     if (primary === undefined) {
-      throw new Error(`figmaParse: node ${opts.node_id} is not a top-level document in the payload.`);
+      throw new Error(
+        `figmaParse: node ${opts.node_id} is not a top-level document in the payload.`,
+      );
     }
   } else {
     primary =
       entries.find((e) => frameIdentity(e.node).bp === 'desktop') ??
-      entries.reduce((widest, e) => (rawBox(e.node).width > rawBox(widest.node).width ? e : widest), entries[0] as FrameEntry);
+      entries.reduce(
+        (widest, e) => (rawBox(e.node).width > rawBox(widest.node).width ? e : widest),
+        entries[0] as FrameEntry,
+      );
   }
   const primaryIdentity = frameIdentity(primary.node);
 
@@ -1718,7 +1784,10 @@ export function figmaParse(nodeJson: unknown, opts: FigmaParseOptions = {}): Fig
   for (const entry of entries) {
     if (entry === primary) continue;
     const identity = frameIdentity(entry.node);
-    if (identity.base === primaryIdentity.base && (identity.bp === 'tablet' || identity.bp === 'mobile')) {
+    if (
+      identity.base === primaryIdentity.base &&
+      (identity.bp === 'tablet' || identity.bp === 'mobile')
+    ) {
       variants.push({ entry, bp: identity.bp });
     } else {
       references.push(entry);

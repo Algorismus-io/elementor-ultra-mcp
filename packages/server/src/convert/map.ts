@@ -150,11 +150,7 @@ export const INLINE_FOLD_DROP_REASONS = {
  *    under the same tag want different colors), the loss is recorded in `drops` (`tier:'dropped'`,
  *    I3 — never silent); a color equal to the parent's is a no-op and is skipped without a record (I4).
  */
-function nodeInlineHtml(
-  node: IrNode,
-  drops?: InlineFoldDrop[],
-  accents?: AccentRule[],
-): string {
+function nodeInlineHtml(node: IrNode, drops?: InlineFoldDrop[], accents?: AccentRule[]): string {
   const parentColor = node.computed['color'];
   let html = '';
   for (const r of node.textRuns) {

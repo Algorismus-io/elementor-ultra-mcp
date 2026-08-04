@@ -333,8 +333,7 @@ function classifyMotion(from: Transform2D, to: Transform2D): Motion {
   const dx = from.tx - to.tx;
   const dy = from.ty - to.ty;
   const slide = Math.max(Math.abs(dx), Math.abs(dy)) > TRANSLATE_EPSILON_PX;
-  const scale =
-    Math.max(Math.abs(from.sx - to.sx), Math.abs(from.sy - to.sy)) > SCALE_EPSILON;
+  const scale = Math.max(Math.abs(from.sx - to.sx), Math.abs(from.sy - to.sy)) > SCALE_EPSILON;
   const slideType: EffectType =
     Math.abs(to.tx) + Math.abs(to.ty) <= TRANSLATE_EPSILON_PX ? 'in' : 'out';
   // `in` = side the element comes FROM (sign of from−to); `out` = side moved TOWARD (sign of
@@ -742,9 +741,11 @@ export function emitInteractions(
 
   const caps = ctx.capabilities;
   const interactionsAvailable =
-    caps.atomic && caps.experiments['e_interactions'] !== false ? null : !caps.atomic
-      ? 'atomic elements unavailable (e_atomic_elements inactive) — interactions are V4-only'
-      : "the 'e_interactions' experiment is deactivated on this site";
+    caps.atomic && caps.experiments['e_interactions'] !== false
+      ? null
+      : !caps.atomic
+        ? 'atomic elements unavailable (e_atomic_elements inactive) — interactions are V4-only'
+        : "the 'e_interactions' experiment is deactivated on this site";
 
   /* ── pass 1: per-candidate gating + intent derivation. ── */
   const outcomes: Outcome[] = candidates.map(({ node, behavior }): Outcome => {
@@ -778,9 +779,7 @@ export function emitInteractions(
       };
     }
     const derived =
-      behavior.kind === 'entrance-animation'
-        ? deriveEntranceIntent(node)
-        : deriveHoverIntent(node);
+      behavior.kind === 'entrance-animation' ? deriveEntranceIntent(node) : deriveHoverIntent(node);
     if (!derived.ok) {
       return { kind: 'reject', reason: derived.reason };
     }
@@ -920,7 +919,12 @@ export function postSaveAssert(
   return authored.map((a) => {
     const el = findElementById(elementsReadBack, a.element_id);
     if (el === null) {
-      return { element_id: a.element_id, authored: a.items, survived: 0, status: 'element_missing' };
+      return {
+        element_id: a.element_id,
+        authored: a.items,
+        survived: 0,
+        status: 'element_missing',
+      };
     }
     const items = decodeInteractionItems((el as InteractionsCarrier).interactions);
     const survived = items === null ? 0 : items.length;
@@ -1027,9 +1031,7 @@ function unwrapObject(value: unknown): Record<string, unknown> | null {
   if (typeof value !== 'object' || value === null) return null;
   if ('$$type' in value) {
     const inner = (value as { value?: unknown }).value;
-    return typeof inner === 'object' && inner !== null
-      ? (inner as Record<string, unknown>)
-      : null;
+    return typeof inner === 'object' && inner !== null ? (inner as Record<string, unknown>) : null;
   }
   return value as Record<string, unknown>;
 }

@@ -28,7 +28,28 @@
           "type": "object",
           "required": ["unit"],
           "properties": {
-            "unit": { "type": "string", "examples": ["px","%","em","rem","vw","vh","ch","vmin","vmax","s","ms","deg","rad","grad","turn","auto","custom"] },
+            "unit": {
+              "type": "string",
+              "examples": [
+                "px",
+                "%",
+                "em",
+                "rem",
+                "vw",
+                "vh",
+                "ch",
+                "vmin",
+                "vmax",
+                "s",
+                "ms",
+                "deg",
+                "rad",
+                "grad",
+                "turn",
+                "auto",
+                "custom"
+              ]
+            },
             "size": { "type": ["number", "string", "null"] }
           },
           "additionalProperties": false
@@ -85,10 +106,7 @@
           "properties": {
             "destination": { "$ref": "#/$defs/TypedValue" },
             "isTargetBlank": {
-              "oneOf": [
-                { "type": "boolean" },
-                { "$ref": "#/$defs/TypedValue" }
-              ]
+              "oneOf": [{ "type": "boolean" }, { "$ref": "#/$defs/TypedValue" }]
             },
             "tag": { "$ref": "#/$defs/TypedValue" }
           },
@@ -153,10 +171,7 @@
           "type": "object",
           "properties": {
             "content": {
-              "oneOf": [
-                { "type": "null" },
-                { "$ref": "#/$defs/TypedValue" }
-              ]
+              "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/TypedValue" }]
             },
             "children": { "type": "array" }
           },
@@ -172,7 +187,9 @@
       "description": "$$type one of global-color-variable | global-font-variable | global-size-variable. value is the variable id string (e-gv-*). All three types are FREE in 4.1.x (variables/hooks.php:48-51). Renders var(--<label>).",
       "required": ["$$type", "value"],
       "properties": {
-        "$$type": { "enum": ["global-color-variable", "global-font-variable", "global-size-variable"] },
+        "$$type": {
+          "enum": ["global-color-variable", "global-font-variable", "global-size-variable"]
+        },
         "value": { "type": "string", "minLength": 1 },
         "disabled": { "type": "boolean" }
       },

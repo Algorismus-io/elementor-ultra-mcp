@@ -1433,7 +1433,11 @@ describe('verify_render threading on build/replace (§7-AI S2)', () => {
       saveResponse({
         render_verified: true,
         warnings: [
-          { code: 'UNBOUND_MENU', element_id: 'nav1234', message: 'No nav_menu term matches "main".' },
+          {
+            code: 'UNBOUND_MENU',
+            element_id: 'nav1234',
+            message: 'No nav_menu term matches "main".',
+          },
         ],
       }),
     );

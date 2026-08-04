@@ -145,9 +145,9 @@ describe('toolToRestStep', () => {
     expect(
       toolToRestStep({ tool: 'elementor.page.update_settings', input: { post_id: 42 } }),
     ).toEqual({ route: 'documents/settings', body: { post_id: 42 } });
-    expect(toolToRestStep({ tool: 'elementor.pro.theme.create', input: { type: 'header' } })).toEqual(
-      { route: 'pro/theme', body: { type: 'header' } },
-    );
+    expect(
+      toolToRestStep({ tool: 'elementor.pro.theme.create', input: { type: 'header' } }),
+    ).toEqual({ route: 'pro/theme', body: { type: 'header' } });
     expect(toolToRestStep({ tool: 'elementor.pro.loop.create_item', input: {} }).route).toBe(
       'pro/loop/item',
     );
@@ -254,10 +254,7 @@ describe('planBatch', () => {
       batchPlan: (): Promise<BatchPlanResponse> =>
         Promise.resolve({ plan: [], valid: true, backups_required: [] }),
     });
-    await planBatch(
-      [{ tool: 'elementor.page.build', input: { title: 'Home', elements: [] } }],
-      wp,
-    );
+    await planBatch([{ tool: 'elementor.page.build', input: { title: 'Home', elements: [] } }], wp);
     expect(spies.batchPlan).toHaveBeenCalledWith({
       steps: [
         // prime_css:true injected on the create path (CSS-prime invariant, tool default mirrored).

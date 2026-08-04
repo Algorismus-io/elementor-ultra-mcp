@@ -8,7 +8,16 @@
     "BreakpointKey": {
       "type": ["string", "null"],
       "description": "null = base/desktop. Active breakpoint keys are site-dependent; canonical superset from core/breakpoints/manager.php:17-23 — mobile, mobile_extra, tablet, tablet_extra, laptop, desktop, widescreen. Resolve the live set via elementor.breakpoints.get; NEVER hardcode px widths.",
-      "examples": [null, "mobile", "mobile_extra", "tablet", "tablet_extra", "laptop", "desktop", "widescreen"]
+      "examples": [
+        null,
+        "mobile",
+        "mobile_extra",
+        "tablet",
+        "tablet_extra",
+        "laptop",
+        "desktop",
+        "widescreen"
+      ]
     },
 
     "StyleState": {

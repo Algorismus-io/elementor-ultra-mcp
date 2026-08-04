@@ -210,10 +210,10 @@ export async function mediaUploadHandler(
     let filename: string;
     if (args.file_path) {
       const { readFile } = await import('node:fs/promises');
-      const { basename } = await import('node:path');
+      const nodePath = await import('node:path');
       const buf = await readFile(args.file_path);
       uploadData = buf.toString('base64');
-      filename = args.filename ?? basename(args.file_path);
+      filename = args.filename ?? nodePath.basename(args.file_path);
     } else if (args.data) {
       if (!args.filename) {
         throw Object.assign(new Error('filename is required when uploading base64 data.'), {

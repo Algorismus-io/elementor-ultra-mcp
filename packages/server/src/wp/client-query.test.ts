@@ -14,10 +14,16 @@ import { WpClient } from './client.js';
 
 function makeClient(): { client: WpClient; fetchImpl: ReturnType<typeof vi.fn> } {
   const fetchImpl = vi.fn().mockResolvedValue(
-    new Response(JSON.stringify({ success: true, data: { items: [], order: [], next_cursor: null, total: 0 } }), {
-      status: 200,
-      headers: { 'content-type': 'application/json' },
-    }),
+    new Response(
+      JSON.stringify({
+        success: true,
+        data: { items: [], order: [], next_cursor: null, total: 0 },
+      }),
+      {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      },
+    ),
   );
   const client = new WpClient({
     site: { url: 'http://example.test', basicToken: 'dGVzdDp0ZXN0' },

@@ -1,164 +1,147 @@
 {
- "$schema": "https://json-schema.org/draft/2020-12/schema",
- "$id": "https://elementor-ultra-mcp/spec/contracts/schemas/capabilities.schema.json",
- "title": "Site Capabilities (normalized probe payload)",
- "description": "FROZEN normalized capabilities payload — the elementor.site.capabilities tool output (13-tool-catalog.md §1.1) and the F05 ticket field set. The precondition probe for ALL atomic/design-system/Pro work (01-architecture.md §7, RESEARCH.md §8). TS type name: Capabilities (WP-F05). The PHP builder (class-capabilities.php) produces the authoritative payload; WP-P07 registers GET /site/capabilities; the tool handler maps the RAW REST envelope to this normalized shape.",
- "$defs": {
-  "CapabilityBreakpoint": {
-   "type": "object",
-   "description": "One active breakpoint (core/breakpoints/manager.php:17-23). NEVER hardcode px widths.",
-   "required": [
-    "key",
-    "direction",
-    "value"
-   ],
-   "properties": {
-    "key": {
-     "type": "string"
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://elementor-ultra-mcp/spec/contracts/schemas/capabilities.schema.json",
+  "title": "Site Capabilities (normalized probe payload)",
+  "description": "FROZEN normalized capabilities payload — the elementor.site.capabilities tool output (13-tool-catalog.md §1.1) and the F05 ticket field set. The precondition probe for ALL atomic/design-system/Pro work (01-architecture.md §7, RESEARCH.md §8). TS type name: Capabilities (WP-F05). The PHP builder (class-capabilities.php) produces the authoritative payload; WP-P07 registers GET /site/capabilities; the tool handler maps the RAW REST envelope to this normalized shape.",
+  "$defs": {
+    "CapabilityBreakpoint": {
+      "type": "object",
+      "description": "One active breakpoint (core/breakpoints/manager.php:17-23). NEVER hardcode px widths.",
+      "required": ["key", "direction", "value"],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "direction": {
+          "enum": ["min", "max"]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
     },
-    "label": {
-     "type": "string"
+    "RegisteredTypes": {
+      "type": "object",
+      "description": "Registered element/widget type ids, split atomic vs classic.",
+      "required": ["atomic", "classic"],
+      "properties": {
+        "atomic": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "classic": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
     },
-    "direction": {
-     "enum": [
-      "min",
-      "max"
-     ]
+    "CapabilityVersions": {
+      "type": "object",
+      "description": "Elementor / Pro / companion-plugin versions (pro null when inactive).",
+      "required": ["elementor", "pro", "plugin"],
+      "properties": {
+        "elementor": {
+          "type": "string"
+        },
+        "pro": {
+          "type": ["string", "null"]
+        },
+        "plugin": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     },
-    "value": {
-     "type": "number"
+    "Capabilities": {
+      "type": "object",
+      "description": "The normalized capabilities payload (13-tool-catalog.md §1.1).",
+      "required": [
+        "v4",
+        "atomic",
+        "global_classes",
+        "variables",
+        "pro",
+        "pro_atomic_form",
+        "breakpoints",
+        "experiments",
+        "can_update_class",
+        "classes_migrated",
+        "registered_types",
+        "versions",
+        "unfiltered_html"
+      ],
+      "properties": {
+        "v4": {
+          "type": "boolean",
+          "description": "V4 atomic is the default authoring generation for new pages."
+        },
+        "atomic": {
+          "type": "boolean",
+          "description": "Atomic elements available (e_atomic_elements active)."
+        },
+        "global_classes": {
+          "type": "boolean",
+          "description": "Global classes available (e_classes)."
+        },
+        "variables": {
+          "type": "boolean",
+          "description": "Global variables available (e_variables)."
+        },
+        "pro": {
+          "type": "boolean",
+          "description": "Elementor Pro is active."
+        },
+        "pro_atomic_form": {
+          "type": "boolean",
+          "description": "Pro atomic form fields available (e_pro_atomic_form)."
+        },
+        "breakpoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CapabilityBreakpoint"
+          }
+        },
+        "experiments": {
+          "type": "object",
+          "description": "Each known experiment slug -> active boolean (12-error-taxonomy.md §3.4 slugs).",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        },
+        "can_update_class": {
+          "type": "boolean",
+          "description": "current_user_can('elementor_global_classes_update_class') — gates ALL global-class writes."
+        },
+        "classes_migrated": {
+          "type": "boolean",
+          "description": "Whether the migrate-to-posts migration that grants UPDATE_CLASS has run."
+        },
+        "registered_types": {
+          "$ref": "#/$defs/RegisteredTypes"
+        },
+        "versions": {
+          "$ref": "#/$defs/CapabilityVersions"
+        },
+        "unfiltered_html": {
+          "type": "boolean",
+          "description": "Whether unfiltered_html is granted (affects content-filter fidelity, not a route gate)."
+        },
+        "custom_css_licensed": {
+          "type": "boolean",
+          "description": "Contract 18 §7 M-g — whether the Pro LICENSE includes the (atomic) custom-css feature. Optional (absent on older companion plugins; consumers default it to `pro`). NOT in `required`."
+        }
+      },
+      "additionalProperties": false
     }
-   },
-   "additionalProperties": false
   },
-  "RegisteredTypes": {
-   "type": "object",
-   "description": "Registered element/widget type ids, split atomic vs classic.",
-   "required": [
-    "atomic",
-    "classic"
-   ],
-   "properties": {
-    "atomic": {
-     "type": "array",
-     "items": {
-      "type": "string"
-     }
-    },
-    "classic": {
-     "type": "array",
-     "items": {
-      "type": "string"
-     }
-    }
-   },
-   "additionalProperties": false
-  },
-  "CapabilityVersions": {
-   "type": "object",
-   "description": "Elementor / Pro / companion-plugin versions (pro null when inactive).",
-   "required": [
-    "elementor",
-    "pro",
-    "plugin"
-   ],
-   "properties": {
-    "elementor": {
-     "type": "string"
-    },
-    "pro": {
-     "type": [
-      "string",
-      "null"
-     ]
-    },
-    "plugin": {
-     "type": "string"
-    }
-   },
-   "additionalProperties": false
-  },
-  "Capabilities": {
-   "type": "object",
-   "description": "The normalized capabilities payload (13-tool-catalog.md §1.1).",
-   "required": [
-    "v4",
-    "atomic",
-    "global_classes",
-    "variables",
-    "pro",
-    "pro_atomic_form",
-    "breakpoints",
-    "experiments",
-    "can_update_class",
-    "classes_migrated",
-    "registered_types",
-    "versions",
-    "unfiltered_html"
-   ],
-   "properties": {
-    "v4": {
-     "type": "boolean",
-     "description": "V4 atomic is the default authoring generation for new pages."
-    },
-    "atomic": {
-     "type": "boolean",
-     "description": "Atomic elements available (e_atomic_elements active)."
-    },
-    "global_classes": {
-     "type": "boolean",
-     "description": "Global classes available (e_classes)."
-    },
-    "variables": {
-     "type": "boolean",
-     "description": "Global variables available (e_variables)."
-    },
-    "pro": {
-     "type": "boolean",
-     "description": "Elementor Pro is active."
-    },
-    "pro_atomic_form": {
-     "type": "boolean",
-     "description": "Pro atomic form fields available (e_pro_atomic_form)."
-    },
-    "breakpoints": {
-     "type": "array",
-     "items": {
-      "$ref": "#/$defs/CapabilityBreakpoint"
-     }
-    },
-    "experiments": {
-     "type": "object",
-     "description": "Each known experiment slug -> active boolean (12-error-taxonomy.md §3.4 slugs).",
-     "additionalProperties": {
-      "type": "boolean"
-     }
-    },
-    "can_update_class": {
-     "type": "boolean",
-     "description": "current_user_can('elementor_global_classes_update_class') — gates ALL global-class writes."
-    },
-    "classes_migrated": {
-     "type": "boolean",
-     "description": "Whether the migrate-to-posts migration that grants UPDATE_CLASS has run."
-    },
-    "registered_types": {
-     "$ref": "#/$defs/RegisteredTypes"
-    },
-    "versions": {
-     "$ref": "#/$defs/CapabilityVersions"
-    },
-    "unfiltered_html": {
-     "type": "boolean",
-     "description": "Whether unfiltered_html is granted (affects content-filter fidelity, not a route gate)."
-    },
-    "custom_css_licensed": {
-     "type": "boolean",
-     "description": "Contract 18 §7 M-g — whether the Pro LICENSE includes the (atomic) custom-css feature. Optional (absent on older companion plugins; consumers default it to `pro`). NOT in `required`."
-    }
-   },
-   "additionalProperties": false
-  }
- },
- "$ref": "#/$defs/Capabilities"
+  "$ref": "#/$defs/Capabilities"
 }

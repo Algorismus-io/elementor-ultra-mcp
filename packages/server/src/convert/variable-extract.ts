@@ -501,7 +501,11 @@ export function extractVariables(
     const label = chooseVarLabel(a.kind, a.raw, a.norm, usedLabels);
     usedLabels.add(label.toLowerCase());
     const placeholderId = placeholderVarId(a.kind, a.norm);
-    proposed.push({ type: varType, label, value: a.kind === 'font' ? quoteFontFamilyStack(a.raw.trim()) : a.raw.trim() });
+    proposed.push({
+      type: varType,
+      label,
+      value: a.kind === 'font' ? quoteFontFamilyStack(a.raw.trim()) : a.raw.trim(),
+    });
     chosen.set(key, { id: placeholderId, isNew: true });
     wouldAdd++;
   }

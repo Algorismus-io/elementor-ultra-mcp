@@ -562,9 +562,13 @@ function inPageExtract(args: { whitelist: readonly string[]; inherited: readonly
     return false;
   }
 
-  function extractTextRuns(
-    el: Element,
-  ): { text: string; inlineTags: string[]; linkHref?: string; linkTarget?: string; color?: string }[] {
+  function extractTextRuns(el: Element): {
+    text: string;
+    inlineTags: string[];
+    linkHref?: string;
+    linkTarget?: string;
+    color?: string;
+  }[] {
     type Run = {
       text: string;
       inlineTags: string[];

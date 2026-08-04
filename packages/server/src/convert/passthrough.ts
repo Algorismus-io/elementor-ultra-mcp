@@ -271,7 +271,9 @@ export function buildJsPassthrough(
       excluded.push({ ...toEntry(script), reason: 'empty_inline' });
       continue;
     }
-    tags.push(`<script ${PASSTHROUGH_MARKER}>\n(function () {\n${script.content}\n})();\n</script>`);
+    tags.push(
+      `<script ${PASSTHROUGH_MARKER}>\n(function () {\n${script.content}\n})();\n</script>`,
+    );
     bundled.push(toEntry(script));
   }
 

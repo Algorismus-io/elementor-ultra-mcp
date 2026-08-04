@@ -168,7 +168,7 @@ export async function executeFigmaTool(
         'needs the x-api-key header (see convert/figma-client.ts env docs).',
     );
   }
-  const fetchImpl = options?.fetchImpl ?? (fetch as FetchLike);
+  const fetchImpl = options?.fetchImpl ?? fetch;
   const url = `${env.baseUrl}/api/v3/tools/execute/${slug}`;
   let response: Response;
   try {
@@ -184,7 +184,10 @@ export async function executeFigmaTool(
       }),
     });
   } catch (error: unknown) {
-    throw new FigmaClientError('http', `Composio execute ${slug} failed: ${(error as Error).message}`);
+    throw new FigmaClientError(
+      'http',
+      `Composio execute ${slug} failed: ${(error as Error).message}`,
+    );
   }
   if (!response.ok) {
     const body = await response.text().catch(() => '');
@@ -244,7 +247,7 @@ export interface FigmaPort {
 
 /** Build the production {@link FigmaPort} over {@link executeFigmaTool} (env-configured Composio). */
 export function buildComposioFigmaPort(options?: ExecuteFigmaToolOptions): FigmaPort {
-  const fetchImpl = options?.fetchImpl ?? (fetch as FetchLike);
+  const fetchImpl = options?.fetchImpl ?? fetch;
   return {
     async getFileJson(req): Promise<unknown> {
       // Composio backend drift (live-verified 2026-06-11): the execute API IGNORES
@@ -339,9 +342,7 @@ export function parseFigmaUrl(url: string): { file_key: string; node_id?: string
   const nodeParam = parsed.searchParams.get('node-id');
   return {
     file_key: match[1] as string,
-    ...(nodeParam !== null && nodeParam !== ''
-      ? { node_id: normalizeFigmaNodeId(nodeParam) }
-      : {}),
+    ...(nodeParam !== null && nodeParam !== '' ? { node_id: normalizeFigmaNodeId(nodeParam) } : {}),
   };
 }
 
@@ -423,9 +424,7 @@ export async function fetchFrameToWorkDir(
 
   // ── RESUME: a complete manifest means never re-fetch (the §7 convention). ────────────────────
   if (existsSync(paths.manifest)) {
-    const manifest = JSON.parse(
-      await readFile(paths.manifest, 'utf8'),
-    ) as FigmaExtractionManifest;
+    const manifest = JSON.parse(await readFile(paths.manifest, 'utf8')) as FigmaExtractionManifest;
     const complete = Object.values(paths).every((p) => existsSync(p));
     if (complete && manifest.file_key === req.file_key && manifest.node_id === nodeId) {
       return { manifest, work_dir: workDir, paths, resumed: true };
@@ -437,7 +436,11 @@ export async function fetchFrameToWorkDir(
   await mkdir(workDir, { recursive: true });
 
   // ── (1) file JSON, BOTH simplify modes (§4) — persisted as fetched. ──────────────────────────
-  const raw = await port.getFileJson({ file_key: req.file_key, ids: nodeId, response_detail: 'full' });
+  const raw = await port.getFileJson({
+    file_key: req.file_key,
+    ids: nodeId,
+    response_detail: 'full',
+  });
   await writeFile(paths.raw, JSON.stringify(raw), 'utf8');
   const simplified = await port.getFileJson({
     file_key: req.file_key,
@@ -476,9 +479,7 @@ export async function fetchFrameToWorkDir(
     frame_name: frameDoc?.name ?? nodeId,
     frame_size: frameDoc?.size ?? { width: 0, height: 0 },
     asset_map: {
-      ...Object.fromEntries(
-        Object.entries(fills).filter(([, url]) => typeof url === 'string'),
-      ),
+      ...Object.fromEntries(Object.entries(fills).filter(([, url]) => typeof url === 'string')),
       [`render:${nodeId}`]: renderUrl,
     },
     artifacts: {
@@ -507,16 +508,16 @@ export async function loadExtraction(workDir: string): Promise<LoadedExtraction>
   const manifest = JSON.parse(
     await readFile(path.join(workDir, FIGMA_ARTIFACTS.manifest), 'utf8'),
   ) as FigmaExtractionManifest;
-  const raw = JSON.parse(await readFile(path.join(workDir, manifest.artifacts.raw), 'utf8'));
-  const simplified = JSON.parse(
+  const raw: unknown = JSON.parse(
+    await readFile(path.join(workDir, manifest.artifacts.raw), 'utf8'),
+  );
+  const simplified: unknown = JSON.parse(
     await readFile(path.join(workDir, manifest.artifacts.simplified), 'utf8'),
   );
   const imageFills = JSON.parse(
     await readFile(path.join(workDir, manifest.artifacts.image_fills), 'utf8'),
   ) as Record<string, string>;
-  const renderPng = new Uint8Array(
-    await readFile(path.join(workDir, manifest.artifacts.render)),
-  );
+  const renderPng = new Uint8Array(await readFile(path.join(workDir, manifest.artifacts.render)));
   return { manifest, raw, simplified, image_fills: imageFills, render_png: renderPng };
 }
 

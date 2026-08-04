@@ -1,6 +1,6 @@
 {
   "note": "WP-F04 frozen catalog snapshot (names + flags). 13-tool-catalog.md §1/§2/§3/§5.2. Committed; drift fails CI.",
-  "tool_count": 90,
+  "tool_count": 91,
   "star_count": 18,
   "lean_star_tools": [
     "elementor.tools.search",
@@ -594,6 +594,18 @@
       "annotations": {
         "readOnlyHint": false,
         "idempotentHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "elementor.design.fonts.upload_zip",
+      "star": false,
+      "class": "M",
+      "side": "proxied-to-REST",
+      "route": "uploadFontZip",
+      "annotations": {
+        "readOnlyHint": false,
+        "idempotentHint": false,
         "destructiveHint": false
       }
     },

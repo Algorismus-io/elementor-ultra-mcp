@@ -322,7 +322,9 @@ describe('assembleTree — local-style finalization + mirroring (§5.1 HARD)', (
 /* ─────────────────────────── source-class preservation (opt-in) ──────────────────────────────── */
 
 describe('assembleTree — preserve_source_classes (stable enhancement anchors)', () => {
-  const attrs = { class: 'rk-band rk-band--wide e-con elementor-widget g-abc 2bad -ok_name rk-band' };
+  const attrs = {
+    class: 'rk-band rk-band--wide e-con elementor-widget g-abc 2bad -ok_name rk-band',
+  };
 
   it('OPT-IN: sanitized source classes land in settings.classes AFTER the local-style ids', async () => {
     const tree: StyledNode[] = [
@@ -397,7 +399,9 @@ describe('assembleTree — image sideload → id-only image-src (§3.2 HARD)', (
         source_path: 'img.svg',
         tag: 'img',
         target: widgetTarget('e-image'),
-        settings_seed: { image: { __media_pending: { kind: 'svg', url: 'https://x/logo.svg', alt: 'logo' } } },
+        settings_seed: {
+          image: { __media_pending: { kind: 'svg', url: 'https://x/logo.svg', alt: 'logo' } },
+        },
       }),
     ];
     const res = await assembleTree(tree, context({ media }));

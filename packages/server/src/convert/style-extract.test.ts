@@ -905,11 +905,15 @@ describe('extractStyles — responsive grid-track policy (contract 18 §7 P1-b)'
     });
     const res = extractStyles([node], ctx());
     const variants = res.styled_nodes[0]!.local_styles[0]!.variants;
-    expect(variants.find((v) => v.meta.breakpoint === null)!.props['grid-template-columns']).toMatchObject({
+    expect(
+      variants.find((v) => v.meta.breakpoint === null)!.props['grid-template-columns'],
+    ).toMatchObject({
       $$type: 'string',
       value: 'repeat(3, minmax(0, 1fr))',
     });
-    expect(variants.find((v) => v.meta.breakpoint === 'mobile')!.props['grid-template-columns']).toMatchObject({
+    expect(
+      variants.find((v) => v.meta.breakpoint === 'mobile')!.props['grid-template-columns'],
+    ).toMatchObject({
       $$type: 'string',
       value: 'minmax(0, 1fr)',
     });
@@ -962,10 +966,14 @@ describe('extractStyles — responsive grid-track policy (contract 18 §7 P1-b)'
     });
     const res = extractStyles([node], ctx());
     const variants = res.styled_nodes[0]!.local_styles[0]!.variants;
-    expect(variants.find((v) => v.meta.breakpoint === null)!.props['grid-template-columns']).toMatchObject({
+    expect(
+      variants.find((v) => v.meta.breakpoint === null)!.props['grid-template-columns'],
+    ).toMatchObject({
       value: '240px 240px',
     });
-    expect(variants.find((v) => v.meta.breakpoint === 'mobile')!.props['grid-template-columns']).toMatchObject({
+    expect(
+      variants.find((v) => v.meta.breakpoint === 'mobile')!.props['grid-template-columns'],
+    ).toMatchObject({
       value: 'minmax(0, 1fr)',
     });
   });
@@ -979,10 +987,14 @@ describe('extractStyles — responsive grid-track policy (contract 18 §7 P1-b)'
     });
     const res = extractStyles([node], ctx());
     const variants = res.styled_nodes[0]!.local_styles[0]!.variants;
-    expect(variants.find((v) => v.meta.breakpoint === null)!.props['grid-template-columns']).toMatchObject({
+    expect(
+      variants.find((v) => v.meta.breakpoint === null)!.props['grid-template-columns'],
+    ).toMatchObject({
       value: 'repeat(3, 1fr)',
     });
-    expect(variants.find((v) => v.meta.breakpoint === 'mobile')!.props['grid-template-columns']).toMatchObject({
+    expect(
+      variants.find((v) => v.meta.breakpoint === 'mobile')!.props['grid-template-columns'],
+    ).toMatchObject({
       value: 'repeat(1, minmax(0, 1fr))',
     });
   });
@@ -1013,14 +1025,22 @@ describe('extractStyles — folded in-text link underline carry (contract 18 §7
 
   it('a text widget with a linked run carries `& a{text-decoration:underline;}` as nested custom_css (Pro)', () => {
     const node = mapped(
-      { source_path: 'p', tag: 'p', role: 'text', textRuns: LINKED_RUNS, computed: { color: '#111' } },
+      {
+        source_path: 'p',
+        tag: 'p',
+        role: 'text',
+        textRuns: LINKED_RUNS,
+        computed: { color: '#111' },
+      },
       PARAGRAPH_TARGET,
     );
     const res = extractStyles([node], ctx());
     const base = res.styled_nodes[0]!.local_styles[0]!.variants[0]!;
     const decoded = Buffer.from(base.custom_css!.raw, 'base64').toString('utf8');
     expect(decoded).toContain('& a{text-decoration:underline;}');
-    const fb = res.declaration_fallbacks.find((f) => f.declaration === 'text-decoration: underline')!;
+    const fb = res.declaration_fallbacks.find(
+      (f) => f.declaration === 'text-decoration: underline',
+    )!;
     expect(fb.tier).toBe('custom_css');
     expect(fb.reason).toMatch(/nested custom_css rule/);
   });
@@ -1046,11 +1066,19 @@ describe('extractStyles — folded in-text link underline carry (contract 18 §7
 
   it('on a FREE site the underline is an HONEST drop (no custom_css channel, never silent)', () => {
     const node = mapped(
-      { source_path: 'p', tag: 'p', role: 'text', textRuns: LINKED_RUNS, computed: { color: '#111' } },
+      {
+        source_path: 'p',
+        tag: 'p',
+        role: 'text',
+        textRuns: LINKED_RUNS,
+        computed: { color: '#111' },
+      },
       PARAGRAPH_TARGET,
     );
     const res = extractStyles([node], ctx({ pro_active: false }));
-    const fb = res.declaration_fallbacks.find((f) => f.declaration === 'text-decoration: underline')!;
+    const fb = res.declaration_fallbacks.find(
+      (f) => f.declaration === 'text-decoration: underline',
+    )!;
     expect(fb.tier).toBe('html_widget');
     expect(fb.reason).toMatch(/DROPPED/);
     const base = res.styled_nodes[0]!.local_styles[0]!.variants[0]!;
@@ -1263,8 +1291,7 @@ describe('extractStyles — painted base defaults (contract 17 #8/I2)', () => {
     });
     // …but the default riders are filtered as noise — never custom_css/dropped ledger rows.
     const riders = res.declaration_fallbacks.filter(
-      (f) =>
-        f.source_path !== NOISE_FILTER_SOURCE_PATH && f.declaration.startsWith('background-'),
+      (f) => f.source_path !== NOISE_FILTER_SOURCE_PATH && f.declaration.startsWith('background-'),
     );
     expect(riders).toEqual([]);
     expect(base.custom_css).toBeUndefined();

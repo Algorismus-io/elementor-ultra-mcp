@@ -317,7 +317,12 @@ function backgroundOverlayRiders(computed: Record<string, string>): BackgroundOv
   const size = computed['background-size'];
   if (size === 'cover' || size === 'contain' || size === 'auto') riders.size = size;
   const repeat = computed['background-repeat'];
-  if (repeat === 'repeat' || repeat === 'repeat-x' || repeat === 'repeat-y' || repeat === 'no-repeat') {
+  if (
+    repeat === 'repeat' ||
+    repeat === 'repeat-x' ||
+    repeat === 'repeat-y' ||
+    repeat === 'no-repeat'
+  ) {
     riders.repeat = repeat;
   }
   const position = computed['background-position'];

@@ -192,11 +192,7 @@ function bodyHasOpId(body: unknown): boolean {
  * body carries the `op_id` the server dedupes on. Everything else surfaces the transient error to
  * the caller (who can decide to re-send with replay protection).
  */
-export function isRetrySafeRequest(
-  method: string,
-  routeName?: RouteName,
-  body?: unknown,
-): boolean {
+export function isRetrySafeRequest(method: string, routeName?: RouteName, body?: unknown): boolean {
   if (method.toUpperCase() === 'GET') {
     return true;
   }

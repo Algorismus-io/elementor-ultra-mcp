@@ -319,14 +319,12 @@ export const designFontsUploadZipInput = {
     .string()
     .optional()
     .describe(
-      'Local filesystem path to a ZIP file containing OTF/TTF/WOFF/WOFF2 font files. Family names and weights are read from each file\'s name table automatically. Provide either file_path OR zip_data.',
+      "Local filesystem path to a ZIP file containing OTF/TTF/WOFF/WOFF2 font files. Family names and weights are read from each file's name table automatically. Provide either file_path OR zip_data.",
     ),
   zip_data: z
     .string()
     .optional()
-    .describe(
-      'Base64-encoded ZIP file content. Provide either file_path OR zip_data.',
-    ),
+    .describe('Base64-encoded ZIP file content. Provide either file_path OR zip_data.'),
 } as const;
 
 const installedFaceShape = z.object({

@@ -104,7 +104,12 @@ describe('figmaParse: ParseResult envelope', () => {
     expect(res.raw_inner_markup).toEqual({});
     expect(res.pageScripts).toEqual([]);
     expect(res.ir).toHaveLength(1);
-    expect(res.figma.frame).toEqual({ node_id: '400:7510', name: 'Hero', width: 1440, height: 790 });
+    expect(res.figma.frame).toEqual({
+      node_id: '400:7510',
+      name: 'Hero',
+      width: 1440,
+      height: 790,
+    });
   });
 
   it('is deterministic: same input → byte-identical output', () => {
@@ -135,7 +140,12 @@ describe('figmaParse: ParseResult envelope', () => {
       simplified: false,
     };
     const res = figmaParse(liveShape, { node_id: '400:7510' });
-    expect(res.figma.frame).toEqual({ node_id: '400:7510', name: 'Hero', width: 1440, height: 790 });
+    expect(res.figma.frame).toEqual({
+      node_id: '400:7510',
+      name: 'Hero',
+      width: 1440,
+      height: 790,
+    });
     expect(JSON.stringify(res.ir)).toBe(JSON.stringify(parseWpos({ node_id: '400:7510' }).ir));
   });
 
@@ -149,8 +159,16 @@ describe('figmaParse: ParseResult envelope', () => {
       name: 'Section',
       absoluteBoundingBox: { x: 0, y: 100, width: 1440, height: 800 },
       children: [
-        { id: 'n:1', type: 'RECTANGLE', absoluteBoundingBox: { x: 40, y: 150, width: 600, height: 300 } },
-        { id: 'n:2', type: 'RECTANGLE', absoluteBoundingBox: { x: 700, y: 400, width: 600, height: 300 } },
+        {
+          id: 'n:1',
+          type: 'RECTANGLE',
+          absoluteBoundingBox: { x: 40, y: 150, width: 600, height: 300 },
+        },
+        {
+          id: 'n:2',
+          type: 'RECTANGLE',
+          absoluteBoundingBox: { x: 700, y: 400, width: 600, height: 300 },
+        },
       ],
     };
     const res = figmaParse({ nodes: { 'n:0': { document: frame } } }, { node_id: 'n:0' });
@@ -172,7 +190,13 @@ describe('figmaParse: ParseResult envelope', () => {
       ...frame,
       id: 'n:9',
       layoutMode: 'VERTICAL',
-      children: [{ id: 'n:10', type: 'RECTANGLE', absoluteBoundingBox: { x: 0, y: 100, width: 100, height: 100 } }],
+      children: [
+        {
+          id: 'n:10',
+          type: 'RECTANGLE',
+          absoluteBoundingBox: { x: 0, y: 100, width: 100, height: 100 },
+        },
+      ],
     };
     const autoRes = figmaParse({ nodes: { 'n:9': { document: auto } } }, { node_id: 'n:9' });
     expect(mustFind(autoRes.ir, 'figma:n:9').computed['position']).toBe('relative');
@@ -196,19 +220,20 @@ describe('figmaParse: ParseResult envelope', () => {
 /* ─────────────────────────── §2 row: auto-layout → flex roles + styles ──────────────────────── */
 
 describe('figmaParse: auto-layout (designer intent REPLACES flex-inference)', () => {
-  it('HORIZONTAL auto-layout → flex-row role + EXPLICIT display:flex computed styles', () => {
-    const node = mustFind(parseWpos().ir, 'figma:400:7520'); // "Main Buttons"
-    expect(node.role).toBe('flex-row');
-    expect(node.computed['display']).toBe('flex');
-    expect(node.computed['flex-direction']).toBe('row');
-    expect(node.computed['justify-content']).toBe('flex-start');
+  it('single-child auto-layout wrappers are unwrapped; the instance child is promoted (cdbc7b5)', () => {
+    // "Main Buttons" (400:7520) held one button instance; the section-lift pass unwraps the
+    // wrapper and promotes the instance into the hero copy block. Explicit flex emission for
+    // surviving auto-layout rows is covered by the synthetic Cards-row test below.
+    const ir = parseWpos().ir;
+    expect(() => mustFind(ir, 'figma:400:7520')).toThrow();
+    const copy = mustFind(ir, 'figma:400:7514');
+    expect(copy.children.some((c) => c.source_path === 'figma:I400:7520;25:14175')).toBe(true);
   });
 
-  it('padding longhands are ALWAYS emitted (0px included — guards the intrinsic e-flexbox 10px)', () => {
-    const node = mustFind(parseWpos().ir, 'figma:400:7520');
-    expect(node.computed['padding-top']).toBe('0px');
-    expect(node.computed['padding-left']).toBe('0px');
-    expect(node.computed['gap']).toBe('0px');
+  it('padding longhands are emitted on auto-layout nodes (guards the intrinsic e-flexbox 10px)', () => {
+    const btn = mustFind(parseWpos().ir, 'figma:I400:7520;25:14175');
+    expect(btn.computed['padding-top']).toBe('12px');
+    expect(btn.computed['padding-left']).toBe('24px');
   });
 
   it('itemSpacing/padding/axis-align map to gap/padding/justify/align (synthetic Cards row)', () => {
@@ -322,7 +347,9 @@ describe('figmaParse: TEXT → TextRun[] + typography', () => {
         ],
       },
     });
-    expect(res.figma.dropped.some((d) => d.node_id === '0:2' && d.reason === 'empty text')).toBe(true);
+    expect(res.figma.dropped.some((d) => d.node_id === '0:2' && d.reason === 'empty text')).toBe(
+      true,
+    );
   });
 });
 
@@ -415,7 +442,9 @@ describe('figmaParse: §3 flatten policy', () => {
   });
 
   it('flatten roots take their render URL from options.render_urls; absent → loud warning', () => {
-    const withUrl = parseWpos({ render_urls: { '400:7791': 'https://figma-temp.example/vector.png' } });
+    const withUrl = parseWpos({
+      render_urls: { '400:7791': 'https://figma-temp.example/vector.png' },
+    });
     expect(mustFind(withUrl.ir, 'figma:400:7791').media?.url).toBe(
       'https://figma-temp.example/vector.png',
     );
@@ -427,15 +456,14 @@ describe('figmaParse: §3 flatten policy', () => {
     ).toBe(true);
   });
 
-  it('balanced flattens blur effects; minimal keeps them native with an honest filter declaration', () => {
-    const balanced = parseWpos();
-    expect(balanced.figma.flattened.some((f) => f.node_id === '400:7513' && f.reason === 'layer-blur')).toBe(
-      true,
-    );
-    const minimal = parseWpos({ flatten: 'minimal' });
-    expect(minimal.figma.flattened.some((f) => f.node_id === '400:7513')).toBe(false);
-    expect(minimal.figma.native).toContain('400:7513');
-    expect(mustFind(minimal.ir, 'figma:400:7513').computed['filter']).toBe('blur(90.5px)');
+  it('simple-shape blurs stay native in EVERY mode with an honest filter declaration (cdbc7b5)', () => {
+    // Decorative glows on plain RECT/ELLIPSE nodes emit native CSS blur instead of rasterizing —
+    // balanced no longer flattens them.
+    for (const res of [parseWpos(), parseWpos({ flatten: 'minimal' })]) {
+      expect(res.figma.flattened.some((f) => f.node_id === '400:7513')).toBe(false);
+      expect(res.figma.native).toContain('400:7513');
+      expect(mustFind(res.ir, 'figma:400:7513').computed['filter']).toBe('blur(90.5px)');
+    }
   });
 
   it('device mockups flatten in balanced with their subtree in covers', () => {
@@ -472,13 +500,23 @@ describe('figma-flatten: verdict unit rows', () => {
   };
 
   it('overlapRatio: disjoint 0, contained 1', () => {
-    expect(overlapRatio({ x: 0, y: 0, width: 10, height: 10 }, { x: 20, y: 0, width: 10, height: 10 })).toBe(0);
-    expect(overlapRatio({ x: 0, y: 0, width: 100, height: 100 }, { x: 10, y: 10, width: 20, height: 20 })).toBe(1);
+    expect(
+      overlapRatio({ x: 0, y: 0, width: 10, height: 10 }, { x: 20, y: 0, width: 10, height: 10 }),
+    ).toBe(0);
+    expect(
+      overlapRatio(
+        { x: 0, y: 0, width: 100, height: 100 },
+        { x: 10, y: 10, width: 20, height: 20 },
+      ),
+    ).toBe(1);
   });
 
   it('a no-text overlapping stack is a layered cluster → flattened in balanced, kept in minimal', () => {
     expect(isLayeredCluster(cluster)).toBe(true);
-    expect(flattenVerdict(cluster, 'balanced')).toEqual({ flatten: true, reason: 'layered-cluster' });
+    expect(flattenVerdict(cluster, 'balanced')).toEqual({
+      flatten: true,
+      reason: 'layered-cluster',
+    });
     expect(flattenVerdict(cluster, 'minimal')).toEqual({ flatten: false, reason: null });
   });
 
@@ -488,7 +526,12 @@ describe('figma-flatten: verdict unit rows', () => {
       id: 'c:9',
       children: [
         ...(cluster.children ?? []),
-        { id: 'c:4', type: 'TEXT', characters: 'Real content', absoluteBoundingBox: box(10, 10, 100, 20) },
+        {
+          id: 'c:4',
+          type: 'TEXT',
+          characters: 'Real content',
+          absoluteBoundingBox: box(10, 10, 100, 20),
+        },
       ],
     };
     expect(isLayeredCluster(withText)).toBe(false);
@@ -512,7 +555,10 @@ describe('figma-flatten: verdict unit rows', () => {
       })),
     };
     expect(isAbsoluteFanOut(stripes)).toBe(true);
-    expect(flattenVerdict(stripes, 'balanced')).toEqual({ flatten: true, reason: 'absolute-fan-out' });
+    expect(flattenVerdict(stripes, 'balanced')).toEqual({
+      flatten: true,
+      reason: 'absolute-fan-out',
+    });
     expect(flattenVerdict(stripes, 'minimal')).toEqual({ flatten: false, reason: null });
 
     // A clipping fan-out renders CLIPPED (absolute bounds would bake the 2132px overhang into
@@ -564,7 +610,12 @@ describe('figma-flatten: verdict unit rows', () => {
           type: 'RECTANGLE' as const,
           absoluteBoundingBox: box(i * 10, 0, 6, 20),
         })),
-        { id: 't:99', type: 'TEXT', characters: 'Real content', absoluteBoundingBox: box(0, 0, 100, 20) },
+        {
+          id: 't:99',
+          type: 'TEXT',
+          characters: 'Real content',
+          absoluteBoundingBox: box(0, 0, 100, 20),
+        },
       ],
     };
     expect(isAbsoluteFanOut(withText)).toBe(false);
@@ -623,7 +674,9 @@ describe('figmaParse: prototype interactions', () => {
       res.figma.interaction_drops.some((d) => d.node_id === '400:7520' && d.trigger === 'ON_HOVER'),
     ).toBe(true);
     expect(res.warnings.some((w) => w.code === 'FIGMA_HOVER_TARGET_MISSING')).toBe(true);
-    expect(mustFind(res.ir, 'figma:400:7520').hoverComputed).toBeUndefined();
+    // the wrapper that carried the interaction is unwrapped; its surviving instance child
+    // must not inherit a hover diff that could never be computed
+    expect(mustFind(res.ir, 'figma:I400:7520;25:14175').hoverComputed).toBeUndefined();
   });
 
   it('AFTER_TIMEOUT DISSOLVE → entrance-animation approximation (tier-2 fade downstream)', () => {
@@ -644,9 +697,11 @@ describe('figmaParse: prototype interactions', () => {
     const drop = res.figma.interaction_drops.find((d) => d.node_id === '1:60');
     expect(drop).toBeDefined();
     expect(drop?.trigger).toBe('ON_DRAG');
-    expect(res.warnings.some((w) => w.code === 'FIGMA_INTERACTION_DROPPED' && w.source_path === 'figma:1:60')).toBe(
-      true,
-    );
+    expect(
+      res.warnings.some(
+        (w) => w.code === 'FIGMA_INTERACTION_DROPPED' && w.source_path === 'figma:1:60',
+      ),
+    ).toBe(true);
     // The element itself stays native (only the interaction is dropped).
     expect(res.figma.native).toContain('1:60');
   });
@@ -685,7 +740,9 @@ describe('figmaParse: §5 responsive', () => {
 
   it('unrelated top-level frames become reference frames: dropped with reason + warning', () => {
     const res = parseSynth();
-    expect(res.figma.dropped.some((d) => d.node_id === '9:1' && d.reason.includes('reference frame'))).toBe(true);
+    expect(
+      res.figma.dropped.some((d) => d.node_id === '9:1' && d.reason.includes('reference frame')),
+    ).toBe(true);
     expect(res.figma.dropped.some((d) => d.node_id === '9:2')).toBe(true);
     expect(res.warnings.some((w) => w.code === 'FIGMA_REFERENCE_FRAME')).toBe(true);
   });
@@ -782,7 +839,11 @@ describe('figmaParse: F1 invariant (native | flattened | dropped+reason, exactly
     const res = parseWpos();
     const broken = {
       ...res.figma,
-      native: [...res.figma.native.slice(1), res.figma.native[0] as string, res.figma.native[0] as string],
+      native: [
+        ...res.figma.native.slice(1),
+        res.figma.native[0] as string,
+        res.figma.native[0] as string,
+      ],
     };
     const sourceIds = collectFigmaNodeIds(WPOS);
     const audit = auditFigmaAccounting(sourceIds, broken);
@@ -801,7 +862,6 @@ describe('figmaParse: designer intent survives the unchanged normalize → class
 
   it('flex/button/heading roles re-derive identically from the emitted explicit signals', () => {
     const classified = normalizeThenClassify(parseWpos());
-    expect(mustFind(classified, 'figma:400:7520').role).toBe('flex-row');
     expect(mustFind(classified, 'figma:I400:7520;25:14175').role).toBe('button');
     expect(mustFind(classified, 'figma:400:7517').role).toBe('heading');
     expect(mustFind(classified, 'figma:400:7519').role).toBe('text');
@@ -821,7 +881,13 @@ describe('figmaParse: designer intent survives the unchanged normalize → class
     const allText = allNodes(classified)
       .flatMap((n) => n.textRuns.map((r) => r.text))
       .join(' ');
-    for (const expected of ['Fast setup', 'Open pricing', 'Get started', 'Hover me', 'Limited offer']) {
+    for (const expected of [
+      'Fast setup',
+      'Open pricing',
+      'Get started',
+      'Hover me',
+      'Limited offer',
+    ]) {
       expect(allText).toContain(expected);
     }
   });

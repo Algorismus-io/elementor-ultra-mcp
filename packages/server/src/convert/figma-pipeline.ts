@@ -199,7 +199,8 @@ async function resolveFlattenRenders(
   if (renderRoots.length === 0) {
     return {};
   }
-  const cacheKey = (root: FlattenRenderRoot): string => (root.clipped ? `${root.id}@clipped` : root.id);
+  const cacheKey = (root: FlattenRenderRoot): string =>
+    root.clipped ? `${root.id}@clipped` : root.id;
   const toUrlMap = (cached: Record<string, string>): Record<string, string> =>
     Object.fromEntries(renderRoots.map((root) => [root.id, cached[cacheKey(root)] as string]));
   const cachePath = path.join(workDir, FLATTEN_RENDERS_FILE);

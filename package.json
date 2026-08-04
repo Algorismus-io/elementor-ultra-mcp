@@ -2,7 +2,7 @@
   "name": "elementor-ultra-mcp",
   "version": "1.0.0",
   "private": true,
-  "description": "ULTRA Elementor MCP \u2014 monorepo root (TS MCP server + shared types + companion WP plugin).",
+  "description": "ULTRA Elementor MCP — monorepo root (TS MCP server + shared types + companion WP plugin).",
   "packageManager": "pnpm@9.12.0",
   "engines": {
     "node": ">=20"

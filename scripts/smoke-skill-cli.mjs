@@ -21,10 +21,15 @@ const LIB = join(REPO, '.claude/skills/elementor-ultra/lib');
 const CLI = join(LIB, 'cli.mjs');
 const live = process.argv.includes('--live');
 let passed = 0;
-const ok = (name) => { passed++; console.log(`PASS  ${name}`); };
+const ok = (name) => {
+  passed++;
+  console.log(`PASS  ${name}`);
+};
 
 /* ───────── kit helpers ───────── */
-const { node, S, M, AUTO, RADT, RADB, css, fontLoader, hamburgerNav, emit } = await import(join(LIB, 'kit.mjs'));
+const { node, S, M, AUTO, RADT, RADB, css, fontLoader, hamburgerNav, emit } = await import(
+  join(LIB, 'kit.mjs')
+);
 
 const m = M(0, 'auto', 0, AUTO);
 assert.equal(m.value['inline-end'].value.unit, 'auto');
@@ -32,8 +37,14 @@ assert.equal(m.value['inline-start'].value.unit, 'auto');
 assert.equal(m.value['block-start'].value.size, 0);
 ok('kit: M(t,r,b,l) accepts numbers, "auto", and AUTO');
 
-const n = node('e-flexbox', { tag: 'div', props: { padding: M(0), display: S('flex'), _t: { gap: S('8') }, _m: { display: S('none') } } });
-assert.deepEqual(Object.values(n.styles)[0].variants.map((v) => v.meta.breakpoint), ['desktop', 'tablet', 'mobile']);
+const n = node('e-flexbox', {
+  tag: 'div',
+  props: { padding: M(0), display: S('flex'), _t: { gap: S('8') }, _m: { display: S('none') } },
+});
+assert.deepEqual(
+  Object.values(n.styles)[0].variants.map((v) => v.meta.breakpoint),
+  ['desktop', 'tablet', 'mobile'],
+);
 ok('kit: props._t emits a tablet variant between desktop and mobile');
 
 assert.equal(RADT(8).value['start-start'].value.size, 8);
@@ -44,10 +55,16 @@ ok('kit: RADT/RADB per-corner radius');
 
 css(n, '& em { color: #f43; }');
 const dv = Object.values(n.styles)[0].variants.find((v) => v.meta.breakpoint === 'desktop');
-assert.ok(Buffer.from(dv.custom_css.raw, 'base64').toString().includes('em'), 'custom_css base64 round-trip');
+assert.ok(
+  Buffer.from(dv.custom_css.raw, 'base64').toString().includes('em'),
+  'custom_css base64 round-trip',
+);
 const bare = node('e-div-block', { tag: 'div' });
 css(bare, 'outline: 1px solid red;');
-assert.ok(bare.settings.classes.value.includes(Object.keys(bare.styles)[0]), 'css() links a created style');
+assert.ok(
+  bare.settings.classes.value.includes(Object.keys(bare.styles)[0]),
+  'css() links a created style',
+);
 ok('kit: css(node, decls) attaches base64 variant custom_css and keeps classes linked');
 
 const fl = fontLoader('JetBrains Mono', [700, 400]);
@@ -57,24 +74,47 @@ ok('kit: fontLoader emits one classic html widget with a sorted css2 link');
 
 const h = hamburgerNav('main-nav', { _m: { gap: S('4') } });
 const hm = Object.values(h.styles)[0].variants.find((v) => v.meta.breakpoint === 'mobile');
-assert.equal(hm.props.display.value, 'flex', 'custom _m must MERGE with defaults, not replace them');
+assert.equal(
+  hm.props.display.value,
+  'flex',
+  'custom _m must MERGE with defaults, not replace them',
+);
 assert.equal(hm.props.gap.value, '4');
 assert.equal(hm.props.margin.value['inline-start'].value.unit, 'auto');
 ok('kit: hamburgerNav _m deep-merges with the display:flex + auto-margin defaults');
 
 await assert.rejects(
-  emit({ title: 'x', elements: [node('e-flexbox', { props: { padding: M(0) } })], settings: { custom_css: { raw: 'x' } } }, '/tmp/smoke-never.json'),
+  emit(
+    {
+      title: 'x',
+      elements: [node('e-flexbox', { props: { padding: M(0) } })],
+      settings: { custom_css: { raw: 'x' } },
+    },
+    '/tmp/smoke-never.json',
+  ),
   /AF1/,
 );
 ok('emit: page-settings custom_css OBJECT rejected (AF1 inverse trap)');
 await assert.rejects(
-  emit({ title: 'x', elements: [node('e-flexbox', { props: { padding: M(0) } })], nav_bindings: [{ widget_index: 0 }] }, '/tmp/smoke-never.json'),
+  emit(
+    {
+      title: 'x',
+      elements: [node('e-flexbox', { props: { padding: M(0) } })],
+      nav_bindings: [{ widget_index: 0 }],
+    },
+    '/tmp/smoke-never.json',
+  ),
   /menu_slug/,
 );
 ok('emit: nav_bindings entries require menu_slug');
 const tmp = mkdtempSync(join(tmpdir(), 'skill-smoke-'));
 const specPath = await emit(
-  { title: 'smoke', elements: [node('e-flexbox', { props: { padding: M(0) } })], template: 'elementor_canvas', nav_bindings: [{ widget_index: 0, menu_slug: 'main' }] },
+  {
+    title: 'smoke',
+    elements: [node('e-flexbox', { props: { padding: M(0) } })],
+    template: 'elementor_canvas',
+    nav_bindings: [{ widget_index: 0, menu_slug: 'main' }],
+  },
   join(tmp, 'spec.json'),
 );
 assert.ok(JSON.parse(readFileSync(specPath, 'utf8')).nav_bindings[0].menu_slug === 'main');
@@ -83,14 +123,27 @@ ok('emit: full manifest {title, elements, settings, template, nav_bindings} roun
 /* ───────── cli.mjs offline ───────── */
 const usage = spawnSync('node', [CLI], { encoding: 'utf8' });
 assert.equal(usage.status, 2);
-for (const verb of ['replace', 'deploy', 'audit', 'capture', 'crops', 'diff', 'fonts', 'font-install', 'upload-from-path']) {
+for (const verb of [
+  'replace',
+  'deploy',
+  'audit',
+  'capture',
+  'crops',
+  'diff',
+  'fonts',
+  'font-install',
+  'upload-from-path',
+]) {
   assert.ok(usage.stderr.includes(verb), `usage mentions ${verb}`);
 }
 ok('cli: usage lists every contract-18 verb and exits 2');
 
 // P3-c static guard: convert must exit 2 on css_primed:false (not warn-and-exit-0).
 const cliSrc = readFileSync(CLI, 'utf8');
-assert.ok(/css_primed === false[\s\S]{0,400}?process\.exit\(2\)/.test(cliSrc), 'convert exits 2 on unprimed');
+assert.ok(
+  /css_primed === false[\s\S]{0,400}?process\.exit\(2\)/.test(cliSrc),
+  'convert exits 2 on unprimed',
+);
 ok('cli: convert exits 2 when css_primed:false (P3-c)');
 
 // crops: slice a synthetic 100x2500 PNG into 1000px bands.
@@ -104,7 +157,9 @@ const out = execFileSync('node', [CLI, 'crops', tallPath], { encoding: 'utf8' })
 assert.equal(out.length, 3, '2500px / 1000px bands = 3 slices');
 assert.ok(existsSync(out[0]) && out[0].endsWith('band00.png'));
 assert.equal(PNG.sync.read(readFileSync(out[2])).height, 500, 'last band is the 500px remainder');
-const one = execFileSync('node', [CLI, 'crops', tallPath, '1'], { encoding: 'utf8' }).trim().split('\n');
+const one = execFileSync('node', [CLI, 'crops', tallPath, '1'], { encoding: 'utf8' })
+  .trim()
+  .split('\n');
 assert.equal(one.length, 1);
 assert.ok(one[0].endsWith('band01.png'));
 ok('cli: crops slices bands (all + single-band selection)');
@@ -112,8 +167,17 @@ ok('cli: crops slices bands (all + single-band selection)');
 /* ───────── live (opt-in) ───────── */
 if (live) {
   const env = { ...process.env, ULTRA_REPO: REPO };
-  const audit = spawnSync('node', [CLI, 'audit', `${wpUrl()}/?page_id=2778`], { encoding: 'utf8', env, timeout: 180000 });
-  assert.ok(/AUDIT /.test(audit.stdout) && /overflow @1440/.test(audit.stdout) && /fonts \(STATUS enumeration\)/.test(audit.stdout), audit.stdout + audit.stderr);
+  const audit = spawnSync('node', [CLI, 'audit', `${wpUrl()}/?page_id=2778`], {
+    encoding: 'utf8',
+    env,
+    timeout: 180000,
+  });
+  assert.ok(
+    /AUDIT /.test(audit.stdout) &&
+      /overflow @1440/.test(audit.stdout) &&
+      /fonts \(STATUS enumeration\)/.test(audit.stdout),
+    audit.stdout + audit.stderr,
+  );
   ok(`cli: audit ran against page 2778 (exit ${audit.status})`);
   const fonts = spawnSync('node', [CLI, 'fonts'], { encoding: 'utf8', env, timeout: 120000 });
   assert.equal(fonts.status, 0, fonts.stderr);
@@ -123,7 +187,10 @@ if (live) {
 
 function wpUrl() {
   if (process.env.WP_URL) return process.env.WP_URL;
-  return JSON.parse(readFileSync(join(REPO, '.mcp.json'), 'utf8')).mcpServers['elementor-ultra'].env.WP_URL;
+  return JSON.parse(readFileSync(join(REPO, '.mcp.json'), 'utf8')).mcpServers['elementor-ultra'].env
+    .WP_URL;
 }
 
-console.log(`\n${passed} smoke check(s) passed${live ? ' (incl. live)' : ' (offline; pass --live for audit/fonts against the site)'}`);
+console.log(
+  `\n${passed} smoke check(s) passed${live ? ' (incl. live)' : ' (offline; pass --live for audit/fonts against the site)'}`,
+);

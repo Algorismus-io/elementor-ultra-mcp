@@ -341,7 +341,8 @@ describe('behavioralFidelityCheck: live probes (real Chromium)', () => {
     if (!(await probeChromium())) return;
     const res = await behavioralFidelityCheck({
       rendered_url: dataUrl(
-        tabsPage(true) + '<div data-interaction-id="1-a-0"></div>' +
+        tabsPage(true) +
+          '<div data-interaction-id="1-a-0"></div>' +
           '<script id="elementor-interactions-data" type="application/json">{}</script>',
       ),
       behaviors: [

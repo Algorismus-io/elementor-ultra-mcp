@@ -970,7 +970,11 @@ export async function buildTreeFromParsed(
   const ledgerTierRows = styled.declaration_fallbacks.filter(
     (f) => f.source_path !== NOISE_FILTER_SOURCE_PATH,
   );
-  const declarationLedger: DeclFallback[] = [...ledgerTierRows, ...inlineFoldRows, ...pseudoDropRows];
+  const declarationLedger: DeclFallback[] = [
+    ...ledgerTierRows,
+    ...inlineFoldRows,
+    ...pseudoDropRows,
+  ];
   const ledger: AccountingLedger = {
     // Every `expected`-side count comes from its PRODUCER's own seam tally (style-extract's
     // emission counter, MAP's inline-drop records, NORMALIZE's pseudo-drop records) — never
@@ -992,7 +996,10 @@ export async function buildTreeFromParsed(
   const integrity = runIntegrity({
     elements,
     global_class_ids: [...existingClassOrder, ...proposedClasses.map((c) => c.id)],
-    global_classes: { ...existingClassDefs, ...Object.fromEntries(proposedClasses.map((c) => [c.id, c])) },
+    global_classes: {
+      ...existingClassDefs,
+      ...Object.fromEntries(proposedClasses.map((c) => [c.id, c])),
+    },
     ...(idMapSound ? { source_computed: buildSourceComputedMap(classified.ir, idMap) } : {}),
     ledger,
   });
@@ -1037,11 +1044,7 @@ export async function buildTreeFromParsed(
 
 /** Strip the CSS `content` string quotes (`'"→"'` → `→`) for the content-audit drop entries. */
 function stripCssContentQuotes(content: string): string {
-  return content
-    .trim()
-    .replace(/^["']/, '')
-    .replace(/["']$/, '')
-    .trim();
+  return content.trim().replace(/^["']/, '').replace(/["']$/, '').trim();
 }
 
 /**
@@ -1505,7 +1508,10 @@ export async function persistTreeBuild(
         );
       }
       statusByOriginalId = new Map(
-        postSaveChecks.map((check, i) => [authoredOriginalIds[i] ?? check.element_id, check.status]),
+        postSaveChecks.map((check, i) => [
+          authoredOriginalIds[i] ?? check.element_id,
+          check.status,
+        ]),
       );
     } catch {
       // The readback failed (transient) — survival is UNVERIFIED, so tier 2 cannot be claimed
@@ -2221,7 +2227,9 @@ function emitRepairProp(node: ElementNode, atomicProp: string, typedValue: unkno
   let base = def.variants.find(
     (v) =>
       (v.meta.state === null || v.meta.state === undefined) &&
-      (v.meta.breakpoint === null || v.meta.breakpoint === undefined || v.meta.breakpoint === 'desktop'),
+      (v.meta.breakpoint === null ||
+        v.meta.breakpoint === undefined ||
+        v.meta.breakpoint === 'desktop'),
   );
   if (base === undefined) {
     base = { meta: { breakpoint: 'desktop', state: null }, props: {} };

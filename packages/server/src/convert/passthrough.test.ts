@@ -94,7 +94,9 @@ describe('buildJsPassthrough — bundle mode (§5)', () => {
     const html = widgetNode?.settings['html'];
     expect(typeof html).toBe('string');
     const payload = html as string;
-    expect(payload).toContain(`<script ${PASSTHROUGH_MARKER} src="https://cdn.example.com/lib.js">`);
+    expect(payload).toContain(
+      `<script ${PASSTHROUGH_MARKER} src="https://cdn.example.com/lib.js">`,
+    );
     expect(payload).toContain(`<script ${PASSTHROUGH_MARKER}>`);
     expect(payload).toContain('(function () {\nwindow.x = 1;\n})();');
     expect(report.bundled).toHaveLength(2);

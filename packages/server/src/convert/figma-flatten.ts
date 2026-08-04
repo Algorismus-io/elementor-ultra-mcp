@@ -154,7 +154,12 @@ export function visibleEffects(node: FigmaRawNode): FigmaEffect[] {
 }
 
 /** The node's box (absoluteBoundingBox), or a 0-box when Figma omitted it (e.g. some groups). */
-export function rawBox(node: FigmaRawNode): { x: number; y: number; width: number; height: number } {
+export function rawBox(node: FigmaRawNode): {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+} {
   const b = node.absoluteBoundingBox;
   if (b === undefined || b === null) return { x: 0, y: 0, width: 0, height: 0 };
   return { x: b.x, y: b.y, width: b.width, height: b.height };
@@ -215,7 +220,8 @@ export const CONTAINER_NODE_TYPES: ReadonlySet<string> = new Set([
 ]);
 
 /** Layer names that declare a device mockup (a picture of a UI by intent — flatten in balanced+). */
-const DEVICE_MOCKUP_NAME_RE = /\b(mock-?up|device|iphone|android|phone|macbook|laptop|browser|screenshot)\b/i;
+const DEVICE_MOCKUP_NAME_RE =
+  /\b(mock-?up|device|iphone|android|phone|macbook|laptop|browser|screenshot)\b/i;
 
 /** Does the layer name declare a device mockup? */
 export function isDeviceMockupName(name: string | undefined): boolean {

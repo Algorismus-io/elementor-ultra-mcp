@@ -18,7 +18,13 @@ interface ErrorCodesJson {
   codes: string[];
   meta: Record<
     string,
-    { http_status: number; retryable: boolean; surface: string; rpc_code: number | null; soft: boolean }
+    {
+      http_status: number;
+      retryable: boolean;
+      surface: string;
+      rpc_code: number | null;
+      soft: boolean;
+    }
   >;
 }
 

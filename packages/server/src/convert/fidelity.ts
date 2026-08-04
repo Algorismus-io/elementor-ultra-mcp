@@ -304,9 +304,7 @@ async function snapshotTablist(page: Page, index: number): Promise<TablistSnapsh
     const visiblePanels = Array.from(document.querySelectorAll('[role="tabpanel"]')).map((p) => {
       const el = p as HTMLElement;
       const cs = getComputedStyle(el);
-      return (
-        cs.display !== 'none' && cs.visibility !== 'hidden' && el.getClientRects().length > 0
-      );
+      return cs.display !== 'none' && cs.visibility !== 'hidden' && el.getClientRects().length > 0;
     });
     return { selected, visiblePanels };
   }, index);
@@ -353,11 +351,7 @@ async function probeTabs(page: Page, index: number, nodeId: string): Promise<Beh
     before.selected.findIndex((s) => s !== 'true'),
     before.selected.every((s) => s !== 'true') ? 1 : 0,
   );
-  const tab = page
-    .locator('[role="tablist"]')
-    .nth(index)
-    .locator('[role="tab"]')
-    .nth(targetIdx);
+  const tab = page.locator('[role="tablist"]').nth(index).locator('[role="tab"]').nth(targetIdx);
   await tab.click({ timeout: 5_000 });
 
   // Poll briefly for the state change (widget JS may animate the switch).

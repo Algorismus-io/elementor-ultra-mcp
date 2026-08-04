@@ -1198,7 +1198,9 @@ export async function fontsUploadZipHandler(
     } else if (args.zip_data) {
       zipData = args.zip_data;
     } else {
-      throw Object.assign(new Error('Provide either file_path or zip_data.'), { code: 'VALIDATION_FAILED' });
+      throw Object.assign(new Error('Provide either file_path or zip_data.'), {
+        code: 'VALIDATION_FAILED',
+      });
     }
 
     const data = await ctx.wp.uploadFontZip({
@@ -1206,13 +1208,17 @@ export async function fontsUploadZipHandler(
       op_id: mintOpId(['design.fonts.upload_zip', args.file_path ?? zipData.slice(0, 32)]),
     });
 
-    const names = data.installed.map((f: { family: string; weight: string }) => `"${f.family}" ${f.weight}`).join(', ');
-    const summary = data.installed.length > 0
-      ? `Installed ${data.installed.length} face(s): ${names}.`
-      : 'No font faces installed.';
-    const skippedNote = data.skipped.length > 0
-      ? ` Skipped ${data.skipped.length} file(s): ${data.skipped.join(', ')}.`
-      : '';
+    const names = data.installed
+      .map((f: { family: string; weight: string }) => `"${f.family}" ${f.weight}`)
+      .join(', ');
+    const summary =
+      data.installed.length > 0
+        ? `Installed ${data.installed.length} face(s): ${names}.`
+        : 'No font faces installed.';
+    const skippedNote =
+      data.skipped.length > 0
+        ? ` Skipped ${data.skipped.length} file(s): ${data.skipped.join(', ')}.`
+        : '';
     return okResult(data as unknown as Record<string, unknown>, summary + skippedNote);
   });
 }

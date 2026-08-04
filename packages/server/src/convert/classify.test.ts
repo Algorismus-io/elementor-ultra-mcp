@@ -113,9 +113,9 @@ describe('classify: tag → role matrix', () => {
     });
     expect(classifyNode(spark)).not.toBe('text');
     // A genuinely texty span (runs, no element children) still classifies text.
-    expect(
-      classifyNode(node({ source_path: 't', tag: 'span', textRuns: withText('hi') })),
-    ).toBe('text');
+    expect(classifyNode(node({ source_path: 't', tag: 'span', textRuns: withText('hi') }))).toBe(
+      'text',
+    );
   });
 
   it('a plain leaf TEXT anchor (e.g. a nav link) → text (e-paragraph carries text+href, NO button chrome)', () => {
@@ -1034,10 +1034,7 @@ describe('classify: behavior detection — hover-effect, form, nav-toggle, video
     expect(b?.kind).toBe('hover-effect');
     expect(b?.confidence).toBe('high');
     expect(b?.evidence).toEqual(
-      expect.arrayContaining([
-        'hover-delta:background-color',
-        'transition:background-color 0.3s',
-      ]),
+      expect.arrayContaining(['hover-delta:background-color', 'transition:background-color 0.3s']),
     );
   });
 
@@ -1200,9 +1197,10 @@ describe('classify: contract 16 §8 invariant 5 — zero-behavior pages are unch
     const serialized = JSON.stringify(result);
     // none of the contract-16 optional fields may appear anywhere in the output
     for (const key of ['"behaviors"', '"animationProbe"', '"transitionProbe"', '"listeners"']) {
-      expect(serialized, `unexpected contract-16 field ${key} on a zero-behavior fixture`).not.toContain(
-        key,
-      );
+      expect(
+        serialized,
+        `unexpected contract-16 field ${key} on a zero-behavior fixture`,
+      ).not.toContain(key);
     }
   });
 
@@ -1262,9 +1260,9 @@ describe('classify: P2-c — computed animation-name != none always yields a beh
 
   it('the pulse dot (empty leaf) classifies structural-block, NEVER unknown — the element survives', () => {
     // Without the probe, an empty undecidable leaf is `unknown` (pinned existing behavior)…
-    expect(
-      classifyNode(node({ source_path: 'e', tag: 'div', box: box(10, 10, 12, 12) })),
-    ).toBe('unknown');
+    expect(classifyNode(node({ source_path: 'e', tag: 'div', box: box(10, 10, 12, 12) }))).toBe(
+      'unknown',
+    );
     // …but a behavior-bearing one is a painted box that must survive as a mappable container.
     expect(classifyNode(pulseDot())).toBe('structural-block');
     const result = classifyIr([pulseDot()], { infer_flex: true });
@@ -1278,9 +1276,9 @@ describe('classify: P2-c — computed animation-name != none always yields a beh
   });
 
   it('listener/transition signals also rescue an empty leaf from unknown', () => {
-    expect(
-      classifyNode(node({ source_path: 'l', tag: 'div', listeners: ['click'] })),
-    ).toBe('structural-block');
+    expect(classifyNode(node({ source_path: 'l', tag: 'div', listeners: ['click'] }))).toBe(
+      'structural-block',
+    );
     expect(
       classifyNode(
         node({
@@ -1376,7 +1374,9 @@ describe('classify: detectUndetectableClasses — rAF count-ups appear with scri
   });
 
   it('deterministic: same inputs → identical notes', () => {
-    const scripts = [{ src: null, inline_bytes: 50, content: 'requestAnimationFrame(f); x.textContent = y;' }];
+    const scripts = [
+      { src: null, inline_bytes: 50, content: 'requestAnimationFrame(f); x.textContent = y;' },
+    ];
     const a = detectUndetectableClasses(scripts, [statNode()]);
     const b = detectUndetectableClasses(scripts, [statNode()]);
     expect(a).toEqual(b);
