@@ -169,6 +169,7 @@ jobs:
     uses: ./.github/workflows/_setup-wp-env.yml
     with:
       name: test:contract (${{ matrix.leg }})
+      build: true
       pro: ${{ matrix.leg == 'pro' }}
       run: pnpm test:contract
     secrets:

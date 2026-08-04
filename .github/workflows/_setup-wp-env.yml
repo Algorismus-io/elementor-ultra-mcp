@@ -89,9 +89,9 @@ jobs:
           set -euo pipefail
           if [ ! -d plugins/elementor ]; then
             mkdir -p plugins
-            curl -fsSL -o /tmp/elementor.zip "https://downloads.wordpress.org/plugin/elementor.4.2.1.zip"
+            curl -fsSL -o /tmp/elementor.zip "https://downloads.wordpress.org/plugin/elementor.4.1.1.zip"
             unzip -q /tmp/elementor.zip -d plugins/
-            echo "Elementor 4.2.1 provisioned from wordpress.org."
+            echo "Elementor 4.1.1 (certified) provisioned from wordpress.org."
           fi
           if [ ! -d plugins/elementor-pro ]; then
             printf '{"plugins":["./plugins/elementor"]}' > .wp-env.override.json
