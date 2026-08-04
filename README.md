@@ -17,7 +17,7 @@ validation, diffs, backups and rollback on every write.
 - **`spec/`** — the full engineering record: contracts, spike verdicts and work packages
   the system was built against.
 
-Pairs with [elementor-jsx](https://github.com/itshahmir/elementor-jsx) — the JSX→Elementor
+Pairs with [elementor-jsx](https://github.com/Algorismus-io/elementor-jsx) — the JSX→Elementor
 compiler whose deploys ride this plugin's REST seam.
 
 ## Quickstart (use it with an agent)
