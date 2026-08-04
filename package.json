@@ -2,7 +2,7 @@
   "name": "elementor-ultra-mcp",
   "version": "1.0.0",
   "private": true,
-  "description": "ULTRA Elementor MCP — monorepo root (TS MCP server + shared types + companion WP plugin).",
+  "description": "The agent control surface for Elementor: an MCP server (~90 tools) + companion WordPress plugin that let AI agents read, build, refactor and govern real Elementor sites, with authoritative server-side validation, backups and rollback on every write.",
   "packageManager": "pnpm@9.12.0",
   "engines": {
     "node": ">=20"
@@ -42,5 +42,16 @@
   "bugs": {
     "url": "https://github.com/Algorismus-io/elementor-ultra-mcp/issues"
   },
-  "homepage": "https://github.com/Algorismus-io/elementor-ultra-mcp#readme"
+  "homepage": "https://github.com/Algorismus-io/elementor-ultra-mcp#readme",
+  "keywords": [
+    "ai-agents",
+    "agent-native",
+    "mcp",
+    "model-context-protocol",
+    "llm",
+    "elementor",
+    "wordpress",
+    "claude",
+    "cursor"
+  ]
 }

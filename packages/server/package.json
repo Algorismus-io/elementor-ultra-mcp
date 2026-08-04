@@ -2,7 +2,7 @@
   "name": "@elementor-ultra/server",
   "version": "1.0.0",
   "private": true,
-  "description": "ULTRA Elementor MCP server (npx-distributable, @modelcontextprotocol/sdk ^1.29).",
+  "description": "MCP server that gives AI agents ~90 tools to build and govern real Elementor sites: read/build/refactor pages, HTML→Elementor conversion, design system, Pro widgets — every write validated server-side, backed up and reversible.",
   "type": "module",
   "bin": {
     "elementor-ultra-mcp": "./dist/index.js"
@@ -45,5 +45,14 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Algorismus-io/elementor-ultra-mcp.git"
-  }
+  },
+  "keywords": [
+    "ai-agents",
+    "agent-native",
+    "mcp",
+    "model-context-protocol",
+    "llm",
+    "elementor",
+    "wordpress"
+  ]
 }

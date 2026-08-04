@@ -1,11 +1,11 @@
 # Elementor Ultra MCP
 
 **The agent control surface for Elementor.** A Model Context Protocol server + companion
-WordPress plugin that let AI agents read, build, refactor and govern real Elementor sites —
+WordPress plugin that let AI agents read, build, refactor and govern real Elementor sites the way engineers ship software —
 Editor V4 atomic elements first, V3 classic fallback — with authoritative server-side
 validation, diffs, backups and rollback on every write.
 
-- **`packages/server`** — TypeScript MCP server: **40 tools** (`elementor.page.*`,
+- **`packages/server`** — TypeScript MCP server: **91 tools** (`elementor.page.*`,
   `widget`, `design`, `templates`, `media`, `nav`, `pro.*`, HTML→Elementor convert),
   stdio + HTTP transports, lean/full tool profiles.
 - **`plugin/elementor-ultra-mcp`** — WordPress plugin exposing the authoritative REST seam
