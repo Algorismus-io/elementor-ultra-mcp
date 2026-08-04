@@ -250,8 +250,8 @@ final class Documents_Controller extends Abstract_Controller {
 			array( $this, 'save_document' ),
 			Permissions::can_edit_post(),
 			array(
-				'id'        => $this->id_arg(),
-				'elements'  => array(
+				'id'            => $this->id_arg(),
+				'elements'      => array(
 					'type'     => 'array',
 					'required' => false,
 				),

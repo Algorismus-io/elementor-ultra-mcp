@@ -106,8 +106,8 @@ trait Pagination {
 		$fields = $args['fields'];
 
 		if ( $already_windowed ) {
-			$page        = array_values( $items );
-			$next        = $next_cursor;
+			$page = array_values( $items );
+			$next = $next_cursor;
 		} else {
 			$page     = array_slice( array_values( $items ), $offset, $limit );
 			$has_more = ( $offset + $limit ) < count( $items );
