@@ -1,0 +1,63 @@
+# Portable local-dev stack for Elementor Ultra. No licensed binaries, no absolute paths.
+# Only the companion plugin (tracked in this repo) is bind-mounted; Elementor free is installed
+# from wordpress.org by dev/setup.sh. Bring it up with:  bash dev/setup.sh
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  wordpress:
+    image: wordpress:php8.2-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '8899:80'
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: '1'
+      # local env type → application passwords work over plain HTTP (required for REST auth on localhost)
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_ENVIRONMENT_TYPE', 'local');
+    volumes:
+      - wp-data:/var/www/html
+      # companion plugin — relative to THIS compose file, so it's portable across machines/OSes
+      - ../plugin/elementor-ultra-mcp:/var/www/html/wp-content/plugins/elementor-ultra-mcp
+      # honor WP .htaccess (permalinks) + forward Authorization to PHP (app-password auth)
+      - ./apache-ultra.conf:/etc/apache2/conf-enabled/zz-ultra.conf:ro
+
+  # run-on-demand wp-cli; matches the wordpress image's www-data UID (33) to avoid file-owner clashes
+  wpcli:
+    image: wordpress:cli-php8.2
+    user: '33:33'
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wp-data:/var/www/html
+      - ../plugin/elementor-ultra-mcp:/var/www/html/wp-content/plugins/elementor-ultra-mcp
+    entrypoint: ['wp']
+    command: ['--info']
+
+volumes:
+  db-data:
+  wp-data:
