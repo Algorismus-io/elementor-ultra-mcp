@@ -37,3 +37,7 @@ plugins/
 # Local MCP client config (holds an app-password credential) — use .mcp.json.example as the template
 .mcp.json
 .env
+
+# generated npx bundle (reproducible via scripts/build-npm-server.mjs)
+packages/server/npm/index.mjs
+packages/server/npm/*.tgz
