@@ -35,9 +35,13 @@ async function findCli() {
   return p;
 }
 
+// On Windows `npm` is `npm.cmd`; spawn without a shell can't resolve it (ENOENT). Run through a
+// shell on win32 so `npm`/`node` resolve the same as they do in the user's terminal.
+const WIN = process.platform === 'win32';
+
 function run(cmd, args, opts = {}) {
   return new Promise((res, rej) => {
-    const p = spawn(cmd, args, { stdio: 'inherit', ...opts });
+    const p = spawn(cmd, args, { stdio: 'inherit', shell: WIN, ...opts });
     p.on('error', rej);
     p.on('close', (code) => (code === 0 ? res() : rej(new Error(`${cmd} exited ${code}`))));
   });
@@ -51,9 +55,10 @@ const cli = await findCli();
 const args = [
   cli, 'server', '--port', String(PORT), '--php', '8.2',
   // persist the whole site so pages + credentials survive restarts
-  '--mount-before-install', `${WP_DIR}:/wordpress`,
+  // two-arg form (host, vfs) — a `host:vfs` colon collides with Windows drive letters (D:\\)
+  '--mount-dir-before-install', WP_DIR, '/wordpress',
   // companion plugin, present before activation
-  '--mount-before-install', `${PLUGIN}:/wordpress/wp-content/plugins/elementor-ultra-mcp`,
+  '--mount-dir-before-install', PLUGIN, '/wordpress/wp-content/plugins/elementor-ultra-mcp',
 ];
 if (provisioned) {
   log('existing install found — booting without re-provisioning');
@@ -62,8 +67,8 @@ if (provisioned) {
   log('first run — provisioning Elementor + companion plugin + app password');
   args.push(
     // provisioning inputs live OUTSIDE /wordpress (a second mount over the site dir corrupts SQLite)
-    '--mount-before-install', `${HERE}:/ultra`,
-    '--mount-before-install', `${OUT}:/ultra-out`,
+    '--mount-dir-before-install', HERE, '/ultra',
+    '--mount-dir-before-install', OUT, '/ultra-out',
     '--blueprint', join(HERE, 'blueprint.json'),
   );
 }
