@@ -154,6 +154,13 @@ final class Cache_Service {
 
 		$manager->clear_cache();
 
+		// clear_cache() removes the css DIRECTORY itself, not just its files. Environments where
+		// the generator's writer cannot recreate it (observed on PHP-WASM: every subsequent
+		// file_put_contents dies "No such file or directory" and priming self-fails until someone
+		// mkdirs by hand) need it back immediately.
+		$upload = wp_upload_dir();
+		wp_mkdir_p( trailingslashit( $upload['basedir'] ) . 'elementor/css/' );
+
 		// S07/R2: NEVER trust the Success string — assert the CSS dir is actually empty.
 		return $this->css_dir_empty();
 	}

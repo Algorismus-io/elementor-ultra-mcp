@@ -247,6 +247,28 @@ final class Css_Primer {
 			);
 		}
 
+		// Internal settle-retry before failing: on slow/WASM hosts the first verification can race the
+		// generator's own async invalidation (observed: first prime after a save fails, an identical
+		// retry ~2s later succeeds — every field agent ended up hand-writing this retry). One settle +
+		// re-dispatch + re-verify converts those into successes; a repeat failure is the real S01 trap.
+		static $retried = array();
+		if ( empty( $retried[ $post_id ] ) ) {
+			$retried[ $post_id ] = true;
+			usleep( 1500000 );
+			// The in-request object cache can hold PRE-SAVE cache-validity options (the save updated
+			// them mid-request), making the generator believe its files are still valid while the
+			// flush already deleted them. Drop the runtime cache so re-dispatch sees truth.
+			wp_cache_flush();
+			$this->dispatch_programmatic( $post_id );
+			$result = $this->prime( $post_id, $approach, $breakpoints );
+			unset( $retried[ $post_id ] );
+			if ( ! is_wp_error( $result ) ) {
+				$result['warnings'][] = 'First verification failed; succeeded on internal settle-retry.';
+			}
+			return $result;
+		}
+		unset( $retried[ $post_id ] );
+
 		// A document that LOOKED atomic by detection but yielded no expected selectors after a full prime
 		// sequence is the S01 hard-failure trap (stale-valid cache / wrong uid / not writable). Raise
 		// CSS_PRIME_FAILED so the caller can retry (12 §3.5 retryable=500).
@@ -806,7 +828,15 @@ final class Css_Primer {
 	/** Absolute CSS dir with a trailing slash (`uploads/elementor/css/`). */
 	private function css_dir(): string {
 		$upload = wp_upload_dir();
-		return trailingslashit( $upload['basedir'] ) . 'elementor/css/';
+		$dir    = trailingslashit( $upload['basedir'] ) . 'elementor/css/';
+		// A cache clear can delete the whole css DIRECTORY, after which every generator write dies
+		// with "file_put_contents(...): No such file or directory" and priming self-fails forever
+		// (observed on PHP-WASM where the writer never recreates it). Recreate it on every resolve —
+		// wp_mkdir_p is a no-op when it already exists.
+		if ( ! is_dir( $dir ) ) {
+			wp_mkdir_p( $dir );
+		}
+		return $dir;
 	}
 
 	/**

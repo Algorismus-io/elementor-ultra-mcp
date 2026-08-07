@@ -279,3 +279,136 @@ add_action(
 	},
 	20
 );
+
+/*
+ * --------------------------------------------------------------------------
+ * Missing-static-asset guard.
+ * --------------------------------------------------------------------------
+ * Hosts that route unresolved static files into WordPress (WordPress
+ * Playground/PHP-WASM; any standard WP rewrite setup) hand a request for a
+ * deleted css/js/image to WP, where it matches no route and
+ * redirect_canonical() 301s it to the homepage. HTTP clients then see a
+ * "healthy" 200 text/html for a stylesheet that is actually gone — browsers
+ * silently drop the sheet and health checks read false positives. A path that
+ * names an asset file must 404, never redirect. If the file exists on disk we
+ * step aside (a server that routes real files through PHP still serves them).
+ */
+add_action(
+	'parse_request',
+	static function () {
+		$method = isset( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( (string) $_SERVER['REQUEST_METHOD'] ) : 'GET';
+		if ( 'GET' !== $method && 'HEAD' !== $method ) {
+			return;
+		}
+		$uri  = isset( $_SERVER['REQUEST_URI'] ) ? (string) wp_unslash( $_SERVER['REQUEST_URI'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- path-only parse below.
+		$path = (string) wp_parse_url( $uri, PHP_URL_PATH );
+		if ( ! preg_match( '~\.(css|js|mjs|map|png|jpe?g|gif|webp|avif|svg|ico|woff2?|ttf|otf|eot|mp4|webm|txt|xml)$~i', $path ) ) {
+			return;
+		}
+		if ( ! preg_match( '~/(wp-content|wp-includes)/~', $path, $m ) ) {
+			return;
+		}
+		$tail = substr( $path, (int) strpos( $path, '/' . $m[1] . '/' ) );
+		$file = 'wp-content' === $m[1]
+			? WP_CONTENT_DIR . substr( $tail, strlen( '/wp-content' ) )
+			: ABSPATH . ltrim( $tail, '/' );
+		if ( file_exists( $file ) ) {
+			return;
+		}
+		status_header( 404 );
+		nocache_headers();
+		header( 'Content-Type: text/plain; charset=utf-8' );
+		echo '404 Not Found';
+		exit;
+	},
+	0
+);
+
+/*
+ * --------------------------------------------------------------------------
+ * Global-classes wipe protection.
+ * --------------------------------------------------------------------------
+ * A normal Elementor-editor visit can empty the global-classes store (observed
+ * in the field; exact trigger inside Elementor unproven). The store is the
+ * styling for every deployed atomic page, so the wipe silently unstyles the
+ * whole site. Defense: continuously snapshot the store whenever it is
+ * NON-EMPTY (option `_emcp_classes_backup`, latest wins; an empty store never
+ * overwrites a non-empty backup), and expose POST
+ * `/elementor-ultra/v1/design/classes/restore` to write the snapshot back.
+ */
+add_action(
+	'elementor/global_classes/update',
+	static function () {
+		if ( ! class_exists( '\Elementor\Modules\GlobalClasses\Global_Classes_Repository' ) ) {
+			return;
+		}
+		try {
+			$repo    = new \Elementor\Modules\GlobalClasses\Global_Classes_Repository();
+			$classes = $repo->all();
+			$items   = $classes->get_items()->all();
+			if ( empty( $items ) ) {
+				return; // never let a wipe become the backup
+			}
+			update_option(
+				'_emcp_classes_backup',
+				array(
+					'ts'    => time(),
+					'items' => $items,
+					'order' => $classes->get_order()->all(),
+				),
+				false
+			);
+		} catch ( \Throwable $e ) { /* backup is best-effort; never break the write */ }
+	},
+	100
+);
+
+add_action(
+	'rest_api_init',
+	static function () {
+		register_rest_route(
+			'elementor-ultra/v1',
+			'/design/classes/restore',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => static function () {
+					return current_user_can( 'manage_options' );
+				},
+				'callback'            => static function () {
+					$backup = get_option( '_emcp_classes_backup', null );
+					if ( empty( $backup['items'] ) ) {
+						return new \WP_Error( 'NO_CLASSES_BACKUP', 'No global-classes backup exists on this site yet (backups are taken on every non-empty store write).', array( 'status' => 404 ) );
+					}
+					if ( ! class_exists( '\Elementor\Modules\GlobalClasses\Global_Classes_Repository' ) ) {
+						return new \WP_Error( 'ELEMENTOR_ABSENT', 'Elementor global-classes module unavailable.', array( 'status' => 500 ) );
+					}
+					try {
+						$repo    = new \Elementor\Modules\GlobalClasses\Global_Classes_Repository();
+						$current = $repo->all()->get_items()->all();
+						// restore == re-apply every backed-up item; delete nothing beyond what the
+						// backup lacks (apply_changes is touched-only: pass all ids as modified/added)
+						$ids = array_keys( $backup['items'] );
+						$repo->apply_changes(
+							$backup['items'],
+							array(
+								'added'    => array_values( array_diff( $ids, array_keys( $current ) ) ),
+								'deleted'  => array(),
+								'modified' => array_values( array_intersect( $ids, array_keys( $current ) ) ),
+							),
+							$backup['order']
+						);
+						return array(
+							'success' => true,
+							'data'    => array(
+								'restored'  => count( $backup['items'] ),
+								'backup_ts' => (int) $backup['ts'],
+							),
+						);
+					} catch ( \Throwable $e ) {
+						return new \WP_Error( 'RESTORE_FAILED', 'Classes restore failed: ' . $e->getMessage(), array( 'status' => 500 ) );
+					}
+				},
+			)
+		);
+	}
+);
