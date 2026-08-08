@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * frozen capability probe correct without editing F05's owned file.
  */
 if ( ! defined( 'EMCP_VERSION' ) ) {
-	define( 'EMCP_VERSION', '1.0.0' );
+	define( 'EMCP_VERSION', '1.2.0' );
 }
 if ( ! defined( 'EMCP_FILE' ) ) {
 	define( 'EMCP_FILE', __FILE__ );
