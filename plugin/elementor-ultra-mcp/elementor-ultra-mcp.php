@@ -3,7 +3,7 @@
  * Plugin Name:       Elementor Ultra MCP
  * Plugin URI:        https://github.com/Algorismus-io/elementor-ultra-mcp
  * Description:        Companion WordPress plugin for the Elementor Ultra MCP server. Exposes the `elementor-ultra/v1` REST seam (documents, schema, design system, media, templates, Pro, ops, capabilities) consumed by the external TypeScript MCP server.
- * Version:           1.2.2
+ * Version:           1.2.3
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Requires Plugins:  elementor
@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * frozen capability probe correct without editing F05's owned file.
  */
 if ( ! defined( 'EMCP_VERSION' ) ) {
-	define( 'EMCP_VERSION', '1.2.2' );
+	define( 'EMCP_VERSION', '1.2.3' );
 }
 if ( ! defined( 'EMCP_FILE' ) ) {
 	define( 'EMCP_FILE', __FILE__ );

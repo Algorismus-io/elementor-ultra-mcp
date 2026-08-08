@@ -262,7 +262,11 @@ final class Design_Classes_Controller extends Abstract_Controller {
 			isset( $body['changes']['added'] ) && is_array( $body['changes']['added'] ) ? $body['changes']['added'] : array(),
 			isset( $body['changes']['modified'] ) && is_array( $body['changes']['modified'] ) ? $body['changes']['modified'] : array()
 		) ) );
-		if ( ! empty( $touched ) ) {
+		// X-EMCP-Skip-Reprime: a deployer that saves+primes (or defers to a post-deploy check) right
+		// after this write opts out — the in-request reprime would rebuild css against trees the next
+		// seconds REPLACE (measured: ~90s of wasted WASM priming per 4-page deploy). Standalone and
+		// editor writes keep the protection.
+		if ( ! empty( $touched ) && '1' !== (string) $request->get_header( 'X-EMCP-Skip-Reprime' ) ) {
 			$warnings = array_merge( $warnings, $this->reprime_documents_for_deleted_classes( $touched ) );
 		}
 
