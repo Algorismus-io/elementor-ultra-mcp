@@ -251,10 +251,19 @@ final class Design_Classes_Controller extends Abstract_Controller {
 			$warnings[] = 'Design-system CSS flush did not confirm the CSS dir is empty (uid mismatch?). The classes were written; CSS may regenerate on next visit (S07/R2).';
 		}
 
-		// [S02/R6]: a delete rewrites every document — best-effort re-prime the documents that used a
-		// deleted class so their atomic CSS is rebuilt rather than served stale.
-		if ( ! empty( $deleted_ids ) ) {
-			$warnings = array_merge( $warnings, $this->reprime_documents_for_deleted_classes( $deleted_ids ) );
+		// [S02/R6] GENERALIZED (field root-cause 2026-08-08): the flush above empties the WHOLE css dir,
+		// and Elementor's own invalidation additionally deletes the global css of every page using a
+		// touched class — so re-priming only DELETED-class documents left every added/modified-class
+		// page unstyled until someone visited it (the "css keeps fucking up" mystery: a partial deploy
+		// or standalone classes write reliably unstyled all clean-skipped pages). Re-prime the
+		// documents affected by EVERY touched class (added + modified + deleted).
+		$touched = array_values( array_unique( array_merge(
+			$deleted_ids,
+			isset( $body['changes']['added'] ) && is_array( $body['changes']['added'] ) ? $body['changes']['added'] : array(),
+			isset( $body['changes']['modified'] ) && is_array( $body['changes']['modified'] ) ? $body['changes']['modified'] : array()
+		) ) );
+		if ( ! empty( $touched ) ) {
+			$warnings = array_merge( $warnings, $this->reprime_documents_for_deleted_classes( $touched ) );
 		}
 
 		// Op-log row (best-effort; never fails the write — WP-P14 store guarded).
