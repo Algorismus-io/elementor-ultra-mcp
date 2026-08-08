@@ -3,7 +3,7 @@
  * Plugin Name:       Elementor Ultra MCP
  * Plugin URI:        https://github.com/Algorismus-io/elementor-ultra-mcp
  * Description:        Companion WordPress plugin for the Elementor Ultra MCP server. Exposes the `elementor-ultra/v1` REST seam (documents, schema, design system, media, templates, Pro, ops, capabilities) consumed by the external TypeScript MCP server.
- * Version:           1.2.1
+ * Version:           1.2.2
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Requires Plugins:  elementor
@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * frozen capability probe correct without editing F05's owned file.
  */
 if ( ! defined( 'EMCP_VERSION' ) ) {
-	define( 'EMCP_VERSION', '1.2.1' );
+	define( 'EMCP_VERSION', '1.2.2' );
 }
 if ( ! defined( 'EMCP_FILE' ) ) {
 	define( 'EMCP_FILE', __FILE__ );
@@ -412,3 +412,88 @@ add_action(
 		);
 	}
 );
+
+/*
+ * --------------------------------------------------------------------------
+ * Global-classes mass-deletion guard.
+ * --------------------------------------------------------------------------
+ * The Elementor editor keeps an in-memory copy of the class store and PUTs
+ * the WHOLE store back on save (last-writer-wins, caught by instrumentation).
+ * If its copy is incomplete — a raced/failed classes fetch at editor load —
+ * the save silently deletes most or all classes sitewide (the field-observed
+ * "editor visit wiped the store"). Refuse any single write that would delete
+ * more than half of a non-trivial store unless explicitly allowed; a failed
+ * save the user can SEE beats a silent wipe every time.
+ */
+add_filter(
+	'rest_request_before_callbacks',
+	static function ( $response, $handler, $request ) {
+		if ( ! ( $request instanceof \WP_REST_Request ) ) {
+			return $response;
+		}
+		$route = $request->get_route();
+		if ( ! preg_match( '~^/elementor(-ultra)?/v1/(global-classes|design/classes)$~', $route ) ) {
+			return $response;
+		}
+		if ( ! in_array( $request->get_method(), array( 'PUT', 'POST' ), true ) ) {
+			return $response;
+		}
+		if ( '1' === (string) $request->get_header( 'X-EMCP-Allow-Mass-Delete' ) ) {
+			return $response;
+		}
+		$changes = $request->get_param( 'changes' );
+		$deleted = is_array( $changes ) && isset( $changes['deleted'] ) && is_array( $changes['deleted'] ) ? count( $changes['deleted'] ) : 0;
+		if ( $deleted < 5 ) {
+			return $response; // small deletes are normal authoring
+		}
+		try {
+			if ( ! class_exists( '\Elementor\Modules\GlobalClasses\Global_Classes_Repository' ) ) {
+				return $response;
+			}
+			$repo    = new \Elementor\Modules\GlobalClasses\Global_Classes_Repository();
+			$current = count( $repo->all()->get_items()->all() );
+		} catch ( \Throwable $e ) {
+			return $response;
+		}
+		if ( $current >= 10 && $deleted / max( 1, $current ) > 0.5 ) {
+			return new \WP_Error(
+				'EMCP_MASS_DELETE_BLOCKED',
+				sprintf(
+					'Blocked a write that would delete %d of %d global classes at once — this is the signature of an editor session that loaded an incomplete store (a raced classes fetch) writing it back. If the mass deletion is intentional, retry with header X-EMCP-Allow-Mass-Delete: 1. A backup of the current store exists (POST /elementor-ultra/v1/design/classes/restore).',
+					$deleted,
+					$current
+				),
+				array( 'status' => 409 )
+			);
+		}
+		return $response;
+	},
+	5,
+	3
+);
+
+/*
+ * --------------------------------------------------------------------------
+ * Pro-license-churn CSS-wipe guard.
+ * --------------------------------------------------------------------------
+ * Elementor (atomic-widget-styles.php) runs a FULL files_manager->clear_cache()
+ * whenever `_elementor_pro_license_v2_data` is updated OR deleted. On any site
+ * with Pro installed but unlicensed (every local/dev stack), admin and editor
+ * sessions re-check the license on heartbeats, churning that option — deleting
+ * EVERY generated CSS file sitewide, repeatedly, with nothing rebuilding them.
+ * (Instrumented root cause of the long-standing "opening the editor breaks all
+ * styling" incident class: admin-ajax → license option write → sitewide wipe.)
+ * License-gated style differences are irrelevant next to sitewide CSS death;
+ * a real license change still takes effect on the next save/deploy/regen.
+ */
+$emcp_license_churn_defuse = static function () {
+	remove_all_actions( 'update_option__elementor_pro_license_v2_data' );
+	remove_all_actions( 'delete_option__elementor_pro_license_v2_data' );
+};
+// Elementor registers these closures during module boot (elementor/init), AFTER plugins_loaded —
+// removing on plugins_loaded alone silently no-ops (instrumented: 38 clear_cache fires survived the
+// early removal). Defuse at every boot milestone that runs after registration.
+add_action( 'plugins_loaded', $emcp_license_churn_defuse, 999 );
+add_action( 'elementor/init', $emcp_license_churn_defuse, 999 );
+add_action( 'init', $emcp_license_churn_defuse, 999 );
+add_action( 'wp_loaded', $emcp_license_churn_defuse, 999 );
