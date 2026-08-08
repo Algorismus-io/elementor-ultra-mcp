@@ -335,8 +335,14 @@ final class Css_Primer {
 		$this->setup_singular_context( $post_id );
 
 		// Step 2: invalidate atomic cache-validity so get() actually (re)writes the files (R1 trap).
-		do_action( 'elementor/atomic-widgets/styles/clear', array( 'local' ) );
-		do_action( 'elementor/atomic-widgets/styles/clear', array( 'global' ) );
+		// POST-SCOPED (multi-page whack-a-mole fix): the unscoped array('global') form invalidates
+		// EVERY page's cache while the subsequent render regenerates only THIS post — on a
+		// multi-page site each prime therefore destroyed every other page's css and only the last
+		// prime survived. Elementor's own callers use the scoped path (global-classes-relations.php:
+		// [ STYLES_KEY, $post_id ]); mirror that. `base` stays unscoped — it is shared and every
+		// prime rewrites it.
+		do_action( 'elementor/atomic-widgets/styles/clear', array( 'local', $post_id ) );
+		do_action( 'elementor/atomic-widgets/styles/clear', array( 'global', $post_id ) );
 		do_action( 'elementor/atomic-widgets/styles/clear', array( 'base' ) );
 
 		// Let any lazy frontend hook registrations attach (Elementor wires the atomic styles manager on init).
@@ -360,9 +366,9 @@ final class Css_Primer {
 	 * @return string A warning string when the loopback could not be confirmed, else '' (empty).
 	 */
 	private function dispatch_loopback( int $post_id, string $context ): string {
-		// Invalidate atomic cache-validity first (R1) — a loopback render is also a silent no-op otherwise.
-		do_action( 'elementor/atomic-widgets/styles/clear', array( 'local' ) );
-		do_action( 'elementor/atomic-widgets/styles/clear', array( 'global' ) );
+		// Invalidate atomic cache-validity first (R1), POST-SCOPED — see dispatch_programmatic.
+		do_action( 'elementor/atomic-widgets/styles/clear', array( 'local', $post_id ) );
+		do_action( 'elementor/atomic-widgets/styles/clear', array( 'global', $post_id ) );
 		do_action( 'elementor/atomic-widgets/styles/clear', array( 'base' ) );
 
 		$home = wp_parse_url( home_url() );
@@ -667,6 +673,15 @@ final class Css_Primer {
 		foreach ( $ids as $id ) {
 			$id = (string) $id;
 			if ( '' === $id ) {
+				continue;
+			}
+			// Only refs that RESOLVE in the repository are verifiable: authors legitimately attach
+			// arbitrary class names (the gcls pattern — styled by a child theme / inline carrier /
+			// external stylesheet), and those never appear in the generated global css. Demanding
+			// them made every prime on such pages a false CSS_PRIME_FAILED (field incident: marker
+			// class 'lm-kick'). When the repository map is EMPTY (degraded build) keep the old
+			// id-fallback behavior so verification still bites.
+			if ( ! empty( $labels ) && ! isset( $labels[ $id ] ) ) {
 				continue;
 			}
 			$label      = isset( $labels[ $id ] ) ? (string) $labels[ $id ] : '';
