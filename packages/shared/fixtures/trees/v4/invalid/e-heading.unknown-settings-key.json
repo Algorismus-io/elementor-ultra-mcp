@@ -1,0 +1,31 @@
+{
+  "$fixture": 1,
+  "id": "e-heading.unknown-settings-key",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Settings carry a key absent from the element's props schema ('meta_description') → ATOMIC_SETTINGS_INVALID (settings-key truthfulness gate)",
+  "_comment": "TRUTHFULNESS-GATE fixture (false-valid #3, 1.7.x settings-key gate). Core's Props_Parser::validate() iterates SCHEMA keys only, so an unknown settings key is SILENTLY STRIPPED while parse() still reports valid — the key vanishes at save with no error (field incident: meta descriptions). The companion gate derives the allowlist from get_props_schema() (which injects core-accepted keys like _cssid) and hard-errors on anything else, mirroring the style-prop gate. VERIFIED valid:false {ATOMIC_SETTINGS_INVALID} via the companion dry_run REST route on Elementor 4.2.1 free (playground :8947, 2026-08-12). prefilter.verdict:defer — schema-key membership is a PHP-authority decision (the TS prefilter has no per-element schema).",
+  "expect": { "valid": false, "errors": ["ATOMIC_SETTINGS_INVALID"] },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "usk0001",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "title": {
+          "$$type": "html-v3",
+          "value": { "content": { "$$type": "string", "value": "Gate probe" }, "children": [] }
+        },
+        "meta_description": { "$$type": "string", "value": "this key does not exist in the schema" }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}

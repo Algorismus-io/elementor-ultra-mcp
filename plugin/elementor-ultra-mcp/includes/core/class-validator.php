@@ -588,11 +588,12 @@ final class Validator {
 		$errors = array();
 
 		// ---- Settings phase (Props_Parser, mirrors parse_atomic_settings, throws at :113). ----
+		// Schema + settings hoisted out of the try: the settings-key truthfulness gate below needs
+		// them even when the parser replay throws (props_schema_for is internally defensive).
+		$schema          = self::props_schema_for( $instance );
+		$settings        = isset( $node['settings'] ) && is_array( $node['settings'] ) ? $node['settings'] : array();
 		$settings_failed = false;
 		try {
-			$schema   = self::props_schema_for( $instance );
-			$settings = isset( $node['settings'] ) && is_array( $node['settings'] ) ? $node['settings'] : array();
-
 			if ( null !== $schema && class_exists( '\Elementor\Modules\AtomicWidgets\Parsers\Props_Parser' ) ) {
 				$result = \Elementor\Modules\AtomicWidgets\Parsers\Props_Parser::make( $schema )->parse( $settings );
 				if ( ! $result->is_valid() ) {
@@ -608,6 +609,30 @@ final class Validator {
 		} catch ( Exception $e ) {
 			// Replay path itself threw — fall back to the authoritative get_data_for_save() (below).
 			$settings_failed = true;
+		}
+
+		// TRUTHFULNESS GATE (false-valid #3): Props_Parser::validate() only iterates SCHEMA keys, so any
+		// SETTINGS key NOT in the element's props schema is SILENTLY STRIPPED while parse() still reports
+		// valid — a misspelled key (`_css_id`, `atributes`, an invented `meta_description`) vanishes at
+		// save with no error and `valid:true` is a lie. The schema IS the allowlist: keys core itself
+		// accepts already ride it (get_props_schema() injects `_cssid`; `classes`/`tag`/`link`/
+		// `attributes` are declared per element) — mirror of the style-prop gate below.
+		if ( null !== $schema ) {
+			foreach ( array_keys( $settings ) as $sk ) {
+				if ( ! array_key_exists( (string) $sk, $schema ) ) {
+					$errors[] = self::atomic_error(
+						self::PHASE_SETTINGS,
+						$id,
+						'',
+						sprintf(
+							/* translators: 1: settings key, 2: actionable hint. */
+							__( 'settings.%1$s: unsupported settings key — absent from this element\'s props schema, so Elementor silently strips it and it never saves or renders. %2$s', 'elementor-ultra-mcp' ),
+							(string) $sk,
+							self::settings_key_hint( (string) $sk )
+						)
+					);
+				}
+			}
 		}
 
 		// ---- Styles phase (Style_Parser, mirrors parse_atomic_styles, throws at :97). ----
@@ -969,6 +994,29 @@ final class Validator {
 	 * @param string $prop The unsupported style prop name.
 	 * @return string Human guidance appended to the validation error.
 	 */
+	/**
+	 * Actionable fix hint for a settings key that is absent from the element's props schema (so it
+	 * would be silently stripped). Points the agent at the real key for the classic misspellings.
+	 *
+	 * @param string $key The unsupported settings key.
+	 * @return string Human guidance appended to the validation error.
+	 */
+	private static function settings_key_hint( string $key ): string {
+		$hints = array(
+			'class'     => 'CSS classes ride the "classes" key: {"$$type":"classes","value":["g-…","e-…-s"]} (global-class ids / local style ids).',
+			'classname' => 'CSS classes ride the "classes" key: {"$$type":"classes","value":["g-…","e-…-s"]}.',
+			'style'     => 'Inline styles do not exist on atomic elements — use the styles map (local style variants) or global classes.',
+			'css_id'    => 'The HTML id attribute is the "_cssid" key: {"$$type":"string","value":"anchor"}.',
+			'cssid'     => 'The HTML id attribute is the "_cssid" key: {"$$type":"string","value":"anchor"}.',
+			'_css_id'   => 'The HTML id attribute is the "_cssid" key (no second underscore): {"$$type":"string","value":"anchor"}.',
+			'atributes' => 'Spelled "attributes" — the key-value attributes envelope.',
+		);
+		$lk = strtolower( $key );
+		return isset( $hints[ $lk ] )
+			? $hints[ $lk ]
+			: 'Call elementor_schema_widget for this element\'s exact settings keys (they may differ from editor labels).';
+	}
+
 	private static function style_prop_hint( string $prop ): string {
 		$hints = array(
 			'flex-grow'        => 'Flex sizing uses the composite "flex" prop {"$$type":"flex","value":{"flexGrow":<number>,"flexShrink":<number>,"flexBasis":<size>}}; for reliable, proven column sizing set an explicit "width" (e.g. {"$$type":"size","value":{"unit":"%","size":31}}).',
