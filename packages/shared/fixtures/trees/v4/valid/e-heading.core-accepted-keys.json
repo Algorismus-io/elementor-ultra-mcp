@@ -1,0 +1,31 @@
+{
+  "$fixture": 1,
+  "kind": "tree",
+  "id": "e-heading.core-accepted-keys",
+  "generation": "v4",
+  "title": "Core-accepted settings keys (_cssid injected by get_props_schema()) pass the settings-key truthfulness gate",
+  "_comment": "COMPANION fixture to e-heading.unknown-settings-key (1.7.x settings-key gate): the allowlist is DERIVED from the element's props schema, and has-atomic-base.php::get_props_schema() injects '_cssid' when the element doesn't declare it — so _cssid (and every declared key: classes/tag/title here) must sail through the gate. Guards against an over-eager gate that hard-errors core's own keys. VERIFIED valid:true via the companion dry_run REST route on Elementor 4.2.1 free (playground :8947, 2026-08-12). prefilter.verdict:defer — schema-key membership is a PHP-authority decision.",
+  "expect": { "valid": true },
+  "requires": { "experiments": ["e_atomic_elements"], "pro": false, "min_elementor": "4.1.1" },
+  "tree": [
+    {
+      "id": "cak0001",
+      "elType": "widget",
+      "widgetType": "e-heading",
+      "settings": {
+        "classes": { "$$type": "classes", "value": [] },
+        "tag": { "$$type": "string", "value": "h2" },
+        "_cssid": { "$$type": "string", "value": "gate-anchor" },
+        "title": {
+          "$$type": "html-v3",
+          "value": { "content": { "$$type": "string", "value": "Core keys pass" }, "children": [] }
+        }
+      },
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": { "verdict": "defer" }
+}
