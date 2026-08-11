@@ -1,0 +1,26 @@
+# Smithery configuration — https://smithery.ai/docs
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required: [wpUrl, wpUser, wpAppPassword]
+    properties:
+      wpUrl:
+        type: string
+        description: WordPress site URL (e.g. https://your-site.com)
+      wpUser:
+        type: string
+        description: WordPress username
+      wpAppPassword:
+        type: string
+        description: WordPress Application Password (WP Admin -> Users -> Profile -> Application Passwords)
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', '@algorismus/elementor-ultra-mcp'],
+      env: {
+        WP_URL: config.wpUrl,
+        WP_USER: config.wpUser,
+        WP_APP_PASSWORD: config.wpAppPassword
+      }
+    })

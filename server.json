@@ -1,0 +1,23 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.algorismus-io/elementor-ultra-mcp",
+  "description": "Build Elementor sites with AI agents. Claude Code, Cursor, Codex or any MCP client gets ~90 tools for native, editable Elementor V4 pages over REST — with server-side validation, backups and rollback. Free & MIT.",
+  "repository": {
+    "url": "https://github.com/Algorismus-io/elementor-ultra-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registry_type": "npm",
+      "identifier": "@algorismus/elementor-ultra-mcp",
+      "version": "1.0.0",
+      "transport": { "type": "stdio" },
+      "environment_variables": [
+        { "name": "WP_URL", "description": "WordPress site URL", "is_required": true, "is_secret": false },
+        { "name": "WP_USER", "description": "WordPress username", "is_required": true, "is_secret": false },
+        { "name": "WP_APP_PASSWORD", "description": "WordPress Application Password (WP Admin -> Users -> Profile -> Application Passwords)", "is_required": true, "is_secret": true }
+      ]
+    }
+  ]
+}
