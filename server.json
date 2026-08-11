@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
-  "name": "io.github.algorismus-io/elementor-ultra-mcp",
+  "name": "io.github.Algorismus-io/elementor-ultra-mcp",
   "description": "Build Elementor sites with AI agents - native, editable pages via ~90 MCP tools. Free & MIT.",
   "repository": {
     "url": "https://github.com/Algorismus-io/elementor-ultra-mcp",
