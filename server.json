@@ -6,17 +6,34 @@
     "url": "https://github.com/Algorismus-io/elementor-ultra-mcp",
     "source": "github"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@algorismus/elementor-ultra-mcp",
-      "version": "1.0.0",
-      "transport": { "type": "stdio" },
+      "version": "1.0.1",
+      "transport": {
+        "type": "stdio"
+      },
       "environmentVariables": [
-        { "name": "WP_URL", "description": "WordPress site URL", "isRequired": true, "isSecret": false },
-        { "name": "WP_USER", "description": "WordPress username", "isRequired": true, "isSecret": false },
-        { "name": "WP_APP_PASSWORD", "description": "WordPress Application Password (WP Admin -> Users -> Profile -> Application Passwords)", "isRequired": true, "isSecret": true }
+        {
+          "name": "WP_URL",
+          "description": "WordPress site URL",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "WP_USER",
+          "description": "WordPress username",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "WP_APP_PASSWORD",
+          "description": "WordPress Application Password (WP Admin -> Users -> Profile -> Application Passwords)",
+          "isRequired": true,
+          "isSecret": true
+        }
       ]
     }
   ]

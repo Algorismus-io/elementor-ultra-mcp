@@ -14,6 +14,8 @@ This changelog tracks both distributable artifacts, which version in lockstep (s
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-08-11
+
 ### Added
 
 - Release packaging (WP-Q08): `pnpm pack:server` (npx tarball), `pnpm pack:plugin`

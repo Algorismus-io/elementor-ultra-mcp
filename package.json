@@ -1,6 +1,6 @@
 {
   "name": "elementor-ultra-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "The agent control surface for Elementor: an MCP server (~90 tools) + companion WordPress plugin that let AI agents read, build, refactor and govern real Elementor sites, with authoritative server-side validation, backups and rollback on every write.",
   "packageManager": "pnpm@9.12.0",

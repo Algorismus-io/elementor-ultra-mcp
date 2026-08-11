@@ -130,6 +130,9 @@ export function assertSdkPin(manifest) {
 export function buildPublishManifest(src) {
   const out = { ...src };
   out.name = PUBLISH_NAME;
+  // MCP registry ownership proof (registry.modelcontextprotocol.io requires the npm
+  // package to declare the registry namespace it belongs to)
+  out.mcpName = process.env.ULTRA_MCP_NAME || 'io.github.Algorismus-io/elementor-ultra-mcp';
   delete out.private;
 
   // Co-bundle the shared dep: it ships inside node_modules/@elementor-ultra/shared in the tarball,

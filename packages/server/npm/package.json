@@ -45,5 +45,6 @@
   },
   "optionalDependencies": {
     "playwright": "^1.60.0"
-  }
+  },
+  "mcpName": "io.github.Algorismus-io/elementor-ultra-mcp"
 }

@@ -1,0 +1,9 @@
+Logging in with github...
+
+To authenticate, please:
+1. Go to: https://github.com/login/device
+2. Enter code: D83A-D3AC
+3. Authorize this application
+Waiting for authorization...
+Successfully authenticated!
+✓ Successfully logged in
