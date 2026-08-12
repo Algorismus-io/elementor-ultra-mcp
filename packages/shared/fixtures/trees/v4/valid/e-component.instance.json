@@ -1,0 +1,58 @@
+{
+  "$fixture": 1,
+  "id": "e-component.instance",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "e-component instance node — component-instance envelope with one plain override, schema_source.id === component_id",
+  "_comment": "SPEC 2.0 (components controller WP) — the native instance wire shape verified against Elementor 4.2.1 (modules/components/prop-types/component-instance-prop-type.php): settings.component_instance is a {\"$$type\":\"component-instance\"} envelope whose value carries component_id (number envelope) and overrides (overrides array envelope of override items). The INVARIANT under test: every override's schema_source.id must equal component_id (the server rejects the whole prop otherwise). A dangling component_id (no such component on the fixture site) is VALID by design — Component_Override_Parser::validate_override treats a missing component as the deleted-props scenario and accepts (the envelope shape is what is validated). Requires the e_components module (Elementor 4.2+, e_components + e_atomic_elements experiments) for the e-component widget type to exist.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements", "e_components"],
+    "pro": false,
+    "min_elementor": "4.2.0"
+  },
+  "tree": [
+    {
+      "id": "cinst01",
+      "elType": "widget",
+      "widgetType": "e-component",
+      "settings": {
+        "component_instance": {
+          "$$type": "component-instance",
+          "value": {
+            "component_id": { "$$type": "number", "value": 424242 },
+            "overrides": {
+              "$$type": "overrides",
+              "value": [
+                {
+                  "$$type": "override",
+                  "value": {
+                    "override_key": "headline",
+                    "override_value": {
+                      "$$type": "html-v3",
+                      "value": {
+                        "content": { "$$type": "string", "value": "Overridden headline" },
+                        "children": []
+                      }
+                    },
+                    "schema_source": { "type": "component", "id": 424242 }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "styles": {},
+      "editor_settings": { "component_uid": "x-fixture-instance" },
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

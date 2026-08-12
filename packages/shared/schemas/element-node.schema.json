@@ -88,7 +88,7 @@
         "elType": { "const": "widget" },
         "widgetType": {
           "type": "string",
-          "description": "Atomic widget type. Verified set from modules/atomic-widgets/elements/ + Pro atomic forms (gated on e_pro_atomic_form).",
+          "description": "Atomic widget type. Verified set from modules/atomic-widgets/elements/ + Pro atomic forms (gated on e_pro_atomic_form) + the e-component instance widget (modules/components, gated on e_components, Elementor 4.2+).",
           "enum": [
             "e-heading",
             "e-paragraph",
@@ -108,7 +108,8 @@
             "e-form-time-picker",
             "e-form-file-upload",
             "e-form-label",
-            "e-form-submit-button"
+            "e-form-submit-button",
+            "e-component"
           ]
         },
         "version": { "type": "string" },

@@ -205,10 +205,12 @@ describe('fixtures: capability gating parity (§2/§3)', () => {
   // A free-only install WITHOUT the atomic experiment must skip the atomic fixtures; the SAME
   // predicate the PHP loader mirrors. Proves TS and PHP skip the same set for a given snapshot.
   const freeOnly: CapabilitySnapshot = { experiments: [], pro: false, elementor_version: '4.1.1' };
+  // "Full" = a fully-featured install: every gating experiment on (incl. e_components, 4.2+) so the
+  // parity assertion "full runs EVERY atomic fixture" keeps holding as component fixtures land.
   const full: CapabilitySnapshot = {
-    experiments: ['e_atomic_elements', 'e_classes', 'e_variables'],
+    experiments: ['e_atomic_elements', 'e_classes', 'e_variables', 'e_components'],
     pro: true,
-    elementor_version: '4.1.1',
+    elementor_version: '4.2.1',
   };
 
   it('skips e_atomic_elements fixtures on a free-only install', () => {
