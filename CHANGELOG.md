@@ -14,6 +14,8 @@ This changelog tracks both distributable artifacts, which version in lockstep (s
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-08-12
+
 ### Added
 
 - Plugin: COMPONENTS REST controller (SPEC 2.0 "ultra-mcp plugin extension") —

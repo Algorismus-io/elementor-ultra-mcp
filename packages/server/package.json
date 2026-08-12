@@ -1,6 +1,6 @@
 {
   "name": "@elementor-ultra/server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "MCP server that gives AI agents ~90 tools to build and govern real Elementor sites: read/build/refactor pages, HTML→Elementor conversion, design system, Pro widgets — every write validated server-side, backed up and reversible.",
   "type": "module",
