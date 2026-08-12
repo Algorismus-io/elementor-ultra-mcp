@@ -162,6 +162,13 @@ final class Components_Controller extends Abstract_Controller {
 					'type'     => 'object',
 					'required' => false,
 				),
+				// Optional re-stamp of `_elementor_component_uid`. Headless writers (elementor-jsx)
+				// mint the uid as a TREE FINGERPRINT, so an update that leaves the old uid in place
+				// makes every subsequent redeploy see "changed tree" and PUT again forever.
+				'uid'      => array(
+					'type'     => 'string',
+					'required' => false,
+				),
 			)
 		);
 	}
@@ -239,9 +246,16 @@ final class Components_Controller extends Abstract_Controller {
 			return $invalid;
 		}
 
-		// Per-item create — EXACTLY the native loop: sanitize title, parse settings (throws on bad
-		// overridable_props), coerce autosave→draft, repository create; failures collect per-uid and
-		// surface as the native `settings_validation_failed` 422.
+		// Per-item create — the native loop (sanitize title, parse settings, coerce autosave→draft,
+		// repository create; failures collect per-uid → the native `settings_validation_failed` 422)
+		// with ONE free-tier deviation, live-found on the phase-2 E2E: `overridable_props` must NOT
+		// ride through `Components_Repository::create()`'s document save — the module's after_save
+		// hook re-gates it on `Components_Access_Controller::can_edit()` (Pro/expired only) and
+		// throws "You do not have permission to edit component source." on a free site. The registry
+		// is parsed FIRST (native parser, native error text) and written AFTER the create via
+		// `Component::update_overridable_props()` — the hook's own parse+write, minus the license
+		// gate this controller exists to bypass. A meta-write failure force-deletes the fresh
+		// document (native create atomicity: repository create force-deletes on save failure too).
 		$created           = array();
 		$validation_errors = array();
 		$status            = ( 'autosave' === $save_status ) ? \Elementor\Core\Base\Document::STATUS_DRAFT : $save_status;
@@ -249,17 +263,37 @@ final class Components_Controller extends Abstract_Controller {
 		foreach ( $items->all() as $item ) {
 			$uid = (string) $item['uid'];
 			try {
-				$settings = isset( $item['settings'] ) && is_array( $item['settings'] )
+				$parsed = isset( $item['settings'] ) && is_array( $item['settings'] )
 					? $this->parse_component_settings( $item['settings'] )
 					: array();
 
-				$created[ $uid ] = $repository->create(
+				$component_id = $repository->create(
 					sanitize_text_field( (string) $item['title'] ),
 					$item['elements'],
 					$status,
 					$uid,
-					$settings
+					array()
 				);
+
+				if ( isset( $parsed['overridable_props'] ) ) {
+					$document    = $repository->get( $component_id, false );
+					$meta_result = null !== $document
+						? $document->update_overridable_props( $item['settings']['overridable_props'] )
+						: null;
+					if ( null === $meta_result || ! $meta_result->is_valid() ) {
+						if ( null !== $document ) {
+							$document->force_delete();
+						}
+						throw new \Exception(
+							esc_html(
+								'Validation failed for overridable_props: '
+								. ( null !== $meta_result ? $meta_result->errors()->to_string() : 'document unavailable after create' )
+							)
+						);
+					}
+				}
+
+				$created[ $uid ] = $component_id;
 			} catch ( \Exception $e ) {
 				$validation_errors[ $uid ] = $e->getMessage();
 				$created[ $uid ]           = null;
@@ -295,6 +329,9 @@ final class Components_Controller extends Abstract_Controller {
 	 *  3. Registry meta via `update_overridable_props()` AFTER the tree write (NOT through save's
 	 *     settings — the module's after_save hook would re-gate it on an active Pro license; see the
 	 *     file header).
+	 *  4. Optional `uid` re-stamp (`_elementor_component_uid`), uniqueness-checked against the other
+	 *     components. Headless writers mint the uid as a tree FINGERPRINT; leaving the old one in
+	 *     place would make every later redeploy re-detect "changed tree" and PUT again forever.
 	 *
 	 * @param WP_REST_Request $request The current request.
 	 * @return \WP_REST_Response|WP_Error
@@ -372,6 +409,29 @@ final class Components_Controller extends Abstract_Controller {
 			);
 		}
 
+		// 1d. uid re-stamp uniqueness — mirrors the native duplicate-uid rule
+		// (Save_Components_Validator::validate_duplicated_values) scoped to an UPDATE: the validator
+		// itself cannot be reused verbatim here because it would also flag this component's own
+		// unchanged title as a duplicate of itself.
+		$new_uid = $request->get_param( 'uid' );
+		$new_uid = ( is_string( $new_uid ) && '' !== $new_uid ) ? $new_uid : null;
+		if ( null !== $new_uid ) {
+			foreach ( $repository->all()->all() as $existing ) {
+				if ( (int) $existing['id'] !== $component_id && (string) $existing['uid'] === $new_uid ) {
+					return $this->native_error(
+						'components_validation_failed',
+						sprintf(
+							/* translators: %s: component uid. */
+							esc_html__( "Component uid '%s' is duplicated.", 'elementor' ),
+							$new_uid
+						),
+						422,
+						array( 'conflicting_component_id' => (int) $existing['id'] )
+					);
+				}
+			}
+		}
+
 		// 2. The tree write — Elementor's own document save (atomic settings validation, versioning
 		// and CSS invalidation included). Save-time throws (e.g. an atomic-widget settings rejection
 		// deep in the tree) surface as the native settings_validation_failed 422.
@@ -414,11 +474,20 @@ final class Components_Controller extends Abstract_Controller {
 			}
 		}
 
+		// 4. uid re-stamp LAST (after the tree actually landed) — the fingerprint must never claim a
+		// tree that failed to save. `update_meta` is the document's own meta writer.
+		$uid_updated = false;
+		if ( null !== $new_uid && $new_uid !== (string) $document->get_component_uid() ) {
+			$document->update_meta( \Elementor\Modules\Components\Documents\Component::COMPONENT_UID_META_KEY, $new_uid );
+			$uid_updated = true;
+		}
+
 		return $this->ok(
 			array(
-				'id'    => $component_id,
-				'uid'   => (string) $document->get_component_uid(),
-				'saved' => true,
+				'id'          => $component_id,
+				'uid'         => (string) $document->get_component_uid(),
+				'uid_updated' => $uid_updated,
+				'saved'       => true,
 			)
 		);
 	}

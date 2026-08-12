@@ -30,6 +30,19 @@ This changelog tracks both distributable artifacts, which version in lockstep (s
   `Component::update_overridable_props()` directly, dodging the after_save hook's Pro re-gate.
   Guard rail: 501 `EXPERIMENT_INACTIVE` naming `e_components` + `e_atomic_elements` when the
   module is unavailable.
+  Live-verified on Elementor 4.2.1 with Pro DEACTIVATED: create + instance render + update
+  propagation + nested prop-forwarding chains, and native 422 parity
+  (`non_atomic_element_in_component`, `components_validation_failed`, 404 `NOT_FOUND`,
+  401 `AUTH_FAILED`), validation always BEFORE the write.
+  Two E2E-found refinements: (a) `overridable_props` is written via
+  `Component::update_overridable_props()` on BOTH create and update, never through the document
+  save — the module's `after_save` hook re-gates that payload on `Components_Access_Controller::can_edit()`
+  and throws "You do not have permission to edit component source." on a free site (a create whose
+  registry write fails force-deletes the fresh document, matching native create atomicity);
+  (b) the update route accepts an optional `uid` and re-stamps `_elementor_component_uid`
+  (uniqueness-checked with the native duplicate wording, written only after the tree lands) —
+  headless writers mint the uid as a tree fingerprint, and leaving it stale made every redeploy
+  re-detect a change and PUT forever.
 - Fixtures: golden trees for the components wire shapes — `e-component.instance`
   (component-instance envelope, schema_source.id ≡ component_id), `e-component.instance.chain`
   (the prop-forwarding overridable-wrapping-override chain envelope), and
