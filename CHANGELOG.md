@@ -18,7 +18,7 @@ This changelog tracks both distributable artifacts, which version in lockstep (s
 
 - Plugin: COMPONENTS REST controller (SPEC 2.0 "ultra-mcp plugin extension") —
   `GET/POST elementor-ultra/v1/components` + `PUT elementor-ultra/v1/components/{id}/elements`.
-  The free-tier create path (native `elementor/v1/components` POST requires an ACTIVE Pro
+  The headless create path (native `elementor/v1/components` POST requires an ACTIVE Pro
   license) and the missing update-elements route, both driving Elementor's own
   `Components_Repository` behind `manage_options`. Validation is NATIVE-CLASS reuse
   (`Save_Components_Validator`, `Circular_Dependency_Validator`, `Non_Atomic_Widget_Validator`,

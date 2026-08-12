@@ -1,14 +1,19 @@
 <?php
 /**
- * COMPONENTS REST controller — the free-tier create path + the missing update route for Elementor's
- * native components module (SPEC 2.0 "ultra-mcp plugin extension").
+ * COMPONENTS REST controller — headless create/update/list for Elementor's native components
+ * module (SPEC 2.0 "ultra-mcp plugin extension").
  *
- * WHY THIS EXISTS: Elementor's own `POST elementor/v1/components` is gated by
- * {@see \Elementor\Modules\Components\Components_Access_Controller::can_create()} — an ACTIVE
- * Elementor Pro license. Headless compilers (elementor-jsx) target free sites too, and native ships
- * NO update-elements route at all (redeploys of a changed component tree were warn-and-reuse). This
- * controller calls {@see \Elementor\Modules\Components\Components_Repository} directly, gated by
- * `manage_options` + the plugin's existing App-Password auth instead of the license tier.
+ * WHY THIS EXISTS: Elementor ships NO update-elements route at all, so a headless compiler could
+ * never converge a redeploy of a changed component tree (it was warn-and-reuse). This controller
+ * adds that missing PUT, plus create/list paths shaped for batch headless writes, by calling
+ * {@see \Elementor\Modules\Components\Components_Repository} directly.
+ *
+ * LICENSING (deliberate, do not "optimise" away): Elementor's commercial tiering is MIRRORED, never
+ * bypassed. Create requires an ACTIVE Pro license and update requires active-or-expired Pro — the
+ * exact predicates {@see \Elementor\Modules\Components\Components_Access_Controller} applies to
+ * the native routes — on top of `manage_options` + the plugin's App-Password auth. A site without
+ * the entitlement gets 403 `PRO_REQUIRED`, and elementor-jsx falls back to inline expansion so
+ * builds stay portable. We add capability Elementor lacks; we do not resell capability it sells.
  *
  * DRIFT-PROOFING (the load-bearing contract): every request runs Elementor's OWN validators — the
  * classes the native route uses, never a reimplementation:
@@ -36,13 +41,12 @@
  *     `copy_autosave_data_to_main_component_document_and_publish`), so save-time validation,
  *     versioning and CSS invalidation are all Elementor's own.
  *
- * FREE-TIER SUBTLETY on update: `settings.overridable_props` is NOT routed through `save()` — the
- * module's `elementor/document/after_save` hook re-gates that path on
- * `Components_Access_Controller::can_edit()` (Pro/expired only) and would throw on a free site.
- * The registry meta is written via {@see \Elementor\Modules\Components\Documents\Component::update_overridable_props()}
- * instead: the SAME parser + meta write the hook performs, minus the license gate this controller
- * exists to bypass. (The license gate protects Elementor's SaaS tiering, not site integrity — the
- * data written is identical.)
+ * REGISTRY WRITE PATH: `settings.overridable_props` is written via
+ * {@see \Elementor\Modules\Components\Documents\Component::update_overridable_props()} rather
+ * than riding through `save()`. Same parser, same meta the module's `after_save` hook writes — but
+ * called explicitly so the write is deterministic for headless callers (the hook path also re-runs
+ * the entitlement check mid-save, which would leave a half-created document on a lapsed license).
+ * Entitlement itself is asserted UP FRONT by {@see self::assert_entitled()}.
  *
  * GUARD RAIL: when the components module is inactive (either experiment off, or Elementor too old to
  * ship it) every route answers 501 `EXPERIMENT_INACTIVE` naming the required experiments
@@ -227,6 +231,11 @@ final class Components_Controller extends Abstract_Controller {
 			return $ready;
 		}
 
+		$entitled = $this->assert_entitled( 'create' );
+		if ( is_wp_error( $entitled ) ) {
+			return $entitled;
+		}
+
 		$save_status = (string) $request->get_param( 'status' );
 		$items_param = $request->get_param( 'items' );
 		if ( ! is_array( $items_param ) || array() === $items_param ) {
@@ -248,14 +257,13 @@ final class Components_Controller extends Abstract_Controller {
 
 		// Per-item create — the native loop (sanitize title, parse settings, coerce autosave→draft,
 		// repository create; failures collect per-uid → the native `settings_validation_failed` 422)
-		// with ONE free-tier deviation, live-found on the phase-2 E2E: `overridable_props` must NOT
-		// ride through `Components_Repository::create()`'s document save — the module's after_save
-		// hook re-gates it on `Components_Access_Controller::can_edit()` (Pro/expired only) and
-		// throws "You do not have permission to edit component source." on a free site. The registry
-		// is parsed FIRST (native parser, native error text) and written AFTER the create via
-		// `Component::update_overridable_props()` — the hook's own parse+write, minus the license
-		// gate this controller exists to bypass. A meta-write failure force-deletes the fresh
-		// document (native create atomicity: repository create force-deletes on save failure too).
+		// with ONE deviation, live-found on the phase-2 E2E: `overridable_props` must NOT ride
+		// through `Components_Repository::create()`'s document save — the module's after_save hook
+		// re-checks the entitlement mid-save and throws, which would leave a half-created document.
+		// The registry is parsed FIRST (native parser, native error text) and written AFTER the
+		// create via `Component::update_overridable_props()` — the hook's own parse+write, called
+		// deterministically. A meta-write failure force-deletes the fresh document (native create
+		// atomicity: repository create force-deletes on save failure too).
 		$created           = array();
 		$validation_errors = array();
 		$status            = ( 'autosave' === $save_status ) ? \Elementor\Core\Base\Document::STATUS_DRAFT : $save_status;
@@ -340,6 +348,11 @@ final class Components_Controller extends Abstract_Controller {
 		$ready = $this->assert_components_ready();
 		if ( is_wp_error( $ready ) ) {
 			return $ready;
+		}
+
+		$entitled = $this->assert_entitled( 'edit' );
+		if ( is_wp_error( $entitled ) ) {
+			return $entitled;
 		}
 
 		$component_id = (int) $request['id'];
@@ -576,6 +589,42 @@ final class Components_Controller extends Abstract_Controller {
 	 *
 	 * @return true|WP_Error
 	 */
+	/**
+	 * Entitlement guard — MIRRORS Elementor's own commercial tiering for the components module
+	 * (`Components_Access_Controller`): create needs an ACTIVE Pro license, edit/update accepts
+	 * active-or-expired. Deliberate: this controller adds the update route Elementor lacks, it does
+	 * not hand out capability Elementor sells. Callers (elementor-jsx) fall back to inline expansion
+	 * on 403 so builds stay portable.
+	 *
+	 * @param string $action 'create'|'edit'.
+	 * @return true|WP_Error
+	 */
+	private function assert_entitled( string $action ) {
+		$controller_class = '\\Elementor\\Modules\\Components\\Components_Access_Controller';
+		if ( ! class_exists( $controller_class ) ) {
+			return true; // No access controller on this build — assert_components_ready() already ran.
+		}
+
+		$controller = new $controller_class();
+		$method     = ( 'create' === $action ) ? 'can_create' : 'can_edit';
+		if ( ! method_exists( $controller, $method ) || true === $controller->$method() ) {
+			return true;
+		}
+
+		return $this->fail(
+			Error_Codes::PRO_REQUIRED,
+			( 'create' === $action )
+				? __( 'Creating Elementor components requires an active Elementor Pro license (this mirrors Elementor\'s own gate on POST elementor/v1/components). The compiler falls back to inline expansion, so the page still deploys.', 'elementor-ultra-mcp' )
+				: __( 'Updating Elementor components requires an Elementor Pro license (active or expired), mirroring Elementor\'s own component editing gate.', 'elementor-ultra-mcp' ),
+			403,
+			array(
+				'action'   => $action,
+				'mirrors'  => 'Elementor\\Modules\\Components\\Components_Access_Controller::' . $method . '()',
+				'fallback' => 'inline-expansion',
+			)
+		);
+	}
+
 	private function assert_components_ready() {
 		if ( ! class_exists( '\Elementor\Plugin' )
 			|| ! class_exists( '\Elementor\Modules\Components\Components_Repository' )
