@@ -1,0 +1,57 @@
+{
+  "$fixture": 1,
+  "id": "e-component.overridable-setting",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "Overridable settings envelope — an e-heading title wrapped in the universal overridable union (component definition tree shape)",
+  "_comment": "SPEC 2.0 (components controller WP) — the COMPONENT DEFINITION tree shape (the elements array POSTed to the components create/update routes): the prop the component exposes is wrapped in the {\"$$type\":\"overridable\"} envelope carrying override_key + origin_value (modules/components/overridable-schema-extender.php: overridability is universal-by-union on every atomic settings prop EXCEPT classes). The dry-run validates it as a page tree because the schema extender unions the whole props schema site-wide once e_components is on — the same validation path Document::save runs for a component document.",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements", "e_components"],
+    "pro": false,
+    "min_elementor": "4.2.0"
+  },
+  "tree": [
+    {
+      "id": "cdef0001",
+      "elType": "e-flexbox",
+      "settings": {},
+      "styles": {},
+      "editor_settings": [],
+      "interactions": [],
+      "elements": [
+        {
+          "id": "cdef0002",
+          "elType": "widget",
+          "widgetType": "e-heading",
+          "settings": {
+            "tag": { "$$type": "string", "value": "h2" },
+            "title": {
+              "$$type": "overridable",
+              "value": {
+                "override_key": "headline",
+                "origin_value": {
+                  "$$type": "html-v3",
+                  "value": {
+                    "content": { "$$type": "string", "value": "Grow faster" },
+                    "children": []
+                  }
+                }
+              }
+            }
+          },
+          "styles": {},
+          "editor_settings": [],
+          "interactions": [],
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}

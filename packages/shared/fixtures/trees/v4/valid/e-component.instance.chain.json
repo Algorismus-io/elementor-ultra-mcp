@@ -1,0 +1,64 @@
+{
+  "$fixture": 1,
+  "id": "e-component.instance.chain",
+  "kind": "tree",
+  "generation": "v4",
+  "title": "e-component instance — prop-forwarding chain envelope: overridable-wrapping-override inside the overrides array",
+  "_comment": "SPEC 2.0 (components controller WP) — the NESTED RE-EXPOSURE wire shape (editor resolve-overrides-chain / createOverrideValue, verified 4.2.1): when a wrapping component forwards its own prop into a nested instance, the instance's overrides item is an {\"$$type\":\"overridable\"} envelope whose override_key is the OUTER (exposed) key and whose origin_value is the plain {\"$$type\":\"override\"} envelope for the INNER key. The chain invariant under test (component-instance-prop-type.php validate_value): the wrapped override's schema_source.id must equal the instance's component_id. Requires the e_components module (schema-extender unions every prop — including the overrides item type — with overridable).",
+  "expect": {
+    "valid": true,
+    "errors": []
+  },
+  "requires": {
+    "experiments": ["e_atomic_elements", "e_components"],
+    "pro": false,
+    "min_elementor": "4.2.0"
+  },
+  "tree": [
+    {
+      "id": "cchain01",
+      "elType": "widget",
+      "widgetType": "e-component",
+      "settings": {
+        "component_instance": {
+          "$$type": "component-instance",
+          "value": {
+            "component_id": { "$$type": "number", "value": 424242 },
+            "overrides": {
+              "$$type": "overrides",
+              "value": [
+                {
+                  "$$type": "overridable",
+                  "value": {
+                    "override_key": "plan",
+                    "origin_value": {
+                      "$$type": "override",
+                      "value": {
+                        "override_key": "headline",
+                        "override_value": {
+                          "$$type": "html-v3",
+                          "value": {
+                            "content": { "$$type": "string", "value": "Forwarded baseline" },
+                            "children": []
+                          }
+                        },
+                        "schema_source": { "type": "component", "id": 424242 }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "styles": {},
+      "editor_settings": { "component_uid": "x-fixture-chain" },
+      "interactions": [],
+      "elements": []
+    }
+  ],
+  "prefilter": {
+    "verdict": "defer"
+  }
+}
