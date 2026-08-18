@@ -83,7 +83,7 @@ import { startTransport, type TransportConfig } from './transport/select.js';
 /** The MCP server name (matches the bin id WP-F01's `index.ts` uses). */
 export const SERVER_NAME = 'elementor-ultra-mcp';
 /** The MCP server version. */
-export const SERVER_VERSION = '1.0.0';
+export const SERVER_VERSION = '1.0.2';
 
 /* ───────────────────────────── buildServer deps + result ──────────────────────────────────── */
 

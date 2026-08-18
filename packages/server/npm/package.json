@@ -1,6 +1,6 @@
 {
   "name": "@algorismus/elementor-ultra-mcp",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "MCP server that gives AI agents ~90 tools to build and govern real Elementor sites \u2014 read/build/refactor pages, HTML\u2192Elementor conversion, design system, Pro widgets \u2014 every write validated server-side, backed up and reversible. Run with npx; pair with the companion WordPress plugin.",
   "type": "module",
   "bin": {

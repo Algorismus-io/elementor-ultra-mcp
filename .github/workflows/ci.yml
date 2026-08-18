@@ -216,3 +216,15 @@ jobs:
       run: pnpm test:smoke
     secrets:
       ELEMENTOR_PRO_ZIP_B64: ${{ secrets.ELEMENTOR_PRO_ZIP_B64 }}
+
+  version-sync:
+    name: version drift gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      # The 1.0.2 release bumped package.json and packages/server/package.json but missed the npm
+      # publish manifest and SERVER_VERSION, so the shipped server introduced itself as 1.0.0 to a
+      # consumer that gates on that string.
+      - run: node scripts/ci/check-version-sync.mjs
